@@ -52,11 +52,11 @@ qodana {
     showReport.set(System.getenv("QODANA_SHOW_REPORT")?.toBoolean() ?: false)
 }
 
-dependencies {
-    implementation(kotlin("stdlib"))
-}
-
 tasks {
+    wrapper {
+        gradleVersion = properties("gradleVersion")
+    }
+
     patchPluginXml {
         version.set(properties("pluginVersion"))
         sinceBuild.set(properties("pluginSinceBuild"))

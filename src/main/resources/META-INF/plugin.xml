@@ -1,10 +1,12 @@
 <idea-plugin>
     <id>com.wavesplatform.rideplugin</id>
-    <name>Plugin display name here</name>
-    <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
+    <name>RIDE</name>
+    <vendor>devyatkinalexandr</vendor>
+
+    <depends>com.intellij.modules.platform</depends>
 
     <description><![CDATA[
-    Enter short description for your plugin here.<br>
+    Jetbrains IntelliJ IDEA Plugin for RIDE<br>
     <em>most HTML tags may be used</em>
     ]]></description>
 
