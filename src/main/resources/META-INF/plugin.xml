@@ -7,7 +7,6 @@
 
     <description><![CDATA[
     Jetbrains IntelliJ IDEA Plugin for RIDE<br>
-    <em>most HTML tags may be used</em>
     ]]></description>
 
     <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
@@ -15,7 +14,20 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Add your extensions here -->
+        <fileType
+                name="Ride File"
+                implementationClass="com.wavesplatform.rideplugin.RideFileType"
+                fieldName="INSTANCE"
+                language="RIDE"
+                extensions="ride"/>
+        <lang.parserDefinition
+                language="RIDE"
+                implementationClass="com.wavesplatform.rideplugin.RideParserDefinition"/>
+        <lang.syntaxHighlighterFactory
+                language="RIDE"
+                implementationClass="com.wavesplatform.rideplugin.highlighter.RideSyntaxHighlighterFactory"/>
+        <colorSettingsPage
+                implementation="com.wavesplatform.rideplugin.highlighter.RideColorSettingsPage"/>
     </extensions>
 
     <actions>

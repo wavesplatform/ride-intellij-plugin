@@ -1,0 +1,22 @@
+{
+  parserClass="com.wavesplatform.rideplugin.parser.RideParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Ride"
+  psiImplClassSuffix="Impl"
+  psiPackage="com.wavesplatform.rideplugin.psi"
+  psiImplPackage="com.wavesplatform.rideplugin.psi.impl"
+
+  elementTypeHolderClass="com.wavesplatform.rideplugin.psi.RideTypes"
+  elementTypeClass="com.wavesplatform.rideplugin.psi.RideElementType"
+  tokenTypeClass="com.wavesplatform.rideplugin.psi.RideTokenType"
+}
+
+rideFile ::= item_*
+
+private item_ ::= (property|function|COMMENT|CRLF)
+
+property ::= (KEY? SEPARATOR VALUE?) | KEY
+
+function ::= (FUNC METHOD_NAME())
