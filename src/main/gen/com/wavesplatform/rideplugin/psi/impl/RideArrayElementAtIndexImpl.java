@@ -11,20 +11,32 @@ import static com.wavesplatform.rideplugin.psi.RideTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.wavesplatform.rideplugin.psi.*;
 
-public class RidePropertyImpl extends ASTWrapperPsiElement implements RideProperty {
+public class RideArrayElementAtIndexImpl extends ASTWrapperPsiElement implements RideArrayElementAtIndex {
 
-  public RidePropertyImpl(@NotNull ASTNode node) {
+  public RideArrayElementAtIndexImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull RideVisitor visitor) {
-    visitor.visitProperty(this);
+    visitor.visitArrayElementAtIndex(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof RideVisitor) accept((RideVisitor)visitor);
     else super.accept(visitor);
+  }
+
+  @Override
+  @NotNull
+  public RideObjectFieldCall getObjectFieldCall() {
+    return findNotNullChildByClass(RideObjectFieldCall.class);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getInt() {
+    return findNotNullChildByType(INT);
   }
 
 }

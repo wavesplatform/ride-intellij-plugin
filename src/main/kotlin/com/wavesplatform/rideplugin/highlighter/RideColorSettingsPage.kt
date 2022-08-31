@@ -6,6 +6,7 @@ import com.intellij.openapi.options.colors.AttributesDescriptor
 import com.intellij.openapi.options.colors.ColorDescriptor
 import com.intellij.openapi.options.colors.ColorSettingsPage
 import com.wavesplatform.rideplugin.RideIcons
+import java.util.regex.Pattern
 import javax.swing.Icon
 
 
