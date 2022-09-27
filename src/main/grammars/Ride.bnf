@@ -13,9 +13,11 @@
   tokenTypeClass="com.wavesplatform.rideplugin.psi.RideTokenType"
 
   tokens=[
-    IDENTIFIER = 'regexp:[a-zA-Z_][a-zA-Z0-9_]*'
+    IDENTIFIER = 'regexp:\p{Alpha}\w*'
+    //IDENTIFIER = 'regexp:[a-zA-Z_][a-zA-Z0-9_]*'
     NUMBER ='regexp:[1-9][0-9]*'
-    INT = "regexp:[0-9]+"
+    INTEGER = "regexp:[0-9]+"
+    BOOL="regexp:true|false"
 //    STRING = 'regexp:(\")[^\"]*\"'
     //(?:'|").*(?:'|")
     STRING="regexp:([\"'])((?:\\\1|(?:(?!\1)).)*)(\1)"
@@ -72,46 +74,73 @@
     raw_string           = 'raw_string'
     WHITE_SPACE = 'regexp:\s+'
     COMMENT = 'regexp:#.*'
+//    FUNCTION = 'func'
+//    LET = 'let'
   ]
 }
 
 File ::= Definition*
-Definition ::= MetaDefinition* FunctionDefinition
+Definition ::= DirectiveDefinition* (VarDefinition | FunctionDefinition | COMMENT)
 
-MetaDefinition ::= '{-#' IDENTIFIER (IDENTIFIER|NUMBER) '#-}'
+DirectiveDefinition ::= '{-#' IDENTIFIER (IDENTIFIER|NUMBER) '#-}'
 
-FunctionDefinition ::= func FunctionSignature ASSIGN (LBRACE FunctionBody RBRACE | FunctionInvocation)
+Statement ::= Expression | ObjectFieldCall | AllTypesLiteral | VarDefinition | FunctionInvocation | ArrayDefinition
+| IfStatementDefinition | IDENTIFIER | COMMENT
+Expression ::= IntLiteral PLUS IntLiteral
 
-FunctionSignature ::= IDENTIFIER FunctionParamsDefinition
+VarDefinition ::= VarEvalDefinition IDENTIFIER ASSIGN (FieldDefinition | FunctionInvocation | StructCreation | MethodInvocation | AllTypesLiteral | FunctionBody)
+VarEvalDefinition ::= strict | let
 
-FunctionParamsDefinition ::= ArgumentsDefinition
+FieldDefinition ::= FunctionInvocation DOT IDENTIFIER
 
-FunctionBody ::= Statement*
+StructCreation ::= IDENTIFIER Arguments
 
+Arguments ::= LPAREN Argument? (COMMA Argument)* RPAREN
 
-Statement ::= LetDefinition | FunctionInvocation | COMMENT | ArrayDefinition
+Argument ::= BooleanLiteral | StringLiteral | NumberLiteral | IntLiteral |
+UnitLiteral | BaseLiteral | ArrayElementAtIndex | ObjectFieldCall | StructCreation | ArrayDefinition | IDENTIFIER
 
-LetDefinition ::= let IDENTIFIER ASSIGN (FunctionInvocation | StructCreation | MethodInvocation)
-
-StructCreation ::= IDENTIFIER ArgumentsDefinition
-
-ArgumentsDefinition ::= LPAREN ArgumentDefinition? (COMMA ArgumentDefinition)* RPAREN
-
-ArgumentDefinition ::= BooleanLiteral | StringLiteral | NumberLiteral | IntLiteral |
-UnitLiteral | BaseLiteral | ArrayElementAtIndex | ObjectFieldCall | StructCreation | IDENTIFIER
-
-FunctionInvocation ::= IDENTIFIER ArgumentsDefinition
+FunctionInvocation ::= IDENTIFIER Arguments (DOT FunctionInvocation)*
 
 MethodInvocation ::= IDENTIFIER DOT FunctionInvocation
+
+ObjectFieldCall ::= IDENTIFIER DOT IDENTIFIER
+
+ArrayElementAtIndex ::= ObjectFieldCall LBRACK INTEGER RBRACK
+
+
+// FUNCTION
+FunctionDefinition ::= func FunctionSignature ASSIGN (FunctionInvocation | FunctionBody)
+FunctionSignature ::= IDENTIFIER FunctionArgumentsDefinition
+FunctionArgumentsDefinition ::= LPAREN FunctionArgumentDefinition? (COMMA FunctionArgumentDefinition)* RPAREN
+FunctionArgumentDefinition ::= IDENTIFIER COLON DataTypesDefinition
+FunctionBody ::= LBRACE? Statement* RBRACE?
+DataTypesDefinition ::= 'Any' | 'BigInt' | 'Boolean' | 'ByteVector' | 'Int' | 'String' | 'Unit' | 'List' | 'Tuple' | 'Union'
+
+// IF
+IfStatementDefinition ::= if LPAREN? BooleanStatementDefinition RPAREN? (ThenDefinition | FunctionBody) ElseBlock?
+ElseBlock ::= else FunctionBody
+ThenDefinition ::= then (FunctionInvocation | Argument)
+
+BooleanStatementDefinition ::= NotEqualStatementDefinition | EqualStatementDefinition | LessOrEqualStatementDefinition
+| LessStatementDefinition | NotStatementDefinition | GreaterOrEqualStatementDefinition | GreaterStatementDefinition
+
+NotEqualStatementDefinition ::= Statement NOT_EQ Statement
+EqualStatementDefinition ::= Statement EQ Statement
+LessOrEqualStatementDefinition ::= Statement LESS_OR_EQUAL Statement
+LessStatementDefinition ::= Statement LESS Statement
+NotStatementDefinition ::= NOT Statement
+GreaterOrEqualStatementDefinition ::= Statement GREATER_OR_EQUAL Statement
+GreaterStatementDefinition ::= Statement GREATER Statement
+
+
+// TYPES
+AllTypesLiteral ::= BooleanLiteral | UnitLiteral | StringLiteral | IntLiteral | NumberLiteral | BaseLiteral | ArrayDefinition
 
 BooleanLiteral ::= true | false
 UnitLiteral ::= unit
 StringLiteral ::= STRING
-IntLiteral ::= INT
+IntLiteral ::= INTEGER
 NumberLiteral ::= NUMBER
 BaseLiteral ::= (base16|base58|base64) StringLiteral
-ArrayDefinition ::= LBRACK ArgumentDefinition? (COMMA ArgumentDefinition)* RBRACK
-
-ObjectFieldCall ::= IDENTIFIER DOT IDENTIFIER
-
-ArrayElementAtIndex ::= ObjectFieldCall LBRACK INT RBRACK
+ArrayDefinition ::= LBRACK Argument? (COMMA Argument)* RBRACK
