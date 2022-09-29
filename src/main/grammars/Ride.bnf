@@ -80,16 +80,17 @@
 }
 
 File ::= Definition*
-Definition ::= DirectiveDefinition* (VarDefinition | FunctionDefinition | COMMENT)
+Definition ::= DirectiveDefinition* (VarDefinition | FunctionDefinition | PatternMatchingDefinition | COMMENT)
 
 DirectiveDefinition ::= '{-#' IDENTIFIER (IDENTIFIER|NUMBER) '#-}'
 
-Statement ::= Expression | ObjectFieldCall | AllTypesLiteral | VarDefinition | FunctionInvocation | ArrayDefinition
+Statement ::= FoldMacroDefinition | Expression | ObjectFieldCall | AllTypesLiteral | VarDefinition | FunctionInvocation | ArrayDefinition
 | IfStatementDefinition | IDENTIFIER | COMMENT
 Expression ::= IntLiteral PLUS IntLiteral
 
-VarDefinition ::= VarEvalDefinition IDENTIFIER ASSIGN (FieldDefinition | FunctionInvocation | StructCreation | MethodInvocation | AllTypesLiteral | FunctionBody)
+VarDefinition ::= VarEvalDefinition (IDENTIFIER | TupleExtractionDefinition) ASSIGN (FieldDefinition | FunctionInvocation | StructCreation | MethodInvocation | AllTypesLiteral | FunctionBody)
 VarEvalDefinition ::= strict | let
+TupleExtractionDefinition ::= LPAREN IDENTIFIER? (COMMA DataTypesDefinition)* RPAREN
 
 FieldDefinition ::= FunctionInvocation DOT IDENTIFIER
 
@@ -98,13 +99,16 @@ StructCreation ::= IDENTIFIER Arguments
 Arguments ::= LPAREN Argument? (COMMA Argument)* RPAREN
 
 Argument ::= BooleanLiteral | StringLiteral | NumberLiteral | IntLiteral |
-UnitLiteral | BaseLiteral | ArrayElementAtIndex | ObjectFieldCall | StructCreation | ArrayDefinition | IDENTIFIER
+UnitLiteral | BaseLiteral | ArrayElementAtIndex | ObjectFieldCall | StructCreation
+| ArrayDefinition | TupleDefinition | IDENTIFIER
+
+TupleDefinition ::= LPAREN AllTypesLiteral? (COMMA AllTypesLiteral)*  RPAREN
 
 FunctionInvocation ::= IDENTIFIER Arguments (DOT FunctionInvocation)*
 
 MethodInvocation ::= IDENTIFIER DOT FunctionInvocation
 
-ObjectFieldCall ::= IDENTIFIER DOT IDENTIFIER
+ObjectFieldCall ::= IDENTIFIER DOT (('_' NumberLiteral) | IDENTIFIER) (DOT ObjectFieldCall)*
 
 ArrayElementAtIndex ::= ObjectFieldCall LBRACK INTEGER RBRACK
 
@@ -115,16 +119,26 @@ FunctionSignature ::= IDENTIFIER FunctionArgumentsDefinition
 FunctionArgumentsDefinition ::= LPAREN FunctionArgumentDefinition? (COMMA FunctionArgumentDefinition)* RPAREN
 FunctionArgumentDefinition ::= IDENTIFIER COLON DataTypesDefinition
 FunctionBody ::= LBRACE? Statement* RBRACE?
-DataTypesDefinition ::= 'Any' | 'BigInt' | 'Boolean' | 'ByteVector' | 'Int' | 'String' | 'Unit' | 'List' | 'Tuple' | 'Union'
+DataTypesDefinition ::= 'Any' | 'BigInt' | 'Boolean' | ('ByteVector' ('|' DataTypesDefinition)*) | 'Int' | 'String'
+| 'Unit' | ('List' LBRACK DataTypesDefinition RBRACK) | 'Tuple' | TupleDataTypeDefinition | IDENTIFIER
+TupleDataTypeDefinition ::= LPAREN DataTypesDefinition? (COMMA DataTypesDefinition)* RPAREN
 
 // IF
 IfStatementDefinition ::= if LPAREN? BooleanStatementDefinition RPAREN? (ThenDefinition | FunctionBody) ElseBlock?
 ElseBlock ::= else FunctionBody
 ThenDefinition ::= then (FunctionInvocation | Argument)
 
-BooleanStatementDefinition ::= NotEqualStatementDefinition | EqualStatementDefinition | LessOrEqualStatementDefinition
-| LessStatementDefinition | NotStatementDefinition | GreaterOrEqualStatementDefinition | GreaterStatementDefinition
+BooleanStatementDefinition ::= EqualGroupDefinition | ConditionalGroup | NotStatementDefinition
 
+EqualGroupDefinition ::= EqualStatementDefinition | NotEqualStatementDefinition
+ConditionalGroup ::= LessConditionalGroup | GreatConditionalGroup
+
+SumGroup ::= PlusExpression | MinusExpression
+PlusExpression ::= Statement PLUS Statement
+MinusExpression ::= Statement MINUS Statement
+
+LessConditionalGroup ::= LessStatementDefinition | LessOrEqualStatementDefinition
+GreatConditionalGroup ::= GreaterStatementDefinition | GreaterOrEqualStatementDefinition
 NotEqualStatementDefinition ::= Statement NOT_EQ Statement
 EqualStatementDefinition ::= Statement EQ Statement
 LessOrEqualStatementDefinition ::= Statement LESS_OR_EQUAL Statement
@@ -144,3 +158,11 @@ IntLiteral ::= INTEGER
 NumberLiteral ::= NUMBER
 BaseLiteral ::= (base16|base58|base64) StringLiteral
 ArrayDefinition ::= LBRACK Argument? (COMMA Argument)* RBRACK
+
+PatternMatchingDefinition ::= match LPAREN? IDENTIFIER RPAREN? LBRACE CaseDefinition*  RBRACE
+CaseDefinition ::= DefaultCaseDefinition | CertainTypeCaseDefinition
+CertainTypeCaseDefinition ::= case (IDENTIFIER | '_') COLON (IDENTIFIER ('|' IDENTIFIER)*) '=>' Statement*
+DefaultCaseDefinition ::= case UnderScore '=>' Statement*
+UnderScore ::= "_"
+
+FoldMacroDefinition ::= FOLD LESS AllTypesLiteral GREATER Arguments
