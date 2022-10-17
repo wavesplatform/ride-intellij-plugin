@@ -17,13 +17,13 @@ class RideSyntaxHighlighter : SyntaxHighlighterBase() {
     }
 
     override fun getTokenHighlights(tokenType: IElementType): Array<TextAttributesKey> {
-        if (tokenType == RideTypes.SEPARATOR) {
+        if (tokenType == RideTypes.ASSIGN) {
             return SEPARATOR_KEYS
         }
-        if (tokenType == RideTypes.KEY) {
+        if (tokenType == RideTypes.IDENTIFIER) {
             return KEY_KEYS
         }
-        if (tokenType == RideTypes.VALUE) {
+        if (tokenType == RideTypes.IDENTIFIER) {
             return VALUE_KEYS
         }
         if (tokenType == RideTypes.COMMENT) {

@@ -3,99 +3,98 @@ package com.wavesplatform.rideplugin.psi;
 
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElementVisitor;
-import com.intellij.psi.PsiElement;
 
 public class RideVisitor extends PsiElementVisitor {
 
-  public void visitArgumentDefinition(@NotNull RideArgumentDefinition o) {
-    visitPsiElement(o);
+  public void visitAll(@NotNull RideAll o) {
+    visitCompositeElement(o);
   }
 
-  public void visitArgumentsDefinition(@NotNull RideArgumentsDefinition o) {
-    visitPsiElement(o);
+  public void visitArgument(@NotNull RideArgument o) {
+    visitCompositeElement(o);
   }
 
-  public void visitArrayDefinition(@NotNull RideArrayDefinition o) {
-    visitPsiElement(o);
+  public void visitArguments(@NotNull RideArguments o) {
+    visitCompositeElement(o);
   }
 
-  public void visitArrayElementAtIndex(@NotNull RideArrayElementAtIndex o) {
-    visitPsiElement(o);
+  public void visitCallArguments(@NotNull RideCallArguments o) {
+    visitCompositeElement(o);
   }
 
-  public void visitBaseLiteral(@NotNull RideBaseLiteral o) {
-    visitPsiElement(o);
+  public void visitCallExpr(@NotNull RideCallExpr o) {
+    visitExpr(o);
   }
 
-  public void visitBooleanLiteral(@NotNull RideBooleanLiteral o) {
-    visitPsiElement(o);
+  public void visitDivExpr(@NotNull RideDivExpr o) {
+    visitExpr(o);
   }
 
-  public void visitDefinition(@NotNull RideDefinition o) {
-    visitPsiElement(o);
+  public void visitEqualExpr(@NotNull RideEqualExpr o) {
+    visitExpr(o);
   }
 
-  public void visitFunctionBody(@NotNull RideFunctionBody o) {
-    visitPsiElement(o);
+  public void visitExpr(@NotNull RideExpr o) {
+    visitCompositeElement(o);
   }
 
-  public void visitFunctionDefinition(@NotNull RideFunctionDefinition o) {
-    visitPsiElement(o);
+  public void visitLessExpr(@NotNull RideLessExpr o) {
+    visitExpr(o);
   }
 
-  public void visitFunctionInvocation(@NotNull RideFunctionInvocation o) {
-    visitPsiElement(o);
+  public void visitMinusExpr(@NotNull RideMinusExpr o) {
+    visitExpr(o);
   }
 
-  public void visitFunctionParamsDefinition(@NotNull RideFunctionParamsDefinition o) {
-    visitPsiElement(o);
+  public void visitMoreExpr(@NotNull RideMoreExpr o) {
+    visitExpr(o);
   }
 
-  public void visitFunctionSignature(@NotNull RideFunctionSignature o) {
-    visitPsiElement(o);
+  public void visitMulExpr(@NotNull RideMulExpr o) {
+    visitExpr(o);
   }
 
-  public void visitIntLiteral(@NotNull RideIntLiteral o) {
-    visitPsiElement(o);
+  public void visitNotEqualExpr(@NotNull RideNotEqualExpr o) {
+    visitExpr(o);
   }
 
-  public void visitLetDefinition(@NotNull RideLetDefinition o) {
-    visitPsiElement(o);
+  public void visitParenExpr(@NotNull RideParenExpr o) {
+    visitExpr(o);
   }
 
-  public void visitMetaDefinition(@NotNull RideMetaDefinition o) {
-    visitPsiElement(o);
+  public void visitPlusExpr(@NotNull RidePlusExpr o) {
+    visitExpr(o);
   }
 
-  public void visitMethodInvocation(@NotNull RideMethodInvocation o) {
-    visitPsiElement(o);
-  }
-
-  public void visitNumberLiteral(@NotNull RideNumberLiteral o) {
-    visitPsiElement(o);
-  }
-
-  public void visitObjectFieldCall(@NotNull RideObjectFieldCall o) {
-    visitPsiElement(o);
+  public void visitSimpleRefExpr(@NotNull RideSimpleRefExpr o) {
+    visitExpr(o);
   }
 
   public void visitStatement(@NotNull RideStatement o) {
-    visitPsiElement(o);
+    visitCompositeElement(o);
   }
 
-  public void visitStringLiteral(@NotNull RideStringLiteral o) {
-    visitPsiElement(o);
+  public void visitUnaryMinExpr(@NotNull RideUnaryMinExpr o) {
+    visitExpr(o);
   }
 
-  public void visitStructCreation(@NotNull RideStructCreation o) {
-    visitPsiElement(o);
+  public void visitUnaryNotExpr(@NotNull RideUnaryNotExpr o) {
+    visitExpr(o);
   }
 
-  public void visitUnitLiteral(@NotNull RideUnitLiteral o) {
-    visitPsiElement(o);
+  public void visitVarDeclarationStatement(@NotNull RideVarDeclarationStatement o) {
+    visitCompositeElement(o);
   }
 
-  public void visitPsiElement(@NotNull PsiElement o) {
+  public void visitVarDefinition(@NotNull RideVarDefinition o) {
+    visitNamedElement(o);
+  }
+
+  public void visitNamedElement(@NotNull RideNamedElement o) {
+    visitCompositeElement(o);
+  }
+
+  public void visitCompositeElement(@NotNull RideCompositeElement o) {
     visitElement(o);
   }
 

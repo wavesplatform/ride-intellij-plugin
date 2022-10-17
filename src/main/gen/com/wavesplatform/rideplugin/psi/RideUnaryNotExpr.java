@@ -5,12 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface RideStatement extends RideCompositeElement {
+public interface RideUnaryNotExpr extends RideExpr {
 
   @Nullable
   RideExpr getExpr();
-
-  @Nullable
-  RideVarDeclarationStatement getVarDeclarationStatement();
 
 }

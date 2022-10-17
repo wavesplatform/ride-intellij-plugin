@@ -22,7 +22,7 @@
                 extensions="ride"/>
         <lang.parserDefinition
                 language="RIDE"
-                implementationClass="com.wavesplatform.rideplugin.RideParserDefinition"/>
+                implementationClass="com.wavesplatform.rideplugin.parser.RideParserDefinition"/>
         <lang.syntaxHighlighterFactory
                 language="RIDE"
                 implementationClass="com.wavesplatform.rideplugin.highlighter.RideSyntaxHighlighterFactory"/>

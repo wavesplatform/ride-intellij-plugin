@@ -11,14 +11,14 @@ import static com.wavesplatform.rideplugin.psi.RideTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.wavesplatform.rideplugin.psi.*;
 
-public class RideStatementImpl extends ASTWrapperPsiElement implements RideStatement {
+public class RideAllImpl extends ASTWrapperPsiElement implements RideAll {
 
-  public RideStatementImpl(@NotNull ASTNode node) {
+  public RideAllImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull RideVisitor visitor) {
-    visitor.visitStatement(this);
+    visitor.visitAll(this);
   }
 
   @Override
@@ -28,15 +28,9 @@ public class RideStatementImpl extends ASTWrapperPsiElement implements RideState
   }
 
   @Override
-  @Nullable
-  public RideExpr getExpr() {
-    return PsiTreeUtil.getChildOfType(this, RideExpr.class);
-  }
-
-  @Override
-  @Nullable
-  public RideVarDeclarationStatement getVarDeclarationStatement() {
-    return PsiTreeUtil.getChildOfType(this, RideVarDeclarationStatement.class);
+  @NotNull
+  public List<RideStatement> getStatementList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, RideStatement.class);
   }
 
 }

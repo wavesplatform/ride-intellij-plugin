@@ -1,0 +1,156 @@
+{
+  parserClass="com.wavesplatform.rideplugin.parser.RideParser"
+  parserUtilClass="com.wavesplatform.rideplugin.parser.RideParserUtil"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Ride"
+  psiImplClassSuffix="Impl"
+  psiPackage="com.wavesplatform.rideplugin.psi"
+  psiImplPackage="com.wavesplatform.rideplugin.psi.impl"
+
+  psiImplUtilClass="com.wavesplatform.rideplugin.psi.impl.RidePsiImplUtil"
+
+  implements="com.wavesplatform.rideplugin.psi.RideCompositeElement"
+  extends="com.wavesplatform.rideplugin.psi.impl.RideCompositeElementImpl"
+
+  elementTypeHolderClass="com.wavesplatform.rideplugin.psi.RideTypes"
+  elementTypeClass="com.wavesplatform.rideplugin.psi.RideElementType"
+  tokenTypeClass="com.wavesplatform.rideplugin.psi.RideTokenType"
+
+  elementTypeFactory("var_definition")="com.wavesplatform.rideplugin.psi.impl.RideElementTypeFactory.factory"
+
+
+  tokens=[
+    ASSIGN = "="
+    LDBRACKET = "{-#"
+    RDBRACKET = "#-}"
+    //IDENTIFIER = 'regexp:[a-zA-Z_][a-zA-Z0-9_]*'
+
+    TRUE = "true"
+    FALSE = "false"
+    IF = "if"
+    ELSE = "else"
+    //(?:'|").*(?:'|")
+    //STRING="regexp:([\"'])((?:\\\1|(?:(?!\1)).)*)(\1)"
+    //BASE='regexp:base16|base58|base64'
+    LBRACE               =  '{'
+    RBRACE               =  '}'
+    LBRACK               =  '['
+    RBRACK               =  ']'
+    LPAREN               =  '('
+    RPAREN               =  ')'
+    COLON                =  ':'
+    COMMA                =  ','
+    EQ                   =  '=='
+    NOT_EQ               =  '!='
+    BANG                  =  '!'
+    PLUS                 =  '+'
+    MINUS_MINUS          =  '--'
+    MINUS_ASSIGN         =  '-='
+    MINUS                =  '-'
+    COND_OR              =  '||'
+    BIT_OR_ASSIGN        =  '|='
+    BIT_CLEAR_ASSIGN     =  '&^='
+    BIT_CLEAR            =  '&^'
+    COND_AND             =  '&&'
+    BIT_AND_ASSIGN       =  '&='
+    BIT_AND              =  '&'
+    BIT_OR               =  '|'
+    LESS                 =  '<'
+    MUL                  =  '*'
+    SLASH             =  '/'
+    GREATER_OR_EQUAL     =  '>='
+    GREATER              =  '>'
+    DOT                  =  '.'
+    FUNCTION = 'func'
+    LET = 'let'
+    STRICT = 'strict'
+    BOOL="regexp:true|false"
+    COMMENT = 'regexp:#.*'
+    INTEGER ='regexp:[1-9][0-9]*'
+    WHITE_SPACE = 'regexp:\s+'
+    STRING = 'regexp:(\")[^\"]*\"'
+    SQSTRING = "regexp:(')[^']*'"
+    IDENT = 'regexp:[a-zA-Z_][a-zA-Z0-9_]*'
+    //INT = "regexp:[0-9]+"
+  ]
+  extends(".*expr") = expr
+}
+
+program ::= all
+all ::= directive* element*
+private element ::= !<<eof>> statement {pin=2 recoverWhile=property_recover}
+private property_recover ::= !(FUNCTION | LET | TRUE | FALSE |IF |ELSE |RETURN
+| INT | STRING | IDEN | PLUS | MINUS| BANG | ASTERISK |SLASH | LT |GT|EQ
+| NOT_EQ | COMMA | ASSIGN |  COLON | LPAREN |RPAREN |LBRACE |RBRACE | LBRACKET | RBRACKET)
+
+private directive ::= LDBRACKET IDENT (IDENT|INTEGER) RDBRACKET
+
+statement ::= var_declaration_statement | expr
+
+var_declaration_statement ::= LET var_definition ASSIGN expr {pin=1}
+
+var_definition ::= IDENT {
+    implements="com.wavesplatform.rideplugin.psi.RideNamedElement"
+    extends="com.wavesplatform.rideplugin.psi.impl.RideVarDefinitionBaseImpl"
+    stubClass="com.wavesplatform.rideplugin.stubs.RideVarDefinitionStub"
+}
+
+expr ::= equal_group
+        | conditional_group
+        | sum_group
+        | product_group
+        | calc_prefix_group
+        | call_group
+        | primary_group
+        {
+        extraRoot=true
+        //todo methods=[resolveType]
+        }
+
+private equal_group ::= equal_expr | not_equal_expr
+equal_expr ::= expr EQ expr
+not_equal_expr ::= expr NOT_EQ expr
+
+private conditional_group ::= less_expr | more_expr
+less_expr ::= expr LT expr
+more_expr ::= expr GT expr
+
+private sum_group ::= plus_expr | minus_expr
+plus_expr ::= expr PLUS expr
+minus_expr ::= expr MINUS expr
+
+private product_group ::= mul_expr | div_expr
+mul_expr ::= expr MUL expr
+div_expr ::= expr SLASH expr
+
+private calc_prefix_group ::= unary_min_expr | unary_not_expr
+unary_min_expr ::= MINUS expr  {pin = 1}
+unary_not_expr ::= BANG expr  {pin = 1}
+
+private call_group ::= call_expr
+call_expr ::= expr call_arguments
+call_arguments ::= LPAREN arguments? RPAREN  {pin = 1}
+arguments ::= argument (COMMA argument)*  {pin(".*")=1}
+argument ::= expr
+
+private primary_group ::=  simple_ref_expr | paren_expr | literal_expr
+paren_expr ::= LPAREN expr RPAREN {pin=1}
+
+simple_ref_expr ::= IDENT
+//todo {methods=[getReference resolve setName] }
+
+literal_expr ::= boolLiteral
+          | numericLiteral
+          | stringLiteral
+          | byteVectorLiteral
+stringLiteral ::= STRING
+numericLiteral ::= integerLiteral
+boolLiteral ::= TRUE | FALSE
+integerLiteral ::= INTEGER
+byteVectorLiteral ::= (base16|base58|base64) SQSTRING
+
+
+
+

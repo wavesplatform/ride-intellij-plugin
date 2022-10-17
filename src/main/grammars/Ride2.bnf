@@ -112,7 +112,8 @@ StructCreation ::= IDENTIFIER Arguments
 Arguments ::= LPAREN Argument? (COMMA Argument)* RPAREN
 
 Expression ::=
-         EqualGroupDefinition
+            PrimaryGroup
+         | EqualGroupDefinition
          | ConditionalGroup
          | SumGroup
          | ProductGroup
@@ -123,7 +124,6 @@ Expression ::=
          | IndexGroup
          | MacroGroup
          | MatchGroup
-         | PrimaryGroup
          | COMMENT
          {extraRoot=true}
 
