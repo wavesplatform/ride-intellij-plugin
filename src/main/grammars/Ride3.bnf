@@ -61,11 +61,15 @@
     MUL                  =  '*'
     SLASH             =  '/'
     GREATER_OR_EQUAL     =  '>='
-    GREATER              =  '>'
+    GT              =  '>'
     DOT                  =  '.'
     FUNCTION = 'func'
-    LET = 'let'
     STRICT = 'strict'
+    LET = 'let'
+    IF = 'if'
+    THEN = 'then'
+    LBRACKET = '['
+    RBRACKET = ']'
     BOOL="regexp:true|false"
     COMMENT = 'regexp:#.*'
     INTEGER ='regexp:[1-9][0-9]*'
@@ -81,15 +85,16 @@
 program ::= all
 all ::= directive* element*
 private element ::= !<<eof>> statement {pin=2 recoverWhile=property_recover}
-private property_recover ::= !(FUNCTION | LET | TRUE | FALSE |IF |ELSE |RETURN
-| INT | STRING | IDEN | PLUS | MINUS| BANG | ASTERISK |SLASH | LT |GT|EQ
+private property_recover ::= !(FUNCTION | LET | STRICT | TRUE | FALSE |IF |ELSE
+| INT | STRING | IDENT | PLUS | MINUS| BANG | ASTERISK |SLASH | LT |GT|EQ
 | NOT_EQ | COMMA | ASSIGN |  COLON | LPAREN |RPAREN |LBRACE |RBRACE | LBRACKET | RBRACKET)
 
 private directive ::= LDBRACKET IDENT (IDENT|INTEGER) RDBRACKET
 
 statement ::= var_declaration_statement | expr
 
-var_declaration_statement ::= LET var_definition ASSIGN expr {pin=1}
+var_declaration_statement ::= (LET|STRICT) var_definition ASSIGN (expr | closure) {pin=1}
+closure ::= LBRACE element* RBRACE
 
 var_definition ::= IDENT {
     implements="com.wavesplatform.rideplugin.psi.RideNamedElement"
@@ -104,6 +109,9 @@ expr ::= equal_group
         | calc_prefix_group
         | call_group
         | primary_group
+        | definition_group
+        | index_group
+        | prefix_group
         {
         extraRoot=true
         //todo methods=[resolveType]
@@ -130,16 +138,36 @@ unary_min_expr ::= MINUS expr  {pin = 1}
 unary_not_expr ::= BANG expr  {pin = 1}
 
 private call_group ::= call_expr
-call_expr ::= expr call_arguments
+call_expr ::= field_call | function_call
+function_call ::= function_name call_arguments (DOT function_name call_arguments)*
+field_call ::= (function_call | IDENT) (DOT IDENT)+
 call_arguments ::= LPAREN arguments? RPAREN  {pin = 1}
 arguments ::= argument (COMMA argument)*  {pin(".*")=1}
 argument ::= expr
+
+private definition_group ::= func_expr | array_expr
+
+//todo doesnt work
+private index_group ::= index_expr
+index_expr ::= expr LBRACKET expr RBRACKET
+
+private prefix_group ::= if_expr
+if_expr ::= IF if_cond (THEN expr |LBRACE? block_state RBRACE?) else_block? {pin=1}
+if_cond ::= expr {pin=1}
+else_block ::= ELSE LBRACE block_state RBRACE {pin = 1}
 
 private primary_group ::=  simple_ref_expr | paren_expr | literal_expr
 paren_expr ::= LPAREN expr RPAREN {pin=1}
 
 simple_ref_expr ::= IDENT
 //todo {methods=[getReference resolve setName] }
+
+func_expr ::= FUNCTION function_name LPAREN param_group? RPAREN ASSIGN LBRACE block_state RBRACE  {pin=1}
+function_name ::= IDENT
+block_state ::= element*
+param_group ::= var_definition (COMMA var_definition)*  {pin(".*")=1}
+
+array_expr ::= LBRACKET arguments RBRACKET  {pin = 1}
 
 literal_expr ::= boolLiteral
           | numericLiteral
