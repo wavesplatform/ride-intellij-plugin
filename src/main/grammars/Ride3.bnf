@@ -64,6 +64,8 @@
     GT              =  '>'
     DOT                  =  '.'
     FUNCTION = 'func'
+    MATCH = 'match'
+    CASE = 'case'
     STRICT = 'strict'
     LET = 'let'
     IF = 'if'
@@ -87,7 +89,7 @@ all ::= directive* element*
 private element ::= !<<eof>> statement {pin=2 recoverWhile=property_recover}
 private property_recover ::= !(FUNCTION | LET | STRICT | TRUE | FALSE |IF |ELSE
 | INT | STRING | IDENT | PLUS | MINUS| BANG | ASTERISK |SLASH | LT |GT|EQ
-| NOT_EQ | COMMA | ASSIGN |  COLON | LPAREN |RPAREN |LBRACE |RBRACE | LBRACKET | RBRACKET)
+| NOT_EQ | COMMA | ASSIGN |  COLON | LPAREN |RPAREN |LBRACE |RBRACE | LBRACKET | RBRACKET | MATCH | CASE)
 
 private directive ::= LDBRACKET IDENT (IDENT|INTEGER) RDBRACKET
 
@@ -145,16 +147,16 @@ call_arguments ::= LPAREN arguments? RPAREN  {pin = 1}
 arguments ::= argument (COMMA argument)*  {pin(".*")=1}
 argument ::= expr
 
-private definition_group ::= func_expr | array_expr
+private definition_group ::= func_expr | array_expr | pattern_matching_expr
 
 //todo doesnt work
 private index_group ::= index_expr
 index_expr ::= expr LBRACKET expr RBRACKET
 
 private prefix_group ::= if_expr
-if_expr ::= IF if_cond (THEN expr |LBRACE? block_state RBRACE?) else_block? {pin=1}
+if_expr ::= IF LPAREN? if_cond RPAREN? (THEN expr |LBRACE? block_state RBRACE?) else_block? {pin=1}
 if_cond ::= expr {pin=1}
-else_block ::= ELSE LBRACE block_state RBRACE {pin = 1}
+else_block ::= ELSE LBRACE? block_state RBRACE? {pin = 1}
 
 private primary_group ::=  simple_ref_expr | paren_expr | literal_expr
 paren_expr ::= LPAREN expr RPAREN {pin=1}
@@ -165,9 +167,16 @@ simple_ref_expr ::= IDENT
 func_expr ::= FUNCTION function_name LPAREN param_group? RPAREN ASSIGN LBRACE block_state RBRACE  {pin=1}
 function_name ::= IDENT
 block_state ::= element*
-param_group ::= var_definition (COMMA var_definition)*  {pin(".*")=1}
+param_group ::= param_definition (COMMA param_definition)*  {pin(".*")=1}
+param_definition ::= var_definition COLON IDENT (BIT_OR IDENT)* {pin(".*")=1}
 
 array_expr ::= LBRACKET arguments RBRACKET  {pin = 1}
+
+pattern_matching_expr ::= MATCH LPAREN? IDENT RPAREN? LBRACE case*  RBRACE {pin=1}
+case ::= default_case | certain_type_case_definition
+certain_type_case_definition ::= CASE param_definition '=>' statement*
+default_case ::= CASE underscore '=>' expr*
+underscore ::= "_"
 
 literal_expr ::= boolLiteral
           | numericLiteral
