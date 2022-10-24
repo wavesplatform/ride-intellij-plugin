@@ -34,10 +34,11 @@
     //(?:'|").*(?:'|")
     //STRING="regexp:([\"'])((?:\\\1|(?:(?!\1)).)*)(\1)"
     //BASE='regexp:base16|base58|base64'
+    UNDERSCORE = "_"
+    LBRACKET = '['
+    RBRACKET = ']'
     LBRACE               =  '{'
     RBRACE               =  '}'
-    LBRACK               =  '['
-    RBRACK               =  ']'
     LPAREN               =  '('
     RPAREN               =  ')'
     COLON                =  ':'
@@ -60,9 +61,13 @@
     LESS                 =  '<'
     MUL                  =  '*'
     SLASH             =  '/'
+    PERCENT = '%'
     GREATER_OR_EQUAL     =  '>='
     GT              =  '>'
     DOT                  =  '.'
+    CONCAT = '++'
+    APPEND = ':+'
+    PREPEND = '::'
     FUNCTION = 'func'
     MATCH = 'match'
     CASE = 'case'
@@ -70,11 +75,11 @@
     LET = 'let'
     IF = 'if'
     THEN = 'then'
-    LBRACKET = '['
-    RBRACKET = ']'
+    FOLD_KW = "FOLD"
+    NIL = 'nil'
     BOOL="regexp:true|false"
     COMMENT = 'regexp:#.*'
-    INTEGER ='regexp:[1-9][0-9]*'
+    INTEGER ="regexp:[0-9]+"
     WHITE_SPACE = 'regexp:\s+'
     STRING = 'regexp:(\")[^\"]*\"'
     SQSTRING = "regexp:(')[^']*'"
@@ -87,16 +92,18 @@
 program ::= all
 all ::= directive* element*
 private element ::= !<<eof>> statement {pin=2 recoverWhile=property_recover}
-private property_recover ::= !(FUNCTION | LET | STRICT | TRUE | FALSE |IF |ELSE
-| INT | STRING | IDENT | PLUS | MINUS| BANG | ASTERISK |SLASH | LT |GT|EQ
-| NOT_EQ | COMMA | ASSIGN |  COLON | LPAREN |RPAREN |LBRACE |RBRACE | LBRACKET | RBRACKET | MATCH | CASE)
+private property_recover ::= !(FUNCTION | LET | STRICT | TRUE | FALSE |IF |ELSE | LDBRACKET | RDBRACKET
+| INT | STRING | IDENT | PLUS | MINUS| BANG | ASTERISK |SLASH | LESS |GT|EQ | LBRACKET | RBRACKET
+| NOT_EQ | COMMA | ASSIGN |  COLON | LPAREN |RPAREN |LBRACE |RBRACE | MATCH | CASE | FOLD_KW)
 
-private directive ::= LDBRACKET IDENT (IDENT|INTEGER) RDBRACKET
+directive ::= LDBRACKET IDENT (IDENT|INTEGER) RDBRACKET
 
 statement ::= var_declaration_statement | expr
 
-var_declaration_statement ::= (LET|STRICT) var_definition ASSIGN (expr | closure) {pin=1}
+var_declaration_statement ::= (LET|STRICT) (tuple_definition | var_definition) ASSIGN (expr | closure) {pin=1}
 closure ::= LBRACE element* RBRACE
+
+tuple_definition ::= LPAREN var_definition (COMMA var_definition)* RPAREN {pin(".*")=1}
 
 var_definition ::= IDENT {
     implements="com.wavesplatform.rideplugin.psi.RideNamedElement"
@@ -108,10 +115,11 @@ expr ::= equal_group
         | conditional_group
         | sum_group
         | product_group
+        | list_op_group
         | calc_prefix_group
+        | definition_group
         | call_group
         | primary_group
-        | definition_group
         | index_group
         | prefix_group
         {
@@ -123,17 +131,25 @@ private equal_group ::= equal_expr | not_equal_expr
 equal_expr ::= expr EQ expr
 not_equal_expr ::= expr NOT_EQ expr
 
-private conditional_group ::= less_expr | more_expr
-less_expr ::= expr LT expr
+private conditional_group ::= less_expr | more_expr | and_expr | or_expr
+less_expr ::= expr LESS expr
 more_expr ::= expr GT expr
+and_expr ::= expr COND_AND expr
+or_expr ::= expr COND_OR expr
+
+private list_op_group ::= concat_expr | append_expr | prepend_expr
+concat_expr ::= expr CONCAT expr
+append_expr ::= expr APPEND expr
+prepend_expr ::= expr PREPEND expr
 
 private sum_group ::= plus_expr | minus_expr
 plus_expr ::= expr PLUS expr
 minus_expr ::= expr MINUS expr
 
-private product_group ::= mul_expr | div_expr
+private product_group ::= mul_expr | div_expr | mod_expr
 mul_expr ::= expr MUL expr
 div_expr ::= expr SLASH expr
+mod_expr ::= expr PERCENT expr
 
 private calc_prefix_group ::= unary_min_expr | unary_not_expr
 unary_min_expr ::= MINUS expr  {pin = 1}
@@ -141,13 +157,13 @@ unary_not_expr ::= BANG expr  {pin = 1}
 
 private call_group ::= call_expr
 call_expr ::= field_call | function_call
-function_call ::= function_name call_arguments (DOT function_name call_arguments)*
+function_call ::= function_name call_arguments? (DOT function_name call_arguments)*
 field_call ::= (function_call | IDENT) (DOT IDENT)+
 call_arguments ::= LPAREN arguments? RPAREN  {pin = 1}
 arguments ::= argument (COMMA argument)*  {pin(".*")=1}
 argument ::= expr
 
-private definition_group ::= func_expr | array_expr | pattern_matching_expr
+private definition_group ::= func_expr | array_expr | pattern_matching_expr | fold_expr | tuple_expr
 
 //todo doesnt work
 private index_group ::= index_expr
@@ -164,29 +180,41 @@ paren_expr ::= LPAREN expr RPAREN {pin=1}
 simple_ref_expr ::= IDENT
 //todo {methods=[getReference resolve setName] }
 
-func_expr ::= FUNCTION function_name LPAREN param_group? RPAREN ASSIGN LBRACE block_state RBRACE  {pin=1}
+func_expr ::= FUNCTION function_name LPAREN param_group? RPAREN ASSIGN LBRACE? block_state RBRACE?  {pin=1}
 function_name ::= IDENT
 block_state ::= element*
 param_group ::= param_definition (COMMA param_definition)*  {pin(".*")=1}
-param_definition ::= var_definition COLON IDENT (BIT_OR IDENT)* {pin(".*")=1}
+param_definition ::= var_definition COLON type {pin(".*")=1}
 
-array_expr ::= LBRACKET arguments RBRACKET  {pin = 1}
+private type ::=  tuple_type | array_type | union_type | simple_type
+tuple_type ::= LPAREN type (COMMA type)* RPAREN {pin(".*")=1}
+array_type ::= IDENT LBRACKET (type | IDENT) RBRACKET {pin=2}
+union_type ::= IDENT (BIT_OR IDENT)* {pin(".*")=1}
+simple_type ::= IDENT
+
+array_expr ::= LBRACKET arguments? RBRACKET {pin = 1}
 
 pattern_matching_expr ::= MATCH LPAREN? IDENT RPAREN? LBRACE case*  RBRACE {pin=1}
-case ::= default_case | certain_type_case_definition
-certain_type_case_definition ::= CASE param_definition '=>' statement*
-default_case ::= CASE underscore '=>' expr*
-underscore ::= "_"
+case ::= CASE (UNDERSCORE | IDENT) COLON? type? '=>' statement* {pin=1}
+//case ::= default_case | certain_type_case_definition
+//certain_type_case_definition ::= CASE param_definition '=>' statement* {pin=2}
+//default_case ::= CASE UNDERSCORE param_definition? '=>' expr* {pin=2}
+
+fold_expr ::= FOLD_KW LESS INTEGER GT call_arguments {pin=1}
+
+tuple_expr ::= call_arguments
 
 literal_expr ::= boolLiteral
           | numericLiteral
           | stringLiteral
           | byteVectorLiteral
+          | nilLiteral
 stringLiteral ::= STRING
 numericLiteral ::= integerLiteral
 boolLiteral ::= TRUE | FALSE
 integerLiteral ::= INTEGER
 byteVectorLiteral ::= (base16|base58|base64) SQSTRING
+nilLiteral ::= NIL
 
 
 
