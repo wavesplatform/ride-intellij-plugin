@@ -7,10 +7,16 @@ import com.intellij.psi.PsiElement;
 
 public interface RideVarDeclarationStatement extends RideCompositeElement {
 
-  @NotNull
+  @Nullable
+  RideClosure getClosure();
+
+  @Nullable
   RideExpr getExpr();
 
-  @NotNull
+  @Nullable
+  RideTupleDefinition getTupleDefinition();
+
+  @Nullable
   RideVarDefinition getVarDefinition();
 
 }

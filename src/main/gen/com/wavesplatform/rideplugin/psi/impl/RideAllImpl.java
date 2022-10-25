@@ -29,6 +29,12 @@ public class RideAllImpl extends ASTWrapperPsiElement implements RideAll {
 
   @Override
   @NotNull
+  public List<RideDirective> getDirectiveList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, RideDirective.class);
+  }
+
+  @Override
+  @NotNull
   public List<RideStatement> getStatementList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, RideStatement.class);
   }

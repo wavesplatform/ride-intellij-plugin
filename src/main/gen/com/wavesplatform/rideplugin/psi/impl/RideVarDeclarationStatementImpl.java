@@ -28,15 +28,27 @@ public class RideVarDeclarationStatementImpl extends ASTWrapperPsiElement implem
   }
 
   @Override
-  @NotNull
-  public RideExpr getExpr() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, RideExpr.class));
+  @Nullable
+  public RideClosure getClosure() {
+    return PsiTreeUtil.getChildOfType(this, RideClosure.class);
   }
 
   @Override
-  @NotNull
+  @Nullable
+  public RideExpr getExpr() {
+    return PsiTreeUtil.getChildOfType(this, RideExpr.class);
+  }
+
+  @Override
+  @Nullable
+  public RideTupleDefinition getTupleDefinition() {
+    return PsiTreeUtil.getChildOfType(this, RideTupleDefinition.class);
+  }
+
+  @Override
+  @Nullable
   public RideVarDefinition getVarDefinition() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, RideVarDefinition.class));
+    return PsiTreeUtil.getChildOfType(this, RideVarDefinition.class);
   }
 
 }

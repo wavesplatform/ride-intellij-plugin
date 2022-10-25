@@ -27,10 +27,12 @@
     RDBRACKET = "#-}"
     //IDENTIFIER = 'regexp:[a-zA-Z_][a-zA-Z0-9_]*'
 
+    AT_SYMBOL = "@"
     TRUE = "true"
     FALSE = "false"
     IF = "if"
     ELSE = "else"
+    UNIT = "unit"
     //(?:'|").*(?:'|")
     //STRING="regexp:([\"'])((?:\\\1|(?:(?!\1)).)*)(\1)"
     //BASE='regexp:base16|base58|base64'
@@ -58,12 +60,13 @@
     BIT_AND_ASSIGN       =  '&='
     BIT_AND              =  '&'
     BIT_OR               =  '|'
-    LESS                 =  '<'
     MUL                  =  '*'
     SLASH             =  '/'
     PERCENT = '%'
     GREATER_OR_EQUAL     =  '>='
+    LESS_OR_EQUAL     =  '<='
     GT              =  '>'
+    LESS                 =  '<'
     DOT                  =  '.'
     CONCAT = '++'
     APPEND = ':+'
@@ -92,7 +95,8 @@
 program ::= all
 all ::= directive* element*
 private element ::= !<<eof>> statement {pin=2 recoverWhile=property_recover}
-private property_recover ::= !(FUNCTION | LET | STRICT | TRUE | FALSE |IF |ELSE | LDBRACKET | RDBRACKET
+private property_recover ::= !(UNIT | NIL | AT_SYMBOL | FUNCTION | LET | STRICT | TRUE | FALSE |IF |ELSE | LDBRACKET
+| RDBRACKET | PERCENT | LESS_OR_EQUAL | GREATER_OR_EQUAL
 | INT | STRING | IDENT | PLUS | MINUS| BANG | ASTERISK |SLASH | LESS |GT|EQ | LBRACKET | RBRACKET
 | NOT_EQ | COMMA | ASSIGN |  COLON | LPAREN |RPAREN |LBRACE |RBRACE | MATCH | CASE | FOLD_KW)
 
@@ -118,9 +122,9 @@ expr ::= equal_group
         | list_op_group
         | calc_prefix_group
         | definition_group
+        | index_group
         | call_group
         | primary_group
-        | index_group
         | prefix_group
         {
         extraRoot=true
@@ -131,9 +135,11 @@ private equal_group ::= equal_expr | not_equal_expr
 equal_expr ::= expr EQ expr
 not_equal_expr ::= expr NOT_EQ expr
 
-private conditional_group ::= less_expr | more_expr | and_expr | or_expr
+private conditional_group ::= less_or_eq_expr | more_or_eq_expr | less_expr | more_expr | and_expr | or_expr
 less_expr ::= expr LESS expr
 more_expr ::= expr GT expr
+less_or_eq_expr ::= expr LESS_OR_EQUAL expr
+more_or_eq_expr ::= expr GREATER_OR_EQUAL expr
 and_expr ::= expr COND_AND expr
 or_expr ::= expr COND_OR expr
 
@@ -167,10 +173,10 @@ private definition_group ::= func_expr | array_expr | pattern_matching_expr | fo
 
 //todo doesnt work
 private index_group ::= index_expr
-index_expr ::= expr LBRACKET expr RBRACKET
+index_expr ::= expr LBRACKET expr RBRACKET (DOT expr)? {pin=2}
 
 private prefix_group ::= if_expr
-if_expr ::= IF LPAREN? if_cond RPAREN? (THEN expr |LBRACE? block_state RBRACE?) else_block? {pin=1}
+if_expr ::= IF LPAREN? if_cond RPAREN? (THEN? (LBRACE|LPAREN)? block_state (RBRACE|RPAREN)?) else_block? {pin=1}
 if_cond ::= expr {pin=1}
 else_block ::= ELSE LBRACE? block_state RBRACE? {pin = 1}
 
@@ -180,22 +186,24 @@ paren_expr ::= LPAREN expr RPAREN {pin=1}
 simple_ref_expr ::= IDENT
 //todo {methods=[getReference resolve setName] }
 
-func_expr ::= FUNCTION function_name LPAREN param_group? RPAREN ASSIGN LBRACE? block_state RBRACE?  {pin=1}
+func_expr ::= annotation? FUNCTION IDENT LPAREN param_group? RPAREN ASSIGN LBRACE? block_state RBRACE?  {pin=2}
 function_name ::= IDENT
 block_state ::= element*
 param_group ::= param_definition (COMMA param_definition)*  {pin(".*")=1}
 param_definition ::= var_definition COLON type {pin(".*")=1}
 
+annotation ::= AT_SYMBOL IDENT LPAREN IDENT RPAREN {pin=1}
+
 private type ::=  tuple_type | array_type | union_type | simple_type
 tuple_type ::= LPAREN type (COMMA type)* RPAREN {pin(".*")=1}
 array_type ::= IDENT LBRACKET (type | IDENT) RBRACKET {pin=2}
-union_type ::= IDENT (BIT_OR IDENT)* {pin(".*")=1}
+union_type ::= IDENT BIT_OR IDENT (BIT_OR IDENT)* {pin=2}
 simple_type ::= IDENT
 
 array_expr ::= LBRACKET arguments? RBRACKET {pin = 1}
 
-pattern_matching_expr ::= MATCH LPAREN? IDENT RPAREN? LBRACE case*  RBRACE {pin=1}
-case ::= CASE (UNDERSCORE | IDENT) COLON? type? '=>' statement* {pin=1}
+pattern_matching_expr ::= MATCH expr LBRACE case_expr*  RBRACE {pin=1}
+case_expr ::= CASE (UNDERSCORE | IDENT) COLON? type? '=>' (LBRACE|LPAREN)? statement* (RBRACE|RPAREN)? {pin=1}
 //case ::= default_case | certain_type_case_definition
 //certain_type_case_definition ::= CASE param_definition '=>' statement* {pin=2}
 //default_case ::= CASE UNDERSCORE param_definition? '=>' expr* {pin=2}
@@ -209,12 +217,14 @@ literal_expr ::= boolLiteral
           | stringLiteral
           | byteVectorLiteral
           | nilLiteral
+          | unitLiteral
 stringLiteral ::= STRING
 numericLiteral ::= integerLiteral
 boolLiteral ::= TRUE | FALSE
 integerLiteral ::= INTEGER
 byteVectorLiteral ::= (base16|base58|base64) SQSTRING
 nilLiteral ::= NIL
+unitLiteral ::= UNIT
 
 
 

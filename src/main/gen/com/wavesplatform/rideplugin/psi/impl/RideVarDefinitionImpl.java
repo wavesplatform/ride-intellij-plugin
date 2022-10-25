@@ -32,4 +32,10 @@ public class RideVarDefinitionImpl extends RideVarDefinitionBaseImpl implements 
     else super.accept(visitor);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getIdent() {
+    return notNullChild(findChildByType(IDENT));
+  }
+
 }

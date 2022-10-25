@@ -27,4 +27,10 @@ public class RideSimpleRefExprImpl extends RideExprImpl implements RideSimpleRef
     else super.accept(visitor);
   }
 
+  @Override
+  @NotNull
+  public PsiElement getIdent() {
+    return notNullChild(findChildByType(IDENT));
+  }
+
 }

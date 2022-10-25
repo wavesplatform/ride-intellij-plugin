@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface RideAll extends RideCompositeElement {
 
   @NotNull
+  List<RideDirective> getDirectiveList();
+
+  @NotNull
   List<RideStatement> getStatementList();
 
 }

@@ -17,21 +17,15 @@ class RideSyntaxHighlighter : SyntaxHighlighterBase() {
     }
 
     override fun getTokenHighlights(tokenType: IElementType): Array<TextAttributesKey> {
-        if (tokenType == RideTypes.ASSIGN) {
-            return SEPARATOR_KEYS
+        return when (tokenType) {
+            RideTypes.ASSIGN -> SEPARATOR_KEYS
+            RideTypes.DIRECTIVE -> DIRECTIVE_KEYS
+            RideTypes.IDENT -> VALUE_KEYS
+            RideTypes.COMMENT -> COMMENT_KEYS
+            RideTypes.ANNOTATION -> ANNOTATION_KEYS
+            TokenType.BAD_CHARACTER -> BAD_CHAR_KEYS
+            else -> EMPTY_KEYS
         }
-        if (tokenType == RideTypes.IDENTIFIER) {
-            return KEY_KEYS
-        }
-        if (tokenType == RideTypes.IDENTIFIER) {
-            return VALUE_KEYS
-        }
-        if (tokenType == RideTypes.COMMENT) {
-            return COMMENT_KEYS
-        }
-        return if (tokenType == TokenType.BAD_CHARACTER) {
-            BAD_CHAR_KEYS
-        } else EMPTY_KEYS
     }
 
     companion object {
@@ -45,6 +39,12 @@ class RideSyntaxHighlighter : SyntaxHighlighterBase() {
             TextAttributesKey.createTextAttributesKey("SIMPLE_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT)
         val BAD_CHARACTER =
             TextAttributesKey.createTextAttributesKey("SIMPLE_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER)
+        val DIRECTIVE =
+            TextAttributesKey.createTextAttributesKey("SIMPLE_DIRECTIVE", DefaultLanguageHighlighterColors.METADATA)
+        val DIRECTIVE_KEYS = arrayOf(DIRECTIVE)
+        val ANNOTATION =
+            TextAttributesKey.createTextAttributesKey("SIMPLE_ANNOTATION", DefaultLanguageHighlighterColors.METADATA)
+        val ANNOTATION_KEYS = arrayOf(ANNOTATION)
         private val BAD_CHAR_KEYS = arrayOf(BAD_CHARACTER)
         private val SEPARATOR_KEYS = arrayOf(SEPARATOR)
         private val KEY_KEYS = arrayOf(KEY)

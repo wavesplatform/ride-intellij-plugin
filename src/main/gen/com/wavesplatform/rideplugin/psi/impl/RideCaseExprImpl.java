@@ -1,0 +1,66 @@
+// This is a generated file. Not intended for manual editing.
+package com.wavesplatform.rideplugin.psi.impl;
+
+import java.util.List;
+import org.jetbrains.annotations.*;
+import com.intellij.lang.ASTNode;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiElementVisitor;
+import com.intellij.psi.util.PsiTreeUtil;
+import static com.wavesplatform.rideplugin.psi.RideTypes.*;
+import com.wavesplatform.rideplugin.psi.*;
+
+public class RideCaseExprImpl extends RideExprImpl implements RideCaseExpr {
+
+  public RideCaseExprImpl(@NotNull ASTNode node) {
+    super(node);
+  }
+
+  @Override
+  public void accept(@NotNull RideVisitor visitor) {
+    visitor.visitCaseExpr(this);
+  }
+
+  @Override
+  public void accept(@NotNull PsiElementVisitor visitor) {
+    if (visitor instanceof RideVisitor) accept((RideVisitor)visitor);
+    else super.accept(visitor);
+  }
+
+  @Override
+  @Nullable
+  public RideArrayType getArrayType() {
+    return PsiTreeUtil.getChildOfType(this, RideArrayType.class);
+  }
+
+  @Override
+  @Nullable
+  public RideSimpleType getSimpleType() {
+    return PsiTreeUtil.getChildOfType(this, RideSimpleType.class);
+  }
+
+  @Override
+  @NotNull
+  public List<RideStatement> getStatementList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, RideStatement.class);
+  }
+
+  @Override
+  @Nullable
+  public RideTupleType getTupleType() {
+    return PsiTreeUtil.getChildOfType(this, RideTupleType.class);
+  }
+
+  @Override
+  @Nullable
+  public RideUnionType getUnionType() {
+    return PsiTreeUtil.getChildOfType(this, RideUnionType.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getIdent() {
+    return findChildByType(IDENT);
+  }
+
+}

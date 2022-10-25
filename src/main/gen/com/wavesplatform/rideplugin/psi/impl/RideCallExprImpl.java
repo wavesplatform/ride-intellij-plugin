@@ -28,15 +28,15 @@ public class RideCallExprImpl extends RideExprImpl implements RideCallExpr {
   }
 
   @Override
-  @NotNull
-  public RideCallArguments getCallArguments() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, RideCallArguments.class));
+  @Nullable
+  public RideFieldCall getFieldCall() {
+    return PsiTreeUtil.getChildOfType(this, RideFieldCall.class);
   }
 
   @Override
-  @NotNull
-  public RideExpr getExpr() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, RideExpr.class));
+  @Nullable
+  public RideFunctionCall getFunctionCall() {
+    return PsiTreeUtil.getChildOfType(this, RideFunctionCall.class);
   }
 
 }

@@ -20,18 +20,68 @@ class RideColorSettingsPage : ColorSettingsPage {
     }
 
     override fun getDemoText(): String {
-        return """# You are reading the ".properties" entry.
-                ! The exclamation mark can also mark text as comments.
-                website = https://en.wikipedia.org/
-                language = English
-                # The backslash below tells the application to continue reading
-                # the value onto the next line.
-                message = Welcome to \
-                Wikipedia!
-                # Add spaces to the key
-                key\ with\ spaces = This is the value that could be looked up with the key "key with spaces".
-                # Unicode
-                tab : \u0009""".trimIndent()
+        return """{-# STDLIB_VERSION 3 #-}
+                  {-# CONTENT_TYPE DAPP #-}
+                  {-# SCRIPT_TYPE ACCOUNT #-}
+                  
+                  #
+                  # Waves dApp version of famous Magic 8 ball toy!
+                  # Function name: tellme(question: String)
+                  # Question and answer will be written to dApp data state
+                  #
+                  # Example on Testnet: 3N27HUMt4ddx2X7foQwZRmpFzg5PSzLrUgU
+                  #
+                  
+                  let answersCount = 20
+                  let answers = 
+                      ["It is certain.",
+                      "It is decidedly so.",
+                      "Without a doubt.",
+                      "Yes - definitely.",
+                      "You may rely on it.",
+                      "As I see it, yes.",
+                      "Most likely.",
+                      "Outlook good.",
+                      "Yes.",
+                      "Signs point to yes.",
+                      "Reply hazy, try again.",
+                      "Ask again later.",
+                      "Better not tell you now.",
+                      "Cannot predict now.",
+                      "Concentrate and ask again.",
+                      "Don't count on it.",
+                      "My reply is no.",
+                      "My sources say no.",
+                      "Outlook not so good.",
+                      "Very doubtful."]
+                  
+                  
+                  #
+                  # Simple pseudorandom answer generator
+                  #
+                  func getAnswer(question: String, previousAnswer: String) = {
+                      let hash = sha256(toBytes(question + previousAnswer))
+                      let index = toInt(hash)
+                      #answers[index % answersCount]
+                  }
+                  
+                  func getPreviousAnswer(address: String) = {
+                    match getString(this, address + "_a") {
+                      case a: String => a
+                      case _ => address
+                    }
+                  }
+                  
+                  @Callable(i)
+                  func tellme(question: String) = {
+                      let callerAddress = toBase58String(i.caller.bytes)
+                      let answer = getAnswer(question, getPreviousAnswer(callerAddress))
+                  
+                      WriteSet([
+                          DataEntry(callerAddress + "_q", question),
+                          DataEntry(callerAddress + "_a", answer)
+                          ])
+                  }""".trimIndent()
     }
 
     override fun getAdditionalHighlightingTagToDescriptorMap(): Map<String, TextAttributesKey>? {
@@ -55,7 +105,9 @@ class RideColorSettingsPage : ColorSettingsPage {
             AttributesDescriptor("Key", RideSyntaxHighlighter.KEY),
             AttributesDescriptor("Separator", RideSyntaxHighlighter.SEPARATOR),
             AttributesDescriptor("Value", RideSyntaxHighlighter.VALUE),
-            AttributesDescriptor("Bad value", RideSyntaxHighlighter.BAD_CHARACTER)
+            AttributesDescriptor("Bad value", RideSyntaxHighlighter.BAD_CHARACTER),
+            AttributesDescriptor("Directive", RideSyntaxHighlighter.DIRECTIVE),
+            AttributesDescriptor("Annotation", RideSyntaxHighlighter.ANNOTATION)
         )
     }
 }

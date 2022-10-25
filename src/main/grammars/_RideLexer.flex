@@ -25,34 +25,37 @@ import static com.wavesplatform.rideplugin.psi.RideTypes.*;
 EOL=\R
 WHITE_SPACE=\s+
 
-IDENTIFIER=[a-zA-Z_][a-zA-Z0-9_]*
-NUMBER=[1-9][0-9]*
-INTEGER=[0-9]+
 BOOL=true|false
-STRING=(\")[^\"]*\"
-WHITE_SPACE=[ \t\n\x0B\f\r]+
 COMMENT=#.*
+INTEGER=[0-9]+
+WHITE_SPACE=[ \t\n\x0B\f\r]+
+STRING=(\")[^\"]*\"
+SQSTRING=(')[^']*'
+IDENT=[a-zA-Z_][a-zA-Z0-9_]*
 
 %%
 <YYINITIAL> {
   {WHITE_SPACE}      { return WHITE_SPACE; }
 
+  "="                { return ASSIGN; }
   "{-#"              { return LDBRACKET; }
   "#-}"              { return RDBRACKET; }
+  "@"                { return AT_SYMBOL; }
   "true"             { return TRUE; }
   "false"            { return FALSE; }
   "if"               { return IF; }
   "else"             { return ELSE; }
+  "unit"             { return UNIT; }
+  "_"                { return UNDERSCORE; }
+  "["                { return LBRACKET; }
+  "]"                { return RBRACKET; }
   "{"                { return LBRACE; }
   "}"                { return RBRACE; }
-  "["                { return LBRACK; }
-  "]"                { return RBRACK; }
   "("                { return LPAREN; }
   ")"                { return RPAREN; }
   ":"                { return COLON; }
   ","                { return COMMA; }
   "=="               { return EQ; }
-  "="                { return ASSIGN; }
   "!="               { return NOT_EQ; }
   "!"                { return BANG; }
   "+"                { return PLUS; }
@@ -69,30 +72,35 @@ COMMENT=#.*
   "|"                { return BIT_OR; }
   "<"                { return LESS; }
   "*"                { return MUL; }
-  "/"                { return QUOTIENT; }
+  "/"                { return SLASH; }
+  "%"                { return PERCENT; }
   ">="               { return GREATER_OR_EQUAL; }
-  ">"                { return GREATER; }
+  ">"                { return GT; }
   "."                { return DOT; }
+  "++"               { return CONCAT; }
+  ":+"               { return APPEND; }
+  "::"               { return PREPEND; }
   "func"             { return FUNCTION; }
-  "let"              { return LET; }
+  "match"            { return MATCH; }
+  "case"             { return CASE; }
   "strict"           { return STRICT; }
-  "RETURN"           { return RETURN; }
+  "let"              { return LET; }
+  "then"             { return THEN; }
+  "FOLD"             { return FOLD_KW; }
+  "nil"              { return NIL; }
   "INT"              { return INT; }
   "ASTERISK"         { return ASTERISK; }
-  "SLASH"            { return SLASH; }
-  "LT"               { return LT; }
-  "GT"               { return GT; }
-  "LBRACKET"         { return LBRACKET; }
-  "RBRACKET"         { return RBRACKET; }
-  "IDENT"            { return IDENT; }
+  "base16"           { return BASE16; }
+  "base58"           { return BASE58; }
+  "base64"           { return BASE64; }
 
-  {IDENTIFIER}       { return IDENTIFIER; }
-  {NUMBER}           { return NUMBER; }
-  {INTEGER}          { return INTEGER; }
   {BOOL}             { return BOOL; }
-  {STRING}           { return STRING; }
-  {WHITE_SPACE}      { return WHITE_SPACE; }
   {COMMENT}          { return COMMENT; }
+  {INTEGER}          { return INTEGER; }
+  {WHITE_SPACE}      { return WHITE_SPACE; }
+  {STRING}           { return STRING; }
+  {SQSTRING}         { return SQSTRING; }
+  {IDENT}            { return IDENT; }
 
 }
 

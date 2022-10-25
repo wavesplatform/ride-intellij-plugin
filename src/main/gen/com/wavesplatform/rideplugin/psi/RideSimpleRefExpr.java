@@ -7,4 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface RideSimpleRefExpr extends RideExpr {
 
+  @NotNull
+  PsiElement getIdent();
+
 }

@@ -23,7 +23,7 @@ class RideParserDefinition : ParserDefinition {
     }
 
     override fun getCommentTokens(): TokenSet {
-        return TokenSet.EMPTY
+        return COMMENT
     }
 
     override fun getStringLiteralElements(): TokenSet {
@@ -59,6 +59,9 @@ class RideParserDefinition : ParserDefinition {
         val COLON = TokenSet.create(RideTypes.COLON)
 
         @JvmStatic
+        val COMMENT = TokenSet.create(RideTypes.COMMENT)
+
+        @JvmStatic
         val BRACKETS = TokenSet.create(RideTypes.RBRACKET, RideTypes.LBRACKET)
 
         @JvmStatic
@@ -85,7 +88,7 @@ class RideParserDefinition : ParserDefinition {
             RideTypes.PLUS,
             RideTypes.SLASH,
             RideTypes.ASTERISK,
-            RideTypes.LT,
+            RideTypes.LESS,
             RideTypes.GT,
             RideTypes.EQ,
             RideTypes.NOT_EQ
@@ -99,7 +102,6 @@ class RideParserDefinition : ParserDefinition {
             TokenSet.create(
                 RideTypes.LET,
                 RideTypes.FUNCTION,
-                RideTypes.RETURN,
                 RideTypes.IF,
                 RideTypes.ELSE,
                 RideTypes.TRUE,

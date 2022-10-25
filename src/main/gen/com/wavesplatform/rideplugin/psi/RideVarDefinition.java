@@ -9,4 +9,7 @@ import com.wavesplatform.rideplugin.stubs.RideVarDefinitionStub;
 
 public interface RideVarDefinition extends RideNamedElement, StubBasedPsiElement<RideVarDefinitionStub> {
 
+  @NotNull
+  PsiElement getIdent();
+
 }

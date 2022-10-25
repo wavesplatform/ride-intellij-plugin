@@ -7,10 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface RideCallExpr extends RideExpr {
 
-  @NotNull
-  RideCallArguments getCallArguments();
+  @Nullable
+  RideFieldCall getFieldCall();
 
-  @NotNull
-  RideExpr getExpr();
+  @Nullable
+  RideFunctionCall getFunctionCall();
 
 }

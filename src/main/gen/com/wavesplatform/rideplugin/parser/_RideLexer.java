@@ -55,11 +55,12 @@ public class _RideLexer implements FlexLexer {
 
   /* The ZZ_CMAP_A table has 320 entries */
   static final char ZZ_CMAP_A[] = zzUnpackCMap(
-    "\11\0\1\17\4\2\22\0\1\17\1\34\1\16\1\20\2\0\1\37\1\0\1\27\1\30\1\42\1\35\1"+
-    "\32\1\22\1\45\1\43\1\4\11\5\1\31\1\0\1\41\1\33\1\44\2\0\1\56\1\64\1\65\1\3"+
-    "\1\51\1\3\1\63\1\62\1\55\1\3\1\60\1\61\1\3\1\54\3\3\1\50\1\57\1\52\1\53\5"+
-    "\3\1\25\1\0\1\26\1\40\1\3\1\0\1\13\1\3\1\47\1\3\1\11\1\12\2\3\1\24\2\3\1\14"+
-    "\1\3\1\46\3\3\1\7\1\15\1\6\1\10\5\3\1\21\1\36\1\23\7\0\1\1\242\0\2\1\26\0");
+    "\11\0\1\15\4\2\22\0\1\15\1\37\1\16\1\13\1\0\1\47\1\42\1\17\1\33\1\34\1\45"+
+    "\1\40\1\36\1\23\1\51\1\46\1\14\1\72\2\14\1\76\1\74\1\73\1\14\1\75\1\14\1\35"+
+    "\1\0\1\44\1\21\1\50\1\0\1\25\1\64\2\20\1\60\1\66\1\55\2\20\1\61\1\20\1\70"+
+    "\1\57\1\20\1\62\1\56\2\20\1\67\1\65\1\63\6\20\1\31\1\0\1\32\1\43\1\30\1\0"+
+    "\1\10\1\71\1\52\1\20\1\6\1\7\1\20\1\54\1\26\2\20\1\11\1\53\1\27\3\20\1\4\1"+
+    "\12\1\3\1\5\5\20\1\22\1\41\1\24\7\0\1\1\242\0\2\1\26\0");
 
   /** 
    * Translates DFA states to action switch labels.
@@ -67,18 +68,20 @@ public class _RideLexer implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\1\0\1\1\1\2\1\3\1\4\1\5\5\3\1\1"+
-    "\1\6\1\7\1\10\1\11\1\3\1\12\1\13\1\14"+
-    "\1\15\1\16\1\17\1\20\1\21\1\22\1\23\1\24"+
-    "\1\25\1\26\1\27\1\30\1\31\14\3\1\0\1\32"+
-    "\2\6\1\0\1\33\1\34\1\35\1\36\1\37\1\40"+
-    "\1\41\1\42\1\43\1\44\1\45\5\3\1\46\1\3"+
-    "\1\47\4\3\1\50\1\3\1\51\1\52\1\53\2\3"+
-    "\1\54\3\3\1\55\1\56\1\57\7\3\1\60\4\3"+
-    "\1\61\1\3\1\62\1\63\6\3\1\64\1\65\1\66";
+    "\1\0\1\1\1\2\7\3\1\4\1\5\2\1\1\6"+
+    "\1\7\1\10\1\11\1\12\2\3\1\13\1\14\1\15"+
+    "\1\16\1\17\1\20\1\21\1\22\1\23\1\24\1\25"+
+    "\1\26\1\27\1\30\1\31\1\32\1\33\16\3\2\4"+
+    "\1\0\1\34\1\0\1\35\1\36\1\0\1\37\1\40"+
+    "\1\41\1\3\1\42\1\43\1\44\1\45\1\46\1\47"+
+    "\1\50\1\51\1\52\1\53\14\3\1\54\1\3\1\55"+
+    "\1\56\1\57\1\60\3\3\1\61\2\3\1\62\1\63"+
+    "\1\64\1\65\1\66\2\3\1\67\1\3\1\70\2\3"+
+    "\1\71\1\3\1\72\4\3\1\73\1\3\1\74\1\75"+
+    "\1\76\1\3\1\77";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[112];
+    int [] result = new int[124];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -103,23 +106,25 @@ public class _RideLexer implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\66\0\154\0\242\0\330\0\u010e\0\u0144\0\u017a"+
-    "\0\u01b0\0\u01e6\0\u021c\0\u0252\0\u0288\0\u02be\0\u02f4\0\66"+
-    "\0\u032a\0\66\0\66\0\66\0\66\0\66\0\66\0\u0360"+
-    "\0\u0396\0\66\0\u03cc\0\u0402\0\66\0\66\0\66\0\u0438"+
-    "\0\66\0\u046e\0\u04a4\0\u04da\0\u0510\0\u0546\0\u057c\0\u05b2"+
-    "\0\u05e8\0\u061e\0\u0654\0\u068a\0\u06c0\0\u0252\0\66\0\u06f6"+
-    "\0\u072c\0\u0762\0\66\0\66\0\242\0\66\0\66\0\66"+
-    "\0\66\0\66\0\66\0\u0798\0\66\0\u07ce\0\u0804\0\u083a"+
-    "\0\u0870\0\u08a6\0\242\0\u08dc\0\242\0\u0912\0\u0948\0\u097e"+
-    "\0\u09b4\0\242\0\u09ea\0\u06f6\0\66\0\66\0\u0a20\0\u0a56"+
-    "\0\242\0\u0a8c\0\u0ac2\0\u0af8\0\242\0\242\0\242\0\u0b2e"+
-    "\0\u0b64\0\u0b9a\0\u0bd0\0\u0c06\0\u0c3c\0\u0c72\0\242\0\u0ca8"+
-    "\0\u0cde\0\u0d14\0\u0d4a\0\242\0\u0d80\0\242\0\242\0\u0db6"+
-    "\0\u0dec\0\u0e22\0\u0e58\0\u0e8e\0\u0ec4\0\242\0\242\0\242";
+    "\0\0\0\77\0\176\0\275\0\374\0\u013b\0\u017a\0\u01b9"+
+    "\0\u01f8\0\u0237\0\u0276\0\u02b5\0\u02f4\0\u0333\0\u0372\0\u03b1"+
+    "\0\u03f0\0\77\0\77\0\u042f\0\u046e\0\374\0\77\0\77"+
+    "\0\77\0\77\0\u04ad\0\77\0\u04ec\0\u052b\0\u056a\0\u05a9"+
+    "\0\77\0\77\0\77\0\77\0\u05e8\0\77\0\u0627\0\u0666"+
+    "\0\u06a5\0\u06e4\0\u0723\0\u0762\0\u07a1\0\u07e0\0\u081f\0\u085e"+
+    "\0\u089d\0\u08dc\0\u091b\0\u095a\0\u0999\0\u09d8\0\u02f4\0\77"+
+    "\0\u0333\0\77\0\77\0\u0a17\0\77\0\77\0\374\0\u0a56"+
+    "\0\77\0\77\0\77\0\77\0\77\0\77\0\77\0\77"+
+    "\0\u0a95\0\77\0\u0ad4\0\u0b13\0\u0b52\0\u0b91\0\u0bd0\0\u0c0f"+
+    "\0\u0c4e\0\u0c8d\0\u0ccc\0\u0d0b\0\u0d4a\0\u0d89\0\374\0\u0dc8"+
+    "\0\u0999\0\77\0\374\0\77\0\u0e07\0\u0e46\0\u0e85\0\374"+
+    "\0\u0ec4\0\u0f03\0\374\0\374\0\374\0\374\0\374\0\u0f42"+
+    "\0\u0f81\0\374\0\u0fc0\0\374\0\u0fff\0\u103e\0\374\0\u107d"+
+    "\0\374\0\u10bc\0\u10fb\0\u113a\0\u1179\0\374\0\u11b8\0\374"+
+    "\0\374\0\374\0\u11f7\0\374";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[112];
+    int [] result = new int[124];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -142,74 +147,103 @@ public class _RideLexer implements FlexLexer {
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\2\2\1\3\1\4\1\5\1\6\1\7\2\4\1\10"+
-    "\1\11\1\4\1\12\1\13\1\14\1\3\1\15\1\16"+
+    "\2\2\1\3\1\4\1\5\1\6\1\7\1\10\1\5"+
+    "\1\11\1\12\1\13\1\14\1\3\1\15\1\16\1\5"+
     "\1\17\1\20\1\21\1\22\1\23\1\24\1\25\1\26"+
-    "\1\27\1\30\1\31\1\32\1\33\1\34\1\2\1\35"+
-    "\1\36\1\37\1\40\1\41\2\4\1\42\4\4\1\43"+
-    "\1\44\1\45\1\4\1\46\1\4\1\47\2\4\70\0"+
-    "\1\3\14\0\1\3\51\0\13\4\6\0\1\4\21\0"+
-    "\20\4\4\0\2\5\64\0\2\6\63\0\4\4\1\50"+
-    "\6\4\6\0\1\4\21\0\20\4\3\0\11\4\1\51"+
-    "\1\4\6\0\1\4\21\0\20\4\3\0\5\4\1\52"+
-    "\2\4\1\53\2\4\6\0\1\4\21\0\20\4\3\0"+
-    "\6\4\1\54\4\4\6\0\1\4\21\0\20\4\3\0"+
-    "\3\4\1\55\7\4\6\0\1\4\21\0\20\4\16\56"+
-    "\1\57\47\56\1\60\2\0\17\60\1\61\43\60\22\0"+
-    "\1\62\65\0\1\63\10\0\1\64\35\0\7\4\1\65"+
-    "\3\4\6\0\1\4\21\0\20\4\33\0\1\66\65\0"+
-    "\1\67\65\0\1\70\2\0\1\71\62\0\1\72\3\0"+
-    "\1\73\1\74\60\0\1\75\35\0\13\4\6\0\1\4"+
-    "\21\0\3\4\1\76\12\4\1\77\1\4\3\0\13\4"+
-    "\6\0\1\4\21\0\6\4\1\100\11\4\3\0\13\4"+
-    "\6\0\1\4\21\0\11\4\1\101\6\4\3\0\13\4"+
-    "\6\0\1\4\21\0\13\4\1\102\4\4\3\0\13\4"+
-    "\6\0\1\4\21\0\4\4\1\103\11\4\1\104\1\4"+
-    "\3\0\13\4\6\0\1\4\21\0\4\4\1\105\13\4"+
-    "\3\0\5\4\1\106\5\4\6\0\1\4\21\0\20\4"+
-    "\3\0\12\4\1\107\6\0\1\4\21\0\20\4\3\0"+
-    "\13\4\6\0\1\4\21\0\1\110\17\4\3\0\11\4"+
-    "\1\111\1\4\6\0\1\4\21\0\20\4\3\0\3\4"+
-    "\1\112\7\4\6\0\1\4\21\0\20\4\3\0\4\4"+
-    "\1\113\6\4\6\0\1\4\21\0\20\4\1\60\2\0"+
-    "\64\60\2\0\20\60\1\114\42\60\20\0\1\115\100\0"+
-    "\1\116\35\0\13\4\6\0\1\4\21\0\4\4\1\117"+
-    "\13\4\3\0\13\4\6\0\1\4\21\0\2\4\1\120"+
-    "\15\4\3\0\13\4\6\0\1\4\21\0\4\4\1\121"+
-    "\13\4\3\0\13\4\6\0\1\4\21\0\4\4\1\122"+
-    "\13\4\3\0\13\4\6\0\1\4\21\0\10\4\1\123"+
-    "\7\4\3\0\13\4\6\0\1\4\21\0\2\4\1\124"+
-    "\15\4\3\0\6\4\1\125\4\4\6\0\1\4\21\0"+
-    "\20\4\3\0\6\4\1\126\4\4\6\0\1\4\21\0"+
-    "\20\4\3\0\13\4\6\0\1\4\21\0\1\4\1\127"+
-    "\16\4\3\0\12\4\1\130\6\0\1\4\21\0\20\4"+
-    "\3\0\13\4\6\0\1\131\21\0\20\4\3\0\13\4"+
-    "\6\0\1\4\21\0\5\4\1\132\12\4\3\0\13\4"+
-    "\6\0\1\4\21\0\10\4\1\133\7\4\3\0\13\4"+
-    "\6\0\1\4\21\0\3\4\1\134\14\4\3\0\13\4"+
-    "\6\0\1\4\21\0\11\4\1\135\6\4\3\0\13\4"+
-    "\6\0\1\4\21\0\10\4\1\136\7\4\3\0\6\4"+
-    "\1\137\4\4\6\0\1\4\21\0\20\4\3\0\13\4"+
-    "\6\0\1\4\21\0\1\4\1\140\16\4\3\0\13\4"+
-    "\6\0\1\4\21\0\2\4\1\141\15\4\3\0\13\4"+
-    "\6\0\1\4\21\0\17\4\1\142\3\0\13\4\6\0"+
-    "\1\4\21\0\2\4\1\143\15\4\3\0\13\4\6\0"+
-    "\1\4\21\0\14\4\1\144\3\4\3\0\13\4\6\0"+
-    "\1\4\21\0\17\4\1\145\3\0\3\4\1\146\7\4"+
-    "\6\0\1\4\21\0\20\4\3\0\13\4\6\0\1\4"+
-    "\21\0\6\4\1\147\11\4\3\0\13\4\6\0\1\4"+
-    "\21\0\12\4\1\150\5\4\3\0\13\4\6\0\1\4"+
-    "\21\0\7\4\1\151\10\4\3\0\13\4\6\0\1\4"+
-    "\21\0\12\4\1\152\5\4\3\0\13\4\6\0\1\4"+
-    "\21\0\3\4\1\153\14\4\3\0\13\4\6\0\1\4"+
-    "\21\0\11\4\1\154\6\4\3\0\13\4\6\0\1\4"+
-    "\21\0\3\4\1\155\14\4\3\0\13\4\6\0\1\4"+
-    "\21\0\4\4\1\156\13\4\3\0\13\4\6\0\1\4"+
-    "\21\0\12\4\1\157\5\4\3\0\13\4\6\0\1\4"+
-    "\21\0\4\4\1\160\13\4";
+    "\1\27\1\30\1\31\1\32\1\33\1\34\1\35\1\36"+
+    "\1\37\1\40\1\2\1\41\1\42\1\43\1\44\1\45"+
+    "\1\46\1\47\1\50\1\5\1\51\3\5\1\52\2\5"+
+    "\1\53\4\5\1\54\5\14\101\0\1\3\12\0\1\3"+
+    "\64\0\1\5\1\55\6\5\1\0\1\5\3\0\1\5"+
+    "\5\0\3\5\21\0\2\5\1\56\22\5\3\0\10\5"+
+    "\1\0\1\5\3\0\1\5\5\0\3\5\21\0\25\5"+
+    "\3\0\10\5\1\0\1\5\3\0\1\5\5\0\1\5"+
+    "\1\57\1\5\21\0\25\5\3\0\6\5\1\60\1\5"+
+    "\1\0\1\5\3\0\1\5\5\0\3\5\21\0\25\5"+
+    "\3\0\2\5\1\61\2\5\1\62\2\5\1\0\1\5"+
+    "\3\0\1\5\5\0\3\5\21\0\25\5\3\0\3\5"+
+    "\1\63\4\5\1\0\1\5\3\0\1\5\5\0\3\5"+
+    "\21\0\25\5\3\0\1\64\7\5\1\0\1\5\3\0"+
+    "\1\5\5\0\3\5\21\0\25\5\1\65\2\0\20\65"+
+    "\1\66\53\65\14\0\1\14\55\0\5\14\16\67\1\70"+
+    "\60\67\17\71\1\72\57\71\21\0\1\73\100\0\1\74"+
+    "\74\0\1\75\1\0\1\76\56\0\4\5\1\77\3\5"+
+    "\1\0\1\5\3\0\1\5\5\0\3\5\21\0\25\5"+
+    "\3\0\10\5\1\0\1\5\3\0\1\5\5\0\1\100"+
+    "\2\5\21\0\25\5\35\0\1\101\2\0\1\102\57\0"+
+    "\1\103\115\0\1\104\57\0\1\105\17\0\1\106\56\0"+
+    "\1\107\20\0\1\110\1\111\54\0\1\112\60\0\5\5"+
+    "\1\113\2\5\1\0\1\5\3\0\1\5\5\0\3\5"+
+    "\21\0\25\5\3\0\5\5\1\114\2\5\1\0\1\5"+
+    "\3\0\1\5\5\0\3\5\21\0\25\5\3\0\10\5"+
+    "\1\0\1\5\3\0\1\5\5\0\3\5\21\0\4\5"+
+    "\1\115\20\5\3\0\10\5\1\0\1\5\3\0\1\5"+
+    "\5\0\3\5\21\0\10\5\1\116\14\5\3\0\10\5"+
+    "\1\0\1\5\3\0\1\5\5\0\3\5\21\0\13\5"+
+    "\1\117\11\5\3\0\5\5\1\120\2\5\1\0\1\5"+
+    "\3\0\1\5\5\0\3\5\21\0\25\5\3\0\2\5"+
+    "\1\121\5\5\1\0\1\5\3\0\1\5\5\0\3\5"+
+    "\21\0\25\5\3\0\3\5\1\122\4\5\1\0\1\5"+
+    "\3\0\1\5\5\0\3\5\21\0\25\5\3\0\10\5"+
+    "\1\0\1\5\3\0\1\5\5\0\1\123\2\5\21\0"+
+    "\25\5\3\0\7\5\1\124\1\0\1\5\3\0\1\5"+
+    "\5\0\3\5\21\0\25\5\3\0\10\5\1\0\1\5"+
+    "\3\0\1\5\5\0\1\5\1\125\1\5\21\0\25\5"+
+    "\3\0\6\5\1\126\1\5\1\0\1\5\3\0\1\5"+
+    "\5\0\3\5\21\0\25\5\3\0\1\127\7\5\1\0"+
+    "\1\5\3\0\1\5\5\0\3\5\21\0\25\5\3\0"+
+    "\1\5\1\130\6\5\1\0\1\5\3\0\1\5\5\0"+
+    "\3\5\21\0\25\5\1\65\2\0\75\65\2\0\21\65"+
+    "\1\131\52\65\13\0\1\132\66\0\6\5\1\133\1\5"+
+    "\1\0\1\5\3\0\1\5\5\0\3\5\21\0\25\5"+
+    "\21\0\1\134\60\0\7\5\1\135\1\0\1\5\3\0"+
+    "\1\5\5\0\3\5\21\0\25\5\3\0\1\136\7\5"+
+    "\1\0\1\5\3\0\1\5\5\0\3\5\21\0\25\5"+
+    "\3\0\10\5\1\0\1\5\3\0\1\5\5\0\3\5"+
+    "\21\0\5\5\1\137\17\5\3\0\10\5\1\0\1\5"+
+    "\3\0\1\5\5\0\3\5\21\0\11\5\1\140\13\5"+
+    "\3\0\10\5\1\0\1\5\3\0\1\5\5\0\3\5"+
+    "\21\0\11\5\1\141\13\5\3\0\7\5\1\142\1\0"+
+    "\1\5\3\0\1\5\5\0\3\5\21\0\25\5\3\0"+
+    "\3\5\1\143\4\5\1\0\1\5\3\0\1\5\5\0"+
+    "\3\5\21\0\25\5\3\0\10\5\1\0\1\5\3\0"+
+    "\1\5\5\0\1\5\1\144\1\5\21\0\25\5\3\0"+
+    "\1\145\7\5\1\0\1\5\3\0\1\5\5\0\3\5"+
+    "\21\0\25\5\3\0\3\5\1\146\4\5\1\0\1\5"+
+    "\3\0\1\5\5\0\3\5\21\0\25\5\3\0\10\5"+
+    "\1\0\1\5\3\0\1\5\5\0\3\5\21\0\1\147"+
+    "\24\5\3\0\7\5\1\150\1\0\1\5\3\0\1\5"+
+    "\5\0\3\5\21\0\25\5\3\0\10\5\1\0\1\5"+
+    "\3\0\1\5\5\0\1\151\2\5\21\0\25\5\3\0"+
+    "\3\5\1\152\4\5\1\0\1\5\3\0\1\5\5\0"+
+    "\3\5\21\0\25\5\3\0\10\5\1\0\1\5\3\0"+
+    "\1\5\5\0\3\5\21\0\1\153\24\5\3\0\10\5"+
+    "\1\0\1\5\3\0\1\5\5\0\3\5\21\0\6\5"+
+    "\1\154\16\5\3\0\10\5\1\0\1\5\3\0\1\5"+
+    "\5\0\3\5\21\0\14\5\1\155\10\5\3\0\3\5"+
+    "\1\156\4\5\1\0\1\5\3\0\1\5\5\0\3\5"+
+    "\21\0\25\5\3\0\3\5\1\157\4\5\1\0\1\5"+
+    "\3\0\1\5\5\0\3\5\21\0\25\5\3\0\10\5"+
+    "\1\0\1\5\3\0\1\5\5\0\3\5\21\0\1\160"+
+    "\24\5\3\0\10\5\1\0\1\5\3\0\1\5\5\0"+
+    "\3\5\21\0\2\5\1\161\22\5\3\0\10\5\1\0"+
+    "\1\5\3\0\1\5\5\0\3\5\21\0\15\5\1\162"+
+    "\7\5\3\0\10\5\1\0\1\5\3\0\1\5\5\0"+
+    "\3\5\21\0\20\5\1\163\1\164\1\165\2\5\3\0"+
+    "\1\166\7\5\1\0\1\5\3\0\1\5\5\0\3\5"+
+    "\21\0\25\5\3\0\10\5\1\0\1\5\3\0\1\5"+
+    "\5\0\3\5\21\0\7\5\1\167\15\5\3\0\10\5"+
+    "\1\0\1\5\3\0\1\5\5\0\3\5\21\0\21\5"+
+    "\1\170\3\5\3\0\10\5\1\0\1\5\3\0\1\5"+
+    "\5\0\3\5\21\0\24\5\1\171\3\0\10\5\1\0"+
+    "\1\5\3\0\1\5\5\0\3\5\21\0\23\5\1\172"+
+    "\1\5\3\0\10\5\1\0\1\5\3\0\1\5\5\0"+
+    "\3\5\21\0\13\5\1\173\11\5\3\0\10\5\1\0"+
+    "\1\5\3\0\1\5\5\0\3\5\21\0\16\5\1\174"+
+    "\6\5";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[3834];
+    int [] result = new int[4662];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -247,13 +281,13 @@ public class _RideLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\1\11\15\1\1\11\1\1\6\11\2\1\1\11"+
-    "\2\1\3\11\1\1\1\11\14\1\1\0\1\11\2\1"+
-    "\1\0\2\11\1\1\6\11\1\1\1\11\17\1\2\11"+
-    "\42\1";
+    "\1\0\1\11\17\1\2\11\3\1\4\11\1\1\1\11"+
+    "\4\1\4\11\1\1\1\11\20\1\1\0\1\11\1\0"+
+    "\2\11\1\0\2\11\2\1\10\11\1\1\1\11\17\1"+
+    "\1\11\1\1\1\11\40\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[112];
+    int [] result = new int[124];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -562,272 +596,317 @@ public class _RideLexer implements FlexLexer {
             { return BAD_CHARACTER;
             } 
             // fall through
-          case 55: break;
+          case 64: break;
           case 2: 
             { return WHITE_SPACE;
             } 
             // fall through
-          case 56: break;
+          case 65: break;
           case 3: 
-            { return IDENTIFIER;
+            { return IDENT;
             } 
             // fall through
-          case 57: break;
+          case 66: break;
           case 4: 
-            { return INTEGER;
-            } 
-            // fall through
-          case 58: break;
-          case 5: 
-            { return NUMBER;
-            } 
-            // fall through
-          case 59: break;
-          case 6: 
             { return COMMENT;
             } 
             // fall through
-          case 60: break;
+          case 67: break;
+          case 5: 
+            { return INTEGER;
+            } 
+            // fall through
+          case 68: break;
+          case 6: 
+            { return ASSIGN;
+            } 
+            // fall through
+          case 69: break;
           case 7: 
             { return LBRACE;
             } 
             // fall through
-          case 61: break;
+          case 70: break;
           case 8: 
             { return MINUS;
             } 
             // fall through
-          case 62: break;
+          case 71: break;
           case 9: 
             { return RBRACE;
             } 
             // fall through
-          case 63: break;
-          case 10: 
-            { return LBRACK;
-            } 
-            // fall through
-          case 64: break;
-          case 11: 
-            { return RBRACK;
-            } 
-            // fall through
-          case 65: break;
-          case 12: 
-            { return LPAREN;
-            } 
-            // fall through
-          case 66: break;
-          case 13: 
-            { return RPAREN;
-            } 
-            // fall through
-          case 67: break;
-          case 14: 
-            { return COLON;
-            } 
-            // fall through
-          case 68: break;
-          case 15: 
-            { return COMMA;
-            } 
-            // fall through
-          case 69: break;
-          case 16: 
-            { return ASSIGN;
-            } 
-            // fall through
-          case 70: break;
-          case 17: 
-            { return BANG;
-            } 
-            // fall through
-          case 71: break;
-          case 18: 
-            { return PLUS;
-            } 
-            // fall through
           case 72: break;
-          case 19: 
-            { return BIT_OR;
+          case 10: 
+            { return AT_SYMBOL;
             } 
             // fall through
           case 73: break;
-          case 20: 
-            { return BIT_AND;
+          case 11: 
+            { return UNDERSCORE;
             } 
             // fall through
           case 74: break;
-          case 21: 
-            { return LESS;
+          case 12: 
+            { return LBRACKET;
             } 
             // fall through
           case 75: break;
-          case 22: 
-            { return MUL;
+          case 13: 
+            { return RBRACKET;
             } 
             // fall through
           case 76: break;
-          case 23: 
-            { return QUOTIENT;
+          case 14: 
+            { return LPAREN;
             } 
             // fall through
           case 77: break;
-          case 24: 
-            { return GREATER;
+          case 15: 
+            { return RPAREN;
             } 
             // fall through
           case 78: break;
-          case 25: 
-            { return DOT;
+          case 16: 
+            { return COLON;
             } 
             // fall through
           case 79: break;
-          case 26: 
-            { return STRING;
+          case 17: 
+            { return COMMA;
             } 
             // fall through
           case 80: break;
-          case 27: 
-            { return MINUS_MINUS;
+          case 18: 
+            { return BANG;
             } 
             // fall through
           case 81: break;
-          case 28: 
-            { return MINUS_ASSIGN;
+          case 19: 
+            { return PLUS;
             } 
             // fall through
           case 82: break;
-          case 29: 
-            { return IF;
+          case 20: 
+            { return BIT_OR;
             } 
             // fall through
           case 83: break;
+          case 21: 
+            { return BIT_AND;
+            } 
+            // fall through
+          case 84: break;
+          case 22: 
+            { return LESS;
+            } 
+            // fall through
+          case 85: break;
+          case 23: 
+            { return MUL;
+            } 
+            // fall through
+          case 86: break;
+          case 24: 
+            { return SLASH;
+            } 
+            // fall through
+          case 87: break;
+          case 25: 
+            { return PERCENT;
+            } 
+            // fall through
+          case 88: break;
+          case 26: 
+            { return GT;
+            } 
+            // fall through
+          case 89: break;
+          case 27: 
+            { return DOT;
+            } 
+            // fall through
+          case 90: break;
+          case 28: 
+            { return STRING;
+            } 
+            // fall through
+          case 91: break;
+          case 29: 
+            { return SQSTRING;
+            } 
+            // fall through
+          case 92: break;
           case 30: 
             { return EQ;
             } 
             // fall through
-          case 84: break;
-          case 31: 
-            { return NOT_EQ;
-            } 
-            // fall through
-          case 85: break;
-          case 32: 
-            { return BIT_OR_ASSIGN;
-            } 
-            // fall through
-          case 86: break;
-          case 33: 
-            { return COND_OR;
-            } 
-            // fall through
-          case 87: break;
-          case 34: 
-            { return BIT_AND_ASSIGN;
-            } 
-            // fall through
-          case 88: break;
-          case 35: 
-            { return COND_AND;
-            } 
-            // fall through
-          case 89: break;
-          case 36: 
-            { return BIT_CLEAR;
-            } 
-            // fall through
-          case 90: break;
-          case 37: 
-            { return GREATER_OR_EQUAL;
-            } 
-            // fall through
-          case 91: break;
-          case 38: 
-            { return LT;
-            } 
-            // fall through
-          case 92: break;
-          case 39: 
-            { return GT;
-            } 
-            // fall through
           case 93: break;
-          case 40: 
-            { return LET;
+          case 31: 
+            { return MINUS_ASSIGN;
             } 
             // fall through
           case 94: break;
-          case 41: 
-            { return RDBRACKET;
+          case 32: 
+            { return MINUS_MINUS;
             } 
             // fall through
           case 95: break;
-          case 42: 
-            { return LDBRACKET;
+          case 33: 
+            { return IF;
             } 
             // fall through
           case 96: break;
-          case 43: 
-            { return BIT_CLEAR_ASSIGN;
+          case 34: 
+            { return PREPEND;
             } 
             // fall through
           case 97: break;
-          case 44: 
-            { return INT;
+          case 35: 
+            { return APPEND;
             } 
             // fall through
           case 98: break;
-          case 45: 
-            { return TRUE;
+          case 36: 
+            { return NOT_EQ;
             } 
             // fall through
           case 99: break;
-          case 46: 
-            { return ELSE;
+          case 37: 
+            { return CONCAT;
             } 
             // fall through
           case 100: break;
-          case 47: 
-            { return FUNCTION;
+          case 38: 
+            { return BIT_OR_ASSIGN;
             } 
             // fall through
           case 101: break;
-          case 48: 
-            { return FALSE;
+          case 39: 
+            { return COND_OR;
             } 
             // fall through
           case 102: break;
-          case 49: 
-            { return SLASH;
+          case 40: 
+            { return BIT_AND_ASSIGN;
             } 
             // fall through
           case 103: break;
-          case 50: 
-            { return STRICT;
+          case 41: 
+            { return COND_AND;
             } 
             // fall through
           case 104: break;
-          case 51: 
-            { return RETURN;
+          case 42: 
+            { return BIT_CLEAR;
             } 
             // fall through
           case 105: break;
-          case 52: 
-            { return RBRACKET;
+          case 43: 
+            { return GREATER_OR_EQUAL;
             } 
             // fall through
           case 106: break;
-          case 53: 
-            { return ASTERISK;
+          case 44: 
+            { return LET;
             } 
             // fall through
           case 107: break;
-          case 54: 
-            { return LBRACKET;
+          case 45: 
+            { return RDBRACKET;
             } 
             // fall through
           case 108: break;
+          case 46: 
+            { return LDBRACKET;
+            } 
+            // fall through
+          case 109: break;
+          case 47: 
+            { return NIL;
+            } 
+            // fall through
+          case 110: break;
+          case 48: 
+            { return BIT_CLEAR_ASSIGN;
+            } 
+            // fall through
+          case 111: break;
+          case 49: 
+            { return INT;
+            } 
+            // fall through
+          case 112: break;
+          case 50: 
+            { return TRUE;
+            } 
+            // fall through
+          case 113: break;
+          case 51: 
+            { return THEN;
+            } 
+            // fall through
+          case 114: break;
+          case 52: 
+            { return UNIT;
+            } 
+            // fall through
+          case 115: break;
+          case 53: 
+            { return ELSE;
+            } 
+            // fall through
+          case 116: break;
+          case 54: 
+            { return FUNCTION;
+            } 
+            // fall through
+          case 117: break;
+          case 55: 
+            { return CASE;
+            } 
+            // fall through
+          case 118: break;
+          case 56: 
+            { return FOLD_KW;
+            } 
+            // fall through
+          case 119: break;
+          case 57: 
+            { return FALSE;
+            } 
+            // fall through
+          case 120: break;
+          case 58: 
+            { return MATCH;
+            } 
+            // fall through
+          case 121: break;
+          case 59: 
+            { return STRICT;
+            } 
+            // fall through
+          case 122: break;
+          case 60: 
+            { return BASE16;
+            } 
+            // fall through
+          case 123: break;
+          case 61: 
+            { return BASE64;
+            } 
+            // fall through
+          case 124: break;
+          case 62: 
+            { return BASE58;
+            } 
+            // fall through
+          case 125: break;
+          case 63: 
+            { return ASTERISK;
+            } 
+            // fall through
+          case 126: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }
