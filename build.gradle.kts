@@ -15,6 +15,8 @@ plugins {
     id("org.jetbrains.qodana") version "0.1.13"
 }
 
+sourceSets["main"].java.srcDirs("src/main/gen")
+
 group = properties("pluginGroup")
 version = properties("pluginVersion")
 

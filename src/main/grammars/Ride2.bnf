@@ -1,0 +1,223 @@
+{
+  parserClass="com.wavesplatform.rideplugin.parser.RideParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Ride"
+  psiImplClassSuffix="Impl"
+  psiPackage="com.wavesplatform.rideplugin.psi"
+  psiImplPackage="com.wavesplatform.rideplugin.psi.impl"
+
+  elementTypeHolderClass="com.wavesplatform.rideplugin.psi.RideTypes"
+  elementTypeClass="com.wavesplatform.rideplugin.psi.RideElementType"
+  tokenTypeClass="com.wavesplatform.rideplugin.psi.RideTokenType"
+
+  tokens=[
+    IDENTIFIER = 'regexp:\p{Alpha}\w*'
+    //IDENTIFIER = 'regexp:[a-zA-Z_][a-zA-Z0-9_]*'
+    NUMBER ='regexp:[1-9][0-9]*'
+    INTEGER = "regexp:[0-9]+"
+    BOOL="regexp:true|false"
+//    STRING = 'regexp:(\")[^\"]*\"'
+    //(?:'|").*(?:'|")
+    STRING="regexp:([\"'])((?:\\\1|(?:(?!\1)).)*)(\1)"
+    BASE='regexp:base16|base58|base64'
+    LBRACE               =  '{'
+    RBRACE               =  '}'
+    LBRACK               =  '['
+    RBRACK               =  ']'
+    LPAREN               =  '('
+    RPAREN               =  ')'
+    COLON                =  ':'
+    SEMICOLON            =  ';'
+    COMMA                =  ','
+    EQ                   =  '=='
+    ASSIGN               =  '='
+    NOT_EQ               =  '!='
+    NOT                  =  '!'
+    PLUS_PLUS            =  '++'
+    PLUS_ASSIGN          =  '+='
+    PLUS                 =  '+'
+    MINUS_MINUS          =  '--'
+    MINUS_ASSIGN         =  '-='
+    MINUS                =  '-'
+    COND_OR              =  '||'
+    BIT_OR_ASSIGN        =  '|='
+    BIT_CLEAR_ASSIGN     =  '&^='
+    BIT_CLEAR            =  '&^'
+    COND_AND             =  '&&'
+    BIT_AND_ASSIGN       =  '&='
+    BIT_AND              =  '&'
+    BIT_OR               =  '|'
+    SHIFT_LEFT_ASSIGN    =  '<<='
+    SHIFT_LEFT           =  '<<'
+    SEND_CHANNEL         =  '<-'
+    LESS_OR_EQUAL        =  '<='
+    LESS                 =  '<'
+    BIT_XOR_ASSIGN       =  '^='
+    BIT_XOR              =  '^'
+    MUL_ASSIGN           =  '*='
+    MUL                  =  '*'
+    QUOTIENT_ASSIGN      =  '/='
+    QUOTIENT             =  '/'
+    REMAINDER_ASSIGN     =  '%='
+    REMAINDER            =  '%'
+    SHIFT_RIGHT_ASSIGN   =  '>>='
+    SHIFT_RIGHT          =  '>>'
+    GREATER_OR_EQUAL     =  '>='
+    GREATER              =  '>'
+    VAR_ASSIGN           =  ':='
+    TRIPLE_DOT           =  '...'
+    DOT                  =  '.'
+    SEMICOLON_SYNTHETIC  = '<NL>'
+    TYPE_                = 'type'
+    raw_string           = 'raw_string'
+    WHITE_SPACE = 'regexp:\s+'
+    COMMENT = 'regexp:#.*'
+    NEW_LINE = "regexp:(\r|\n|\r\n)"
+    //FUNCTION = 'func'
+//    LET = 'let'
+  ]
+
+  extends(".*Expression")=Expression
+  //extends(".*Expression")=Expression
+}
+
+Program ::= All
+All ::= DirectiveDefinition* Element *
+//todo need rule
+private Element ::= !<<eof>> Statement {pin=1 recoverWhile=PropertyRecover}
+//private PropertyRecover ::= !( FUNCTION | LET | TRUE | FALSE |IF |ELSE
+//                            | INT | STRING |IDENT | ASSIGN| PLUS | MINUS| BANG | ASTERISK |SLASH | LT |GT|EQ
+//                            | NOT_EQ | COMMA | COLON | LPAREN |RPAREN |LBRACE |RBRACE | LBRACKET | RBRACKET | COMMENT)
+
+private PropertyRecover ::= !(func | LET | COMMENT | FOLD | STRING | LBRACE | RBRACE)
+//File ::= Definition*
+//Definition ::= DirectiveDefinition* (VarDefinition | FunctionDefinition | PatternMatchingDefinition | COMMENT)
+//Definition ::= COMMENT | (DirectiveDefinition* Expression*)
+
+DirectiveDefinition ::= '{-#' IDENTIFIER (IDENTIFIER|NUMBER) '#-}'
+
+Statement ::= Expression | VarDefinition
+
+VarDefinition ::= VarEvalDefinition (VarNameDefinition | TupleExtractionDefinition) ASSIGN (Expression | BodyBlock)
+VarEvalDefinition ::= strict | let
+TupleExtractionDefinition ::= LPAREN IDENTIFIER? (COMMA DataTypesDefinition)* RPAREN
+VarNameDefinition ::= IDENTIFIER
+
+private FieldDefinition ::= FunctionInvocation DOT IDENTIFIER
+
+StructCreation ::= IDENTIFIER Arguments
+
+Arguments ::= LPAREN Argument? (COMMA Argument)* RPAREN
+
+Expression ::=
+            PrimaryGroup
+         | EqualGroupDefinition
+         | ConditionalGroup
+         | SumGroup
+         | ProductGroup
+         | CalcPrefixGroup
+         | PrefixGroup
+         | CallGroup
+         | DefinitionGroup
+         | IndexGroup
+         | MacroGroup
+         | MatchGroup
+         | COMMENT
+         {extraRoot=true}
+
+private EqualGroupDefinition ::= EqualStatementDefinition | NotEqualStatementDefinition
+private ConditionalGroup ::= LessConditionalGroup | GreatConditionalGroup
+private SumGroup ::= PlusExpression | MinusExpression
+private ProductGroup ::= MulExpression | DivExpression
+private CalcPrefixGroup ::= UnaryMinExpression | UnaryNotExpression
+private PrefixGroup ::= IfStatementDefinition
+private CallGroup ::= ObjectFieldCall | FunctionInvocation
+private IndexGroup ::= IndexExpression
+private DefinitionGroup ::= FunctionDefinition | ArrayDefinition | FieldDefinition | MethodInvocation
+private MacroGroup ::= FoldMacroDefinition
+private MatchGroup ::= PatternMatchingDefinition
+private PrimaryGroup ::= AllTypesLiteral | ParenExpression | SimpleRefExpression
+
+
+ParenExpression ::= LPAREN Expression RPAREN
+SimpleRefExpression ::= IDENTIFIER
+
+BooleanStatementDefinition ::= EqualGroupDefinition | ConditionalGroup | NotStatementDefinition
+
+PlusExpression ::= Expression PLUS Expression
+MinusExpression ::= Expression MINUS Expression
+
+MulExpression ::= Expression MUL Expression
+DivExpression ::= Expression QUOTIENT Expression
+
+UnaryMinExpression ::= MINUS Expression
+UnaryNotExpression ::= NOT Expression
+
+
+IndexExpression ::= ArrayElementAtIndex
+
+LessConditionalGroup ::= LessStatementDefinition | LessOrEqualStatementDefinition
+GreatConditionalGroup ::= GreaterStatementDefinition | GreaterOrEqualStatementDefinition
+NotEqualStatementDefinition ::= Expression NOT_EQ Expression
+EqualStatementDefinition ::= Expression EQ Expression
+LessOrEqualStatementDefinition ::= Expression LESS_OR_EQUAL Expression
+LessStatementDefinition ::= Expression LESS Expression
+NotStatementDefinition ::= NOT Expression
+GreaterOrEqualStatementDefinition ::= Expression GREATER_OR_EQUAL Expression
+GreaterStatementDefinition ::= Expression GREATER Expression
+
+// IF
+IfStatementDefinition ::= if LPAREN? BooleanStatementDefinition RPAREN? (ThenDefinition | BodyBlock) ElseBlock?
+ElseBlock ::= else BodyBlock
+ThenDefinition ::= then (FunctionInvocation | Argument)
+
+// FUNCTION
+FunctionDefinition ::= func FunctionSignature ASSIGN (FunctionInvocation | BodyBlock) {pin=1}
+FunctionSignature ::= IDENTIFIER FunctionArgumentsDefinition
+FunctionArgumentsDefinition ::= LPAREN FunctionArgumentDefinition? (COMMA FunctionArgumentDefinition)* RPAREN
+FunctionArgumentDefinition ::= IDENTIFIER COLON DataTypesDefinition
+BodyBlock ::= LBRACE? Statement* RBRACE?
+DataTypesDefinition ::= 'Any' | 'BigInt' | 'Boolean' | ('ByteVector' ('|' DataTypesDefinition)*) | 'Int' | 'String'
+| 'Unit' | ('List' LBRACK DataTypesDefinition RBRACK) | 'Tuple' | TupleDataTypeDefinition | IDENTIFIER
+TupleDataTypeDefinition ::= LPAREN DataTypesDefinition? (COMMA DataTypesDefinition)* RPAREN
+
+Argument ::= Expression | BooleanLiteral | StringLiteral | NumberLiteral | IntLiteral |
+UnitLiteral | BaseLiteral | ArrayElementAtIndex | ObjectFieldCall | StructCreation
+| ArrayDefinition | TupleDefinition | IDENTIFIER
+
+TupleDefinition ::= LPAREN AllTypesLiteral? (COMMA AllTypesLiteral)*  RPAREN
+
+private FunctionInvocation ::= IDENTIFIER Arguments (DOT FunctionInvocation)*
+
+private MethodInvocation ::= IDENTIFIER DOT FunctionInvocation
+
+private ObjectFieldCall ::= DOT (('_' NumberLiteral) | IDENTIFIER) (DOT ObjectFieldCall)*
+
+ArrayElementAtIndex ::= Expression LBRACK Expression RBRACK
+
+
+// TYPES
+AllTypesLiteral ::= BooleanLiteral | UnitLiteral | StringLiteral | IntLiteral | NumberLiteral | BaseLiteral | ArrayDefinition
+
+BooleanLiteral ::= true | false
+UnitLiteral ::= unit
+StringLiteral ::= STRING
+IntLiteral ::= INTEGER
+NumberLiteral ::= NUMBER
+BaseLiteral ::= (base16|base58|base64) StringLiteral
+ArrayDefinition ::= LBRACK Argument? (COMMA Argument)* RBRACK
+
+PatternMatchingDefinition ::= match LPAREN? IDENTIFIER RPAREN? LBRACE CaseDefinition*  RBRACE
+CaseDefinition ::= DefaultCaseDefinition | CertainTypeCaseDefinition
+CertainTypeCaseDefinition ::= case (IDENTIFIER | '_') COLON (IDENTIFIER ('|' IDENTIFIER)*) '=>' Expression*
+DefaultCaseDefinition ::= case UnderScore '=>' Expression*
+UnderScore ::= "_"
+
+FoldMacroDefinition ::= FOLD LESS AllTypesLiteral GREATER Arguments
+
+//noinspection BnfUnusedRule
+unusedInBnf ::=
+        BAD_CHARACTER
+        | NEW_LINE

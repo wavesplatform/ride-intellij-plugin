@@ -1,0 +1,231 @@
+{
+  parserClass="com.wavesplatform.rideplugin.parser.RideParser"
+  parserUtilClass="com.wavesplatform.rideplugin.parser.RideParserUtil"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Ride"
+  psiImplClassSuffix="Impl"
+  psiPackage="com.wavesplatform.rideplugin.psi"
+  psiImplPackage="com.wavesplatform.rideplugin.psi.impl"
+
+  psiImplUtilClass="com.wavesplatform.rideplugin.psi.impl.RidePsiImplUtil"
+
+  implements="com.wavesplatform.rideplugin.psi.RideCompositeElement"
+  extends="com.wavesplatform.rideplugin.psi.impl.RideCompositeElementImpl"
+
+  elementTypeHolderClass="com.wavesplatform.rideplugin.psi.RideTypes"
+  elementTypeClass="com.wavesplatform.rideplugin.psi.RideElementType"
+  tokenTypeClass="com.wavesplatform.rideplugin.psi.RideTokenType"
+
+  elementTypeFactory("var_definition")="com.wavesplatform.rideplugin.psi.impl.RideElementTypeFactory.factory"
+
+
+  tokens=[
+    ASSIGN = "="
+    LDBRACKET = "{-#"
+    RDBRACKET = "#-}"
+    //IDENTIFIER = 'regexp:[a-zA-Z_][a-zA-Z0-9_]*'
+
+    AT_SYMBOL = "@"
+    TRUE = "true"
+    FALSE = "false"
+    IF = "if"
+    ELSE = "else"
+    UNIT = "unit"
+    //(?:'|").*(?:'|")
+    //STRING="regexp:([\"'])((?:\\\1|(?:(?!\1)).)*)(\1)"
+    //BASE='regexp:base16|base58|base64'
+    PERCENT = '%'
+    UNDERSCORE = "_"
+    LBRACKET = '['
+    RBRACKET = ']'
+    LBRACE               =  '{'
+    RBRACE               =  '}'
+    LPAREN               =  '('
+    RPAREN               =  ')'
+    COLON                =  ':'
+    COMMA                =  ','
+    EQ                   =  '=='
+    NOT_EQ               =  '!='
+    BANG                  =  '!'
+    PLUS                 =  '+'
+    MINUS_MINUS          =  '--'
+    MINUS_ASSIGN         =  '-='
+    MINUS                =  '-'
+    COND_OR              =  '||'
+    BIT_OR_ASSIGN        =  '|='
+    BIT_CLEAR_ASSIGN     =  '&^='
+    BIT_CLEAR            =  '&^'
+    COND_AND             =  '&&'
+    BIT_AND_ASSIGN       =  '&='
+    BIT_AND              =  '&'
+    BIT_OR               =  '|'
+    MUL                  =  '*'
+    SLASH             =  '/'
+    GREATER_OR_EQUAL     =  '>='
+    LESS_OR_EQUAL     =  '<='
+    GT              =  '>'
+    LESS                 =  '<'
+    DOT                  =  '.'
+    CONCAT = '++'
+    APPEND = ':+'
+    PREPEND = '::'
+    FUNCTION = 'func'
+    MATCH = 'match'
+    CASE = 'case'
+    STRICT = 'strict'
+    LET = 'let'
+    IF = 'if'
+    THEN = 'then'
+    FOLD_KW = "FOLD"
+    NIL = 'nil'
+    BOOL="regexp:true|false"
+    COMMENT = 'regexp:#.*'
+    INTEGER ="regexp:[0-9]+"
+    WHITE_SPACE = 'regexp:\s+'
+    STRING = 'regexp:(\")[^\"]*\"'
+    SQSTRING = "regexp:(')[^']*'"
+    IDENT = 'regexp:[a-zA-Z_][a-zA-Z0-9_]*'
+    //INT = "regexp:[0-9]+"
+  ]
+  extends(".*expr") = expr
+}
+
+program ::= all
+all ::= directive* element*
+private element ::= !<<eof>> statement {pin=2 recoverWhile=property_recover}
+private property_recover ::= !(UNIT | NIL | AT_SYMBOL | FUNCTION | LET | STRICT | TRUE | FALSE |IF |ELSE | LDBRACKET
+| RDBRACKET | PERCENT | LESS_OR_EQUAL | GREATER_OR_EQUAL
+| INT | STRING | IDENT | PLUS | MINUS| BANG | ASTERISK |SLASH | LESS |GT|EQ | LBRACKET | RBRACKET
+| NOT_EQ | COMMA | ASSIGN |  COLON | LPAREN |RPAREN |LBRACE |RBRACE | MATCH | CASE | FOLD_KW)
+
+directive ::= LDBRACKET IDENT (IDENT|INTEGER) RDBRACKET
+
+statement ::= var_declaration_statement | expr
+
+var_declaration_statement ::= (LET|STRICT) (tuple_definition | var_definition) ASSIGN (expr | closure) {pin=1}
+closure ::= LBRACE element* RBRACE
+
+tuple_definition ::= LPAREN var_definition (COMMA var_definition)* RPAREN {pin(".*")=1}
+
+var_definition ::= IDENT {
+    implements="com.wavesplatform.rideplugin.psi.RideNamedElement"
+    extends="com.wavesplatform.rideplugin.psi.impl.RideVarDefinitionBaseImpl"
+    stubClass="com.wavesplatform.rideplugin.stubs.RideVarDefinitionStub"
+}
+
+expr ::= equal_group
+        | index_group
+        | conditional_group
+        | list_op_group
+        | calc_prefix_group
+        | definition_group
+        | sum_group
+        | product_group
+        | call_group
+        | primary_group
+        | prefix_group
+        {
+        extraRoot=true
+        //todo methods=[resolveType]
+        }
+
+private equal_group ::= equal_expr | not_equal_expr
+equal_expr ::= expr EQ expr
+not_equal_expr ::= expr NOT_EQ expr
+
+private conditional_group ::= less_or_eq_expr | more_or_eq_expr | less_expr | more_expr | and_expr | or_expr
+less_expr ::= expr LESS expr
+more_expr ::= expr GT expr
+less_or_eq_expr ::= expr LESS_OR_EQUAL expr
+more_or_eq_expr ::= expr GREATER_OR_EQUAL expr
+and_expr ::= expr COND_AND expr
+or_expr ::= expr COND_OR expr
+
+private list_op_group ::= concat_expr | append_expr | prepend_expr
+concat_expr ::= expr CONCAT expr
+append_expr ::= expr APPEND expr
+prepend_expr ::= expr PREPEND expr
+
+private sum_group ::= plus_expr | minus_expr
+plus_expr ::= expr PLUS expr
+minus_expr ::= expr MINUS expr
+
+private product_group ::= mul_expr | div_expr | mod_expr
+mul_expr ::= expr MUL expr
+div_expr ::= expr SLASH expr
+mod_expr ::= expr PERCENT expr
+
+private calc_prefix_group ::= unary_min_expr | unary_not_expr
+unary_min_expr ::= MINUS expr  {pin = 1}
+unary_not_expr ::= BANG expr  {pin = 1}
+
+private call_group ::= call_expr
+call_expr ::= field_call | function_call
+function_call ::= function_name LPAREN arguments? RPAREN (DOT function_name call_arguments)* {pin=2}
+field_call ::= (function_call | IDENT) (DOT IDENT)+
+call_arguments ::= LPAREN arguments? RPAREN  {pin = 1}
+arguments ::= argument (COMMA argument)*  {pin(".*")=1}
+argument ::= expr
+
+private definition_group ::= func_expr | array_expr | pattern_matching_expr | fold_expr | tuple_expr
+
+//todo doesnt work
+private index_group ::= index_expr
+index_expr ::= expr LBRACKET expr RBRACKET (DOT expr)?
+
+private prefix_group ::= if_expr
+if_expr ::= IF LPAREN? if_cond RPAREN? (THEN? (LBRACE|LPAREN)? block_state (RBRACE|RPAREN)?) else_block? {pin=1}
+if_cond ::= expr {pin=1}
+else_block ::= ELSE LBRACE? block_state RBRACE? {pin = 1}
+
+private primary_group ::=  simple_ref_expr | paren_expr | literal_expr
+paren_expr ::= LPAREN expr RPAREN {pin=1}
+
+simple_ref_expr ::= IDENT
+//todo {methods=[getReference resolve setName] }
+
+func_expr ::= annotation? FUNCTION IDENT LPAREN param_group? RPAREN ASSIGN LBRACE? block_state RBRACE?  {pin=2}
+function_name ::= IDENT
+block_state ::= element*
+param_group ::= param_definition (COMMA param_definition)*  {pin(".*")=1}
+param_definition ::= var_definition COLON type {pin(".*")=1}
+
+annotation ::= AT_SYMBOL IDENT LPAREN IDENT RPAREN {pin=1}
+
+private type ::=  tuple_type | array_type | union_type | simple_type
+tuple_type ::= LPAREN type (COMMA type)* RPAREN {pin(".*")=1}
+array_type ::= IDENT LBRACKET (type | IDENT) RBRACKET {pin=2}
+union_type ::= IDENT BIT_OR IDENT (BIT_OR IDENT)* {pin=2}
+simple_type ::= IDENT
+
+array_expr ::= LBRACKET arguments? RBRACKET {pin = 1}
+
+pattern_matching_expr ::= MATCH expr LBRACE case_expr*  RBRACE {pin=1}
+case_expr ::= CASE (UNDERSCORE | IDENT) COLON? type? '=>' (LBRACE|LPAREN)? statement* (RBRACE|RPAREN)? {pin=1}
+//case ::= default_case | certain_type_case_definition
+//certain_type_case_definition ::= CASE param_definition '=>' statement* {pin=2}
+//default_case ::= CASE UNDERSCORE param_definition? '=>' expr* {pin=2}
+
+fold_expr ::= FOLD_KW LESS INTEGER GT call_arguments {pin=1}
+
+tuple_expr ::= call_arguments
+
+literal_expr ::= boolLiteral
+          | numericLiteral
+          | stringLiteral
+          | byteVectorLiteral
+          | nilLiteral
+          | unitLiteral
+stringLiteral ::= STRING
+numericLiteral ::= integerLiteral
+boolLiteral ::= TRUE | FALSE
+integerLiteral ::= INTEGER
+byteVectorLiteral ::= (base16|base58|base64) SQSTRING
+nilLiteral ::= NIL
+unitLiteral ::= UNIT
+
+
+
+
