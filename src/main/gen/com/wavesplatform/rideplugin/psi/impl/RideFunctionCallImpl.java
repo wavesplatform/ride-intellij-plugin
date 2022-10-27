@@ -28,9 +28,21 @@ public class RideFunctionCallImpl extends ASTWrapperPsiElement implements RideFu
   }
 
   @Override
+  @Nullable
+  public RideArguments getArguments() {
+    return PsiTreeUtil.getChildOfType(this, RideArguments.class);
+  }
+
+  @Override
   @NotNull
   public List<RideCallArguments> getCallArgumentsList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, RideCallArguments.class);
+  }
+
+  @Override
+  @NotNull
+  public List<RideFunctionName> getFunctionNameList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, RideFunctionName.class);
   }
 
 }

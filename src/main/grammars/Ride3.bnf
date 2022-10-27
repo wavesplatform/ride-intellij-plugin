@@ -36,6 +36,7 @@
     //(?:'|").*(?:'|")
     //STRING="regexp:([\"'])((?:\\\1|(?:(?!\1)).)*)(\1)"
     //BASE='regexp:base16|base58|base64'
+    PERCENT = '%'
     UNDERSCORE = "_"
     LBRACKET = '['
     RBRACKET = ']'
@@ -62,7 +63,6 @@
     BIT_OR               =  '|'
     MUL                  =  '*'
     SLASH             =  '/'
-    PERCENT = '%'
     GREATER_OR_EQUAL     =  '>='
     LESS_OR_EQUAL     =  '<='
     GT              =  '>'
@@ -116,13 +116,13 @@ var_definition ::= IDENT {
 }
 
 expr ::= equal_group
+        | index_group
         | conditional_group
-        | sum_group
-        | product_group
         | list_op_group
         | calc_prefix_group
         | definition_group
-        | index_group
+        | sum_group
+        | product_group
         | call_group
         | primary_group
         | prefix_group
@@ -163,7 +163,7 @@ unary_not_expr ::= BANG expr  {pin = 1}
 
 private call_group ::= call_expr
 call_expr ::= field_call | function_call
-function_call ::= function_name call_arguments? (DOT function_name call_arguments)*
+function_call ::= function_name LPAREN arguments? RPAREN (DOT function_name call_arguments)* {pin=2}
 field_call ::= (function_call | IDENT) (DOT IDENT)+
 call_arguments ::= LPAREN arguments? RPAREN  {pin = 1}
 arguments ::= argument (COMMA argument)*  {pin(".*")=1}
@@ -173,7 +173,7 @@ private definition_group ::= func_expr | array_expr | pattern_matching_expr | fo
 
 //todo doesnt work
 private index_group ::= index_expr
-index_expr ::= expr LBRACKET expr RBRACKET (DOT expr)? {pin=2}
+index_expr ::= expr LBRACKET expr RBRACKET (DOT expr)?
 
 private prefix_group ::= if_expr
 if_expr ::= IF LPAREN? if_cond RPAREN? (THEN? (LBRACE|LPAREN)? block_state (RBRACE|RPAREN)?) else_block? {pin=1}

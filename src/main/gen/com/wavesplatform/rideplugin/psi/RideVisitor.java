@@ -130,6 +130,10 @@ public class RideVisitor extends PsiElementVisitor {
     visitExpr(o);
   }
 
+  public void visitLessOrEqExpr(@NotNull RideLessOrEqExpr o) {
+    visitExpr(o);
+  }
+
   public void visitLiteralExpr(@NotNull RideLiteralExpr o) {
     visitExpr(o);
   }
@@ -143,6 +147,10 @@ public class RideVisitor extends PsiElementVisitor {
   }
 
   public void visitMoreExpr(@NotNull RideMoreExpr o) {
+    visitExpr(o);
+  }
+
+  public void visitMoreOrEqExpr(@NotNull RideMoreOrEqExpr o) {
     visitExpr(o);
   }
 

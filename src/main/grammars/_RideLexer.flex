@@ -70,12 +70,13 @@ IDENT=[a-zA-Z_][a-zA-Z0-9_]*
   "&="               { return BIT_AND_ASSIGN; }
   "&"                { return BIT_AND; }
   "|"                { return BIT_OR; }
-  "<"                { return LESS; }
   "*"                { return MUL; }
   "/"                { return SLASH; }
   "%"                { return PERCENT; }
   ">="               { return GREATER_OR_EQUAL; }
+  "<="               { return LESS_OR_EQUAL; }
   ">"                { return GT; }
+  "<"                { return LESS; }
   "."                { return DOT; }
   "++"               { return CONCAT; }
   ":+"               { return APPEND; }

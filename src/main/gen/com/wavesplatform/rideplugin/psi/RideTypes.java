@@ -40,10 +40,12 @@ public interface RideTypes {
   IElementType INDEX_EXPR = new RideElementType("INDEX_EXPR");
   IElementType INTEGER_LITERAL = new RideElementType("INTEGER_LITERAL");
   IElementType LESS_EXPR = new RideElementType("LESS_EXPR");
+  IElementType LESS_OR_EQ_EXPR = new RideElementType("LESS_OR_EQ_EXPR");
   IElementType LITERAL_EXPR = new RideElementType("LITERAL_EXPR");
   IElementType MINUS_EXPR = new RideElementType("MINUS_EXPR");
   IElementType MOD_EXPR = new RideElementType("MOD_EXPR");
   IElementType MORE_EXPR = new RideElementType("MORE_EXPR");
+  IElementType MORE_OR_EQ_EXPR = new RideElementType("MORE_OR_EQ_EXPR");
   IElementType MUL_EXPR = new RideElementType("MUL_EXPR");
   IElementType NIL_LITERAL = new RideElementType("NIL_LITERAL");
   IElementType NOT_EQUAL_EXPR = new RideElementType("NOT_EQUAL_EXPR");
@@ -107,6 +109,7 @@ public interface RideTypes {
   IElementType LBRACKET = new RideTokenType("[");
   IElementType LDBRACKET = new RideTokenType("{-#");
   IElementType LESS = new RideTokenType("<");
+  IElementType LESS_OR_EQUAL = new RideTokenType("<=");
   IElementType LET = new RideTokenType("let");
   IElementType LPAREN = new RideTokenType("(");
   IElementType MATCH = new RideTokenType("match");
@@ -225,6 +228,9 @@ public interface RideTypes {
       else if (type == LESS_EXPR) {
         return new RideLessExprImpl(node);
       }
+      else if (type == LESS_OR_EQ_EXPR) {
+        return new RideLessOrEqExprImpl(node);
+      }
       else if (type == LITERAL_EXPR) {
         return new RideLiteralExprImpl(node);
       }
@@ -236,6 +242,9 @@ public interface RideTypes {
       }
       else if (type == MORE_EXPR) {
         return new RideMoreExprImpl(node);
+      }
+      else if (type == MORE_OR_EQ_EXPR) {
+        return new RideMoreOrEqExprImpl(node);
       }
       else if (type == MUL_EXPR) {
         return new RideMulExprImpl(node);

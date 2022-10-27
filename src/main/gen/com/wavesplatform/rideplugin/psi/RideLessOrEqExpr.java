@@ -5,15 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface RideIfExpr extends RideExpr {
+public interface RideLessOrEqExpr extends RideExpr {
 
-  @Nullable
-  RideBlockState getBlockState();
-
-  @Nullable
-  RideElseBlock getElseBlock();
-
-  @Nullable
-  RideIfCond getIfCond();
+  @NotNull
+  List<RideExpr> getExprList();
 
 }

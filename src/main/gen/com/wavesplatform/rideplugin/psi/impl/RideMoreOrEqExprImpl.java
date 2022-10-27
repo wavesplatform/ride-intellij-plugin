@@ -10,15 +10,15 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.wavesplatform.rideplugin.psi.RideTypes.*;
 import com.wavesplatform.rideplugin.psi.*;
 
-public class RideIfExprImpl extends RideExprImpl implements RideIfExpr {
+public class RideMoreOrEqExprImpl extends RideExprImpl implements RideMoreOrEqExpr {
 
-  public RideIfExprImpl(@NotNull ASTNode node) {
+  public RideMoreOrEqExprImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   @Override
   public void accept(@NotNull RideVisitor visitor) {
-    visitor.visitIfExpr(this);
+    visitor.visitMoreOrEqExpr(this);
   }
 
   @Override
@@ -28,21 +28,9 @@ public class RideIfExprImpl extends RideExprImpl implements RideIfExpr {
   }
 
   @Override
-  @Nullable
-  public RideBlockState getBlockState() {
-    return PsiTreeUtil.getChildOfType(this, RideBlockState.class);
-  }
-
-  @Override
-  @Nullable
-  public RideElseBlock getElseBlock() {
-    return PsiTreeUtil.getChildOfType(this, RideElseBlock.class);
-  }
-
-  @Override
-  @Nullable
-  public RideIfCond getIfCond() {
-    return PsiTreeUtil.getChildOfType(this, RideIfCond.class);
+  @NotNull
+  public List<RideExpr> getExprList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, RideExpr.class);
   }
 
 }

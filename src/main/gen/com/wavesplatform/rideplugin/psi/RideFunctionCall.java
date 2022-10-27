@@ -7,7 +7,13 @@ import com.intellij.psi.PsiElement;
 
 public interface RideFunctionCall extends RideCompositeElement {
 
+  @Nullable
+  RideArguments getArguments();
+
   @NotNull
   List<RideCallArguments> getCallArgumentsList();
+
+  @NotNull
+  List<RideFunctionName> getFunctionNameList();
 
 }
