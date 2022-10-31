@@ -52,9 +52,6 @@ class RideParserDefinition : ParserDefinition {
         @JvmStatic
         val FILE = IFileElementType(RideLanguage.INSTANCE)
 
-//        @JvmStatic
-//        val SEMICOLON = TokenSet.create(RideTypes.SEMICOLON)
-
         @JvmStatic
         val COLON = TokenSet.create(RideTypes.COLON)
 
@@ -73,9 +70,6 @@ class RideParserDefinition : ParserDefinition {
         @JvmStatic
         val COMMA = TokenSet.create(RideTypes.COMMA)
 
-//        @JvmStatic
-//        val BAD_CHARACTER = TokenSet.create(RideTypes.BAD_CHARACTER)
-
         @JvmStatic
         val IDENTIFIER = TokenSet.create(RideTypes.IDENT)
 
@@ -83,11 +77,19 @@ class RideParserDefinition : ParserDefinition {
         val STRINGS = TokenSet.create(RideTypes.STRING)
 
         @JvmStatic
+        val DIRECTIVE = TokenSet.create(RideTypes.DIRECTIVE)
+
+        @JvmStatic
+        val ANNOTATION = TokenSet.create(RideTypes.ANNOTATION)
+
+        @JvmStatic
         val OPERATORS = TokenSet.create(
             RideTypes.MINUS,
             RideTypes.PLUS,
             RideTypes.SLASH,
             RideTypes.ASTERISK,
+            RideTypes.LESS_OR_EQUAL,
+            RideTypes.GREATER_OR_EQUAL,
             RideTypes.LESS,
             RideTypes.GT,
             RideTypes.EQ,
@@ -105,7 +107,16 @@ class RideParserDefinition : ParserDefinition {
                 RideTypes.IF,
                 RideTypes.ELSE,
                 RideTypes.TRUE,
-                RideTypes.FALSE
+                RideTypes.FALSE,
+                RideTypes.STRICT,
+                RideTypes.CASE,
+                RideTypes.MATCH,
+                RideTypes.FOLD_KW,
+                RideTypes.BASE16,
+                RideTypes.BASE58,
+                RideTypes.BASE64,
+                RideTypes.UNIT,
+                RideTypes.NIL,
             )
 
         @JvmStatic
