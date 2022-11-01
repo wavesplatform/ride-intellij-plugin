@@ -28,6 +28,9 @@
                 implementationClass="com.wavesplatform.rideplugin.highlighter.RideSyntaxHighlighterFactory"/>
         <colorSettingsPage
                 implementation="com.wavesplatform.rideplugin.highlighter.RideColorSettingsPage"/>
+        <completion.contributor
+                language="RIDE"
+                implementationClass="com.wavesplatform.rideplugin.completion.RideCompletionContributor"/>
     </extensions>
 
     <actions>
