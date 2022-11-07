@@ -62,6 +62,10 @@ public class RideVisitor extends PsiElementVisitor {
     visitExpr(o);
   }
 
+  public void visitCaseClosure(@NotNull RideCaseClosure o) {
+    visitCompositeElement(o);
+  }
+
   public void visitCaseExpr(@NotNull RideCaseExpr o) {
     visitExpr(o);
   }

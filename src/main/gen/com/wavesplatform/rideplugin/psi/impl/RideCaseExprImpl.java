@@ -35,8 +35,8 @@ public class RideCaseExprImpl extends RideExprImpl implements RideCaseExpr {
 
   @Override
   @Nullable
-  public RideClosure getClosure() {
-    return PsiTreeUtil.getChildOfType(this, RideClosure.class);
+  public RideCaseClosure getCaseClosure() {
+    return PsiTreeUtil.getChildOfType(this, RideCaseClosure.class);
   }
 
   @Override

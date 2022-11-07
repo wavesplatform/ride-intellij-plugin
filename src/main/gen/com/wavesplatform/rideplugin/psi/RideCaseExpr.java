@@ -11,7 +11,7 @@ public interface RideCaseExpr extends RideExpr {
   RideArrayType getArrayType();
 
   @Nullable
-  RideClosure getClosure();
+  RideCaseClosure getCaseClosure();
 
   @Nullable
   RideSimpleType getSimpleType();
