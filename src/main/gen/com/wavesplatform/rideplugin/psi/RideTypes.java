@@ -12,6 +12,7 @@ public interface RideTypes {
   IElementType ALL = new RideElementType("ALL");
   IElementType AND_EXPR = new RideElementType("AND_EXPR");
   IElementType ANNOTATION = new RideElementType("ANNOTATION");
+  IElementType ANNOTATION_EXPR = new RideElementType("ANNOTATION_EXPR");
   IElementType APPEND_EXPR = new RideElementType("APPEND_EXPR");
   IElementType ARGUMENT = new RideElementType("ARGUMENT");
   IElementType ARGUMENTS = new RideElementType("ARGUMENTS");
@@ -22,6 +23,7 @@ public interface RideTypes {
   IElementType BYTE_VECTOR_LITERAL = new RideElementType("BYTE_VECTOR_LITERAL");
   IElementType CALL_ARGUMENTS = new RideElementType("CALL_ARGUMENTS");
   IElementType CALL_EXPR = new RideElementType("CALL_EXPR");
+  IElementType CASE_CLOSURE = new RideElementType("CASE_CLOSURE");
   IElementType CASE_EXPR = new RideElementType("CASE_EXPR");
   IElementType CLOSURE = new RideElementType("CLOSURE");
   IElementType CONCAT_EXPR = new RideElementType("CONCAT_EXPR");
@@ -147,6 +149,9 @@ public interface RideTypes {
       else if (type == ANNOTATION) {
         return new RideAnnotationImpl(node);
       }
+      else if (type == ANNOTATION_EXPR) {
+        return new RideAnnotationExprImpl(node);
+      }
       else if (type == APPEND_EXPR) {
         return new RideAppendExprImpl(node);
       }
@@ -176,6 +181,9 @@ public interface RideTypes {
       }
       else if (type == CALL_EXPR) {
         return new RideCallExprImpl(node);
+      }
+      else if (type == CASE_CLOSURE) {
+        return new RideCaseClosureImpl(node);
       }
       else if (type == CASE_EXPR) {
         return new RideCaseExprImpl(node);

@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface RideElseBlock extends RideCompositeElement {
+public interface RideCaseClosure extends RideCompositeElement {
 
-  @Nullable
-  RideClosure getClosure();
+  @NotNull
+  RideBlockState getBlockState();
 
 }

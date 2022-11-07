@@ -160,8 +160,11 @@ class RideColorSettingsPage : ColorSettingsPage {
         """.trimIndent()
     }
 
-    override fun getAdditionalHighlightingTagToDescriptorMap(): Map<String, TextAttributesKey>? {
-        return null
+    override fun getAdditionalHighlightingTagToDescriptorMap(): Map<String, TextAttributesKey> {
+        return mapOf(
+            "Directive" to RideSyntaxHighlighter.DIRECTIVE,
+            "Annotation" to RideSyntaxHighlighter.ANNOTATION
+        )
     }
 
     override fun getAttributeDescriptors(): Array<AttributesDescriptor> {
@@ -185,8 +188,8 @@ class RideColorSettingsPage : ColorSettingsPage {
             AttributesDescriptor("Operator", RideSyntaxHighlighter.OPERATORS),
             AttributesDescriptor("Bad value", RideSyntaxHighlighter.BAD_CHARACTER),
             AttributesDescriptor("Identifier", RideSyntaxHighlighter.IDENTIFIER),
-            AttributesDescriptor("Directive", RideSyntaxHighlighter.DIRECTIVE),
-            AttributesDescriptor("Annotation", RideSyntaxHighlighter.ANNOTATION),
+            //AttributesDescriptor("Directive", RideSyntaxHighlighter.DIRECTIVE),
+            //AttributesDescriptor("Annotation", RideSyntaxHighlighter.ANNOTATION),
         )
     }
 }

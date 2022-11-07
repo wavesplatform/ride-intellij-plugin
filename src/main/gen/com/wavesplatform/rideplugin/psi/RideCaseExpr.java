@@ -11,10 +11,10 @@ public interface RideCaseExpr extends RideExpr {
   RideArrayType getArrayType();
 
   @Nullable
-  RideSimpleType getSimpleType();
+  RideCaseClosure getCaseClosure();
 
-  @NotNull
-  List<RideStatement> getStatementList();
+  @Nullable
+  RideSimpleType getSimpleType();
 
   @Nullable
   RideTupleType getTupleType();

@@ -35,14 +35,14 @@ public class RideCaseExprImpl extends RideExprImpl implements RideCaseExpr {
 
   @Override
   @Nullable
-  public RideSimpleType getSimpleType() {
-    return PsiTreeUtil.getChildOfType(this, RideSimpleType.class);
+  public RideCaseClosure getCaseClosure() {
+    return PsiTreeUtil.getChildOfType(this, RideCaseClosure.class);
   }
 
   @Override
-  @NotNull
-  public List<RideStatement> getStatementList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, RideStatement.class);
+  @Nullable
+  public RideSimpleType getSimpleType() {
+    return PsiTreeUtil.getChildOfType(this, RideSimpleType.class);
   }
 
   @Override
