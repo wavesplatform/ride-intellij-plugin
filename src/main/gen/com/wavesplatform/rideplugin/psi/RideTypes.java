@@ -12,6 +12,7 @@ public interface RideTypes {
   IElementType ALL = new RideElementType("ALL");
   IElementType AND_EXPR = new RideElementType("AND_EXPR");
   IElementType ANNOTATION = new RideElementType("ANNOTATION");
+  IElementType ANNOTATION_EXPR = new RideElementType("ANNOTATION_EXPR");
   IElementType APPEND_EXPR = new RideElementType("APPEND_EXPR");
   IElementType ARGUMENT = new RideElementType("ARGUMENT");
   IElementType ARGUMENTS = new RideElementType("ARGUMENTS");
@@ -117,6 +118,7 @@ public interface RideTypes {
   IElementType MINUS_ASSIGN = new RideTokenType("-=");
   IElementType MINUS_MINUS = new RideTokenType("--");
   IElementType MUL = new RideTokenType("*");
+  IElementType NEW_LINE = new RideTokenType("NEW_LINE");
   IElementType NIL = new RideTokenType("nil");
   IElementType NOT_EQ = new RideTokenType("!=");
   IElementType PERCENT = new RideTokenType("%");
@@ -146,6 +148,9 @@ public interface RideTypes {
       }
       else if (type == ANNOTATION) {
         return new RideAnnotationImpl(node);
+      }
+      else if (type == ANNOTATION_EXPR) {
+        return new RideAnnotationExprImpl(node);
       }
       else if (type == APPEND_EXPR) {
         return new RideAppendExprImpl(node);

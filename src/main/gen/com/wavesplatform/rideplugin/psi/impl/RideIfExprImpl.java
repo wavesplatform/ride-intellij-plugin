@@ -29,8 +29,8 @@ public class RideIfExprImpl extends RideExprImpl implements RideIfExpr {
 
   @Override
   @Nullable
-  public RideBlockState getBlockState() {
-    return PsiTreeUtil.getChildOfType(this, RideBlockState.class);
+  public RideClosure getClosure() {
+    return PsiTreeUtil.getChildOfType(this, RideClosure.class);
   }
 
   @Override

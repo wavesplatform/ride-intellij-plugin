@@ -2,6 +2,7 @@ package com.wavesplatform.rideplugin.parser;
 
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
+import com.wavesplatform.rideplugin.psi.RideTypes;
 
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
@@ -25,6 +26,8 @@ import static com.wavesplatform.rideplugin.psi.RideTypes.*;
 EOL=\R
 WHITE_SPACE=\s+
 
+AT_SYMBOL=@
+
 BOOL=true|false
 COMMENT=#.*
 INTEGER=[0-9]+
@@ -33,6 +36,10 @@ STRING=(\")[^\"]*\"
 SQSTRING=(')[^']*'
 IDENT=[a-zA-Z_][a-zA-Z0-9_]*
 
+//%state ANNOTATION
+
+//annotation = {AT_SYMBOL}{IDENT}
+
 %%
 <YYINITIAL> {
   {WHITE_SPACE}      { return WHITE_SPACE; }
@@ -40,7 +47,6 @@ IDENT=[a-zA-Z_][a-zA-Z0-9_]*
   "="                { return ASSIGN; }
   "{-#"              { return LDBRACKET; }
   "#-}"              { return RDBRACKET; }
-  "@"                { return AT_SYMBOL; }
   "true"             { return TRUE; }
   "false"            { return FALSE; }
   "if"               { return IF; }
@@ -102,6 +108,7 @@ IDENT=[a-zA-Z_][a-zA-Z0-9_]*
   {STRING}           { return STRING; }
   {SQSTRING}         { return SQSTRING; }
   {IDENT}            { return IDENT; }
+  {AT_SYMBOL}        { return AT_SYMBOL; }
 
 }
 

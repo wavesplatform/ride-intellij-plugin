@@ -29,8 +29,14 @@ public class RideClosureImpl extends ASTWrapperPsiElement implements RideClosure
 
   @Override
   @NotNull
-  public List<RideStatement> getStatementList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, RideStatement.class);
+  public RideBlockState getBlockState() {
+    return notNullChild(PsiTreeUtil.getChildOfType(this, RideBlockState.class));
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getNewLine() {
+    return findChildByType(NEW_LINE);
   }
 
 }

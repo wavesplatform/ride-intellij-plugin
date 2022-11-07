@@ -5,9 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface RideElseBlock extends RideCompositeElement {
+public interface RideAnnotationExpr extends RideExpr {
+
+  @NotNull
+  RideAnnotation getAnnotation();
 
   @Nullable
-  RideClosure getClosure();
+  PsiElement getIdent();
 
 }

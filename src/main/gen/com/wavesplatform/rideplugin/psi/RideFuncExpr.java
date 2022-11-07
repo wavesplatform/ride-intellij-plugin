@@ -8,10 +8,10 @@ import com.intellij.psi.PsiElement;
 public interface RideFuncExpr extends RideExpr {
 
   @Nullable
-  RideAnnotation getAnnotation();
+  RideAnnotationExpr getAnnotationExpr();
 
   @Nullable
-  RideBlockState getBlockState();
+  RideClosure getClosure();
 
   @Nullable
   RideParamGroup getParamGroup();
