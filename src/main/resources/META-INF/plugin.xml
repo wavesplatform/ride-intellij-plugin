@@ -28,7 +28,8 @@
                 implementationClass="com.wavesplatform.rideplugin.highlighter.RideSyntaxHighlighterFactory"/>
         <colorSettingsPage
                 implementation="com.wavesplatform.rideplugin.highlighter.RideColorSettingsPage"/>
-
+        <completion.contributor language="RIDE"
+                                implementationClass="com.wavesplatform.rideplugin.completion.RideKeywordCompletionContributor"/>
         <lang.braceMatcher language="RIDE"
                            implementationClass="com.wavesplatform.rideplugin.editor.RideBraceMatcher"/>
     </extensions>
