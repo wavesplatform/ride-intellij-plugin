@@ -170,9 +170,14 @@ unary_min_expr ::= MINUS expr  {pin = 1}
 unary_not_expr ::= BANG expr  {pin = 1}
 
 private call_group ::= call_expr
-call_expr ::= field_call | function_call
-function_call ::= function_name LPAREN arguments? RPAREN (DOT function_name call_arguments)* {pin=2}
-field_call ::= (function_call | IDENT) (DOT IDENT)+
+call_expr ::=  function_call | field_call
+function_call ::= object_function_call | standalone_function_call
+standalone_function_call ::= IDENT LPAREN arguments? RPAREN call_chain* {pin=2}
+object_function_call ::= IDENT DOT function_name LPAREN arguments? RPAREN call_chain* {pin=4}
+call_chain ::= call_function_chain | call_field_chain
+call_function_chain ::= DOT IDENT LPAREN arguments? RPAREN
+call_field_chain ::= DOT IDENT
+field_call ::= (standalone_function_call | IDENT) call_field_chain+
 call_arguments ::= LPAREN arguments? RPAREN  {pin = 1}
 arguments ::= argument (COMMA argument)*  {pin(".*")=1}
 argument ::= expr
@@ -181,7 +186,7 @@ private definition_group ::= func_expr | array_expr | pattern_matching_expr | fo
 
 //todo doesnt work
 private index_group ::= index_expr
-index_expr ::= expr LBRACKET expr RBRACKET (DOT expr)?
+index_expr ::= (standalone_function_call | object_function_call | field_call | IDENT) LBRACKET expr RBRACKET (DOT expr)?
 
 private prefix_group ::= if_expr
 if_expr ::= IF LPAREN? if_cond RPAREN? (THEN? closure) else_block? {pin=1}
