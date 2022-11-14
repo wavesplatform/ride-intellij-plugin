@@ -191,6 +191,7 @@ index_expr ::= (standalone_function_call | object_function_call | field_call | I
 private prefix_group ::= if_expr
 if_expr ::= IF LPAREN? if_cond RPAREN? (THEN? closure) else_block? {pin=1}
 if_cond ::= expr {pin=1}
+else_if_block ::= ELSE IF LPAREN? if_cond RPAREN? (THEN? closure) {pin=2}
 else_block ::= ELSE closure {pin = 1}
 
 private primary_group ::=  simple_ref_expr | paren_expr | literal_expr
