@@ -106,6 +106,7 @@ class RideParserDefinition : ParserDefinition {
                 RideTypes.FUNCTION,
                 RideTypes.IF,
                 RideTypes.ELSE,
+                RideTypes.THEN,
                 RideTypes.TRUE,
                 RideTypes.FALSE,
                 RideTypes.STRICT,
