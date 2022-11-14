@@ -108,8 +108,8 @@ statement ::= var_declaration_statement | expr
 var_declaration_statement ::= (LET|STRICT) (tuple_definition | var_definition) ASSIGN (expr | closure) {pin=1}
 //closure ::= (LBRACE|LPAREN)? block_state (RBRACE|RPAREN)?
 closure ::= LBRACE block_state RBRACE
-//          | LPAREN block_state RPAREN
-          | expr
+          | LPAREN block_state RPAREN
+          | block_state
 
 case_closure ::= LBRACE block_state RBRACE
           | LPAREN block_state RPAREN
@@ -177,7 +177,7 @@ object_function_call ::= IDENT DOT function_name LPAREN arguments? RPAREN call_c
 call_chain ::= call_function_chain | call_field_chain
 call_function_chain ::= DOT IDENT LPAREN arguments? RPAREN
 call_field_chain ::= DOT IDENT
-field_call ::= (standalone_function_call | IDENT) call_field_chain+
+field_call ::= (standalone_function_call | IDENT) (call_function_chain | call_field_chain)+
 call_arguments ::= LPAREN arguments? RPAREN  {pin = 1}
 arguments ::= argument (COMMA argument)*  {pin(".*")=1}
 argument ::= expr
