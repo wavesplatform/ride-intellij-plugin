@@ -28,9 +28,27 @@ public class RideFieldCallImpl extends ASTWrapperPsiElement implements RideField
   }
 
   @Override
+  @NotNull
+  public List<RideCallFieldChain> getCallFieldChainList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, RideCallFieldChain.class);
+  }
+
+  @Override
+  @NotNull
+  public List<RideCallFunctionChain> getCallFunctionChainList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, RideCallFunctionChain.class);
+  }
+
+  @Override
   @Nullable
-  public RideFunctionCall getFunctionCall() {
-    return PsiTreeUtil.getChildOfType(this, RideFunctionCall.class);
+  public RideStandaloneFunctionCall getStandaloneFunctionCall() {
+    return PsiTreeUtil.getChildOfType(this, RideStandaloneFunctionCall.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getIdent() {
+    return findChildByType(IDENT);
   }
 
 }

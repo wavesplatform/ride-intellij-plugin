@@ -5,18 +5,15 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface RideIfExpr extends RideExpr {
+public interface RideStandaloneFunctionCall extends RideCompositeElement {
 
   @Nullable
-  RideClosure getClosure();
-
-  @Nullable
-  RideElseBlock getElseBlock();
+  RideArguments getArguments();
 
   @NotNull
-  List<RideElseIfBlock> getElseIfBlockList();
+  List<RideCallChain> getCallChainList();
 
-  @Nullable
-  RideIfCond getIfCond();
+  @NotNull
+  PsiElement getIdent();
 
 }

@@ -257,6 +257,52 @@ public class RideParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // call_function_chain | call_field_chain
+  public static boolean call_chain(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "call_chain")) return false;
+    if (!nextTokenIs(b, DOT)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = call_function_chain(b, l + 1);
+    if (!r) r = call_field_chain(b, l + 1);
+    exit_section_(b, m, CALL_CHAIN, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // DOT IDENT
+  public static boolean call_field_chain(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "call_field_chain")) return false;
+    if (!nextTokenIs(b, DOT)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, DOT, IDENT);
+    exit_section_(b, m, CALL_FIELD_CHAIN, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // DOT IDENT LPAREN arguments? RPAREN
+  public static boolean call_function_chain(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "call_function_chain")) return false;
+    if (!nextTokenIs(b, DOT)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, DOT, IDENT, LPAREN);
+    r = r && call_function_chain_3(b, l + 1);
+    r = r && consumeToken(b, RPAREN);
+    exit_section_(b, m, CALL_FUNCTION_CHAIN, r);
+    return r;
+  }
+
+  // arguments?
+  private static boolean call_function_chain_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "call_function_chain_3")) return false;
+    arguments(b, l + 1);
+    return true;
+  }
+
+  /* ********************************************************** */
   // LBRACE block_state RBRACE
   //           | LPAREN block_state RPAREN
   //           | block_state
@@ -338,14 +384,15 @@ public class RideParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // LBRACE block_state RBRACE
-  // //          | LPAREN block_state RPAREN
-  //           | expr
+  //           | LPAREN block_state RPAREN
+  //           | block_state
   public static boolean closure(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "closure")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, CLOSURE, "<closure>");
     r = closure_0(b, l + 1);
-    if (!r) r = expr(b, l + 1, -1);
+    if (!r) r = closure_1(b, l + 1);
+    if (!r) r = block_state(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -358,6 +405,18 @@ public class RideParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, LBRACE);
     r = r && block_state(b, l + 1);
     r = r && consumeToken(b, RBRACE);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // LPAREN block_state RPAREN
+  private static boolean closure_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "closure_1")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, LPAREN);
+    r = r && block_state(b, l + 1);
+    r = r && consumeToken(b, RPAREN);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -422,7 +481,56 @@ public class RideParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (function_call | IDENT) (DOT IDENT)+
+  // ELSE IF LPAREN? if_cond RPAREN? (THEN? closure)
+  public static boolean else_if_block(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "else_if_block")) return false;
+    if (!nextTokenIs(b, ELSE)) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, ELSE_IF_BLOCK, null);
+    r = consumeTokens(b, 2, ELSE, IF);
+    p = r; // pin = 2
+    r = r && report_error_(b, else_if_block_2(b, l + 1));
+    r = p && report_error_(b, if_cond(b, l + 1)) && r;
+    r = p && report_error_(b, else_if_block_4(b, l + 1)) && r;
+    r = p && else_if_block_5(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
+  }
+
+  // LPAREN?
+  private static boolean else_if_block_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "else_if_block_2")) return false;
+    consumeToken(b, LPAREN);
+    return true;
+  }
+
+  // RPAREN?
+  private static boolean else_if_block_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "else_if_block_4")) return false;
+    consumeToken(b, RPAREN);
+    return true;
+  }
+
+  // THEN? closure
+  private static boolean else_if_block_5(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "else_if_block_5")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = else_if_block_5_0(b, l + 1);
+    r = r && closure(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // THEN?
+  private static boolean else_if_block_5_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "else_if_block_5_0")) return false;
+    consumeToken(b, THEN);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // (standalone_function_call | IDENT) (call_function_chain | call_field_chain)+
   public static boolean field_call(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "field_call")) return false;
     if (!nextTokenIs(b, IDENT)) return false;
@@ -434,16 +542,16 @@ public class RideParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // function_call | IDENT
+  // standalone_function_call | IDENT
   private static boolean field_call_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "field_call_0")) return false;
     boolean r;
-    r = function_call(b, l + 1);
+    r = standalone_function_call(b, l + 1);
     if (!r) r = consumeToken(b, IDENT);
     return r;
   }
 
-  // (DOT IDENT)+
+  // (call_function_chain | call_field_chain)+
   private static boolean field_call_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "field_call_1")) return false;
     boolean r;
@@ -458,60 +566,25 @@ public class RideParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // DOT IDENT
+  // call_function_chain | call_field_chain
   private static boolean field_call_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "field_call_1_0")) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, DOT, IDENT);
-    exit_section_(b, m, null, r);
+    r = call_function_chain(b, l + 1);
+    if (!r) r = call_field_chain(b, l + 1);
     return r;
   }
 
   /* ********************************************************** */
-  // function_name LPAREN arguments? RPAREN (DOT function_name call_arguments)*
+  // object_function_call | standalone_function_call
   public static boolean function_call(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "function_call")) return false;
     if (!nextTokenIs(b, IDENT)) return false;
-    boolean r, p;
-    Marker m = enter_section_(b, l, _NONE_, FUNCTION_CALL, null);
-    r = function_name(b, l + 1);
-    r = r && consumeToken(b, LPAREN);
-    p = r; // pin = 2
-    r = r && report_error_(b, function_call_2(b, l + 1));
-    r = p && report_error_(b, consumeToken(b, RPAREN)) && r;
-    r = p && function_call_4(b, l + 1) && r;
-    exit_section_(b, l, m, r, p, null);
-    return r || p;
-  }
-
-  // arguments?
-  private static boolean function_call_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "function_call_2")) return false;
-    arguments(b, l + 1);
-    return true;
-  }
-
-  // (DOT function_name call_arguments)*
-  private static boolean function_call_4(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "function_call_4")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!function_call_4_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "function_call_4", c)) break;
-    }
-    return true;
-  }
-
-  // DOT function_name call_arguments
-  private static boolean function_call_4_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "function_call_4_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, DOT);
-    r = r && function_name(b, l + 1);
-    r = r && call_arguments(b, l + 1);
-    exit_section_(b, m, null, r);
+    r = object_function_call(b, l + 1);
+    if (!r) r = standalone_function_call(b, l + 1);
+    exit_section_(b, m, FUNCTION_CALL, r);
     return r;
   }
 
@@ -572,6 +645,42 @@ public class RideParser implements PsiParser, LightPsiParser {
     r = integerLiteral(b, l + 1);
     exit_section_(b, m, NUMERIC_LITERAL, r);
     return r;
+  }
+
+  /* ********************************************************** */
+  // IDENT DOT function_name LPAREN arguments? RPAREN call_chain*
+  public static boolean object_function_call(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "object_function_call")) return false;
+    if (!nextTokenIs(b, IDENT)) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, OBJECT_FUNCTION_CALL, null);
+    r = consumeTokens(b, 0, IDENT, DOT);
+    r = r && function_name(b, l + 1);
+    r = r && consumeToken(b, LPAREN);
+    p = r; // pin = 4
+    r = r && report_error_(b, object_function_call_4(b, l + 1));
+    r = p && report_error_(b, consumeToken(b, RPAREN)) && r;
+    r = p && object_function_call_6(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
+  }
+
+  // arguments?
+  private static boolean object_function_call_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "object_function_call_4")) return false;
+    arguments(b, l + 1);
+    return true;
+  }
+
+  // call_chain*
+  private static boolean object_function_call_6(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "object_function_call_6")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!call_chain(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "object_function_call_6", c)) break;
+    }
+    return true;
   }
 
   /* ********************************************************** */
@@ -705,6 +814,40 @@ public class RideParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, IDENT);
     exit_section_(b, m, SIMPLE_TYPE, r);
     return r;
+  }
+
+  /* ********************************************************** */
+  // IDENT LPAREN arguments? RPAREN call_chain*
+  public static boolean standalone_function_call(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "standalone_function_call")) return false;
+    if (!nextTokenIs(b, IDENT)) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, STANDALONE_FUNCTION_CALL, null);
+    r = consumeTokens(b, 2, IDENT, LPAREN);
+    p = r; // pin = 2
+    r = r && report_error_(b, standalone_function_call_2(b, l + 1));
+    r = p && report_error_(b, consumeToken(b, RPAREN)) && r;
+    r = p && standalone_function_call_4(b, l + 1) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
+  }
+
+  // arguments?
+  private static boolean standalone_function_call_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "standalone_function_call_2")) return false;
+    arguments(b, l + 1);
+    return true;
+  }
+
+  // call_chain*
+  private static boolean standalone_function_call_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "standalone_function_call_4")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!call_chain(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "standalone_function_call_4", c)) break;
+    }
+    return true;
   }
 
   /* ********************************************************** */
@@ -950,7 +1093,7 @@ public class RideParser implements PsiParser, LightPsiParser {
   // Expression root: expr
   // Operator priority table:
   // 0: BINARY(equal_expr) BINARY(not_equal_expr)
-  // 1: BINARY(index_expr)
+  // 1: ATOM(index_expr)
   // 2: BINARY(less_or_eq_expr) BINARY(more_or_eq_expr) BINARY(less_expr) BINARY(more_expr)
   //    BINARY(and_expr) BINARY(or_expr)
   // 3: BINARY(concat_expr) BINARY(append_expr) BINARY(prepend_expr)
@@ -967,7 +1110,8 @@ public class RideParser implements PsiParser, LightPsiParser {
     addVariant(b, "<expr>");
     boolean r, p;
     Marker m = enter_section_(b, l, _NONE_, "<expr>");
-    r = unary_min_expr(b, l + 1);
+    r = index_expr(b, l + 1);
+    if (!r) r = unary_min_expr(b, l + 1);
     if (!r) r = unary_not_expr(b, l + 1);
     if (!r) r = func_expr(b, l + 1);
     if (!r) r = array_expr(b, l + 1);
@@ -997,11 +1141,6 @@ public class RideParser implements PsiParser, LightPsiParser {
       else if (g < 0 && consumeTokenSmart(b, NOT_EQ)) {
         r = expr(b, l, 0);
         exit_section_(b, l, m, NOT_EQUAL_EXPR, r, true, null);
-      }
-      else if (g < 1 && consumeTokenSmart(b, LBRACKET)) {
-        r = report_error_(b, expr(b, l, 1));
-        r = index_expr_1(b, l + 1) && r;
-        exit_section_(b, l, m, INDEX_EXPR, r, true, null);
       }
       else if (g < 2 && consumeTokenSmart(b, LESS_OR_EQUAL)) {
         r = expr(b, l, 2);
@@ -1067,30 +1206,45 @@ public class RideParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // RBRACKET (DOT expr)?
-  private static boolean index_expr_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "index_expr_1")) return false;
+  // (standalone_function_call | object_function_call | field_call | IDENT) LBRACKET expr RBRACKET (DOT expr)?
+  public static boolean index_expr(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "index_expr")) return false;
+    if (!nextTokenIsSmart(b, IDENT)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, RBRACKET);
-    r = r && index_expr_1_1(b, l + 1);
-    exit_section_(b, m, null, r);
+    r = index_expr_0(b, l + 1);
+    r = r && consumeToken(b, LBRACKET);
+    r = r && expr(b, l + 1, -1);
+    r = r && consumeToken(b, RBRACKET);
+    r = r && index_expr_4(b, l + 1);
+    exit_section_(b, m, INDEX_EXPR, r);
+    return r;
+  }
+
+  // standalone_function_call | object_function_call | field_call | IDENT
+  private static boolean index_expr_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "index_expr_0")) return false;
+    boolean r;
+    r = standalone_function_call(b, l + 1);
+    if (!r) r = object_function_call(b, l + 1);
+    if (!r) r = field_call(b, l + 1);
+    if (!r) r = consumeTokenSmart(b, IDENT);
     return r;
   }
 
   // (DOT expr)?
-  private static boolean index_expr_1_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "index_expr_1_1")) return false;
-    index_expr_1_1_0(b, l + 1);
+  private static boolean index_expr_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "index_expr_4")) return false;
+    index_expr_4_0(b, l + 1);
     return true;
   }
 
   // DOT expr
-  private static boolean index_expr_1_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "index_expr_1_1_0")) return false;
+  private static boolean index_expr_4_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "index_expr_4_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, DOT);
+    r = consumeTokenSmart(b, DOT);
     r = r && expr(b, l + 1, -1);
     exit_section_(b, m, null, r);
     return r;
@@ -1224,14 +1378,14 @@ public class RideParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // field_call | function_call
+  // function_call | field_call
   public static boolean call_expr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "call_expr")) return false;
     if (!nextTokenIsSmart(b, IDENT)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = field_call(b, l + 1);
-    if (!r) r = function_call(b, l + 1);
+    r = function_call(b, l + 1);
+    if (!r) r = field_call(b, l + 1);
     exit_section_(b, m, CALL_EXPR, r);
     return r;
   }
@@ -1281,7 +1435,7 @@ public class RideParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // IF LPAREN? if_cond RPAREN? (THEN? closure) else_block?
+  // IF LPAREN? if_cond RPAREN? (THEN? closure) else_if_block* else_block?
   public static boolean if_expr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "if_expr")) return false;
     if (!nextTokenIsSmart(b, IF)) return false;
@@ -1293,7 +1447,8 @@ public class RideParser implements PsiParser, LightPsiParser {
     r = p && report_error_(b, if_cond(b, l + 1)) && r;
     r = p && report_error_(b, if_expr_3(b, l + 1)) && r;
     r = p && report_error_(b, if_expr_4(b, l + 1)) && r;
-    r = p && if_expr_5(b, l + 1) && r;
+    r = p && report_error_(b, if_expr_5(b, l + 1)) && r;
+    r = p && if_expr_6(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
@@ -1330,9 +1485,20 @@ public class RideParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // else_block?
+  // else_if_block*
   private static boolean if_expr_5(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "if_expr_5")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!else_if_block(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "if_expr_5", c)) break;
+    }
+    return true;
+  }
+
+  // else_block?
+  private static boolean if_expr_6(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "if_expr_6")) return false;
     else_block(b, l + 1);
     return true;
   }

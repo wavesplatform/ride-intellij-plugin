@@ -22,7 +22,10 @@ public interface RideTypes {
   IElementType BOOL_LITERAL = new RideElementType("BOOL_LITERAL");
   IElementType BYTE_VECTOR_LITERAL = new RideElementType("BYTE_VECTOR_LITERAL");
   IElementType CALL_ARGUMENTS = new RideElementType("CALL_ARGUMENTS");
+  IElementType CALL_CHAIN = new RideElementType("CALL_CHAIN");
   IElementType CALL_EXPR = new RideElementType("CALL_EXPR");
+  IElementType CALL_FIELD_CHAIN = new RideElementType("CALL_FIELD_CHAIN");
+  IElementType CALL_FUNCTION_CHAIN = new RideElementType("CALL_FUNCTION_CHAIN");
   IElementType CASE_CLOSURE = new RideElementType("CASE_CLOSURE");
   IElementType CASE_EXPR = new RideElementType("CASE_EXPR");
   IElementType CLOSURE = new RideElementType("CLOSURE");
@@ -30,6 +33,7 @@ public interface RideTypes {
   IElementType DIRECTIVE = new RideElementType("DIRECTIVE");
   IElementType DIV_EXPR = new RideElementType("DIV_EXPR");
   IElementType ELSE_BLOCK = new RideElementType("ELSE_BLOCK");
+  IElementType ELSE_IF_BLOCK = new RideElementType("ELSE_IF_BLOCK");
   IElementType EQUAL_EXPR = new RideElementType("EQUAL_EXPR");
   IElementType EXPR = new RideElementType("EXPR");
   IElementType FIELD_CALL = new RideElementType("FIELD_CALL");
@@ -52,6 +56,7 @@ public interface RideTypes {
   IElementType NIL_LITERAL = new RideElementType("NIL_LITERAL");
   IElementType NOT_EQUAL_EXPR = new RideElementType("NOT_EQUAL_EXPR");
   IElementType NUMERIC_LITERAL = new RideElementType("NUMERIC_LITERAL");
+  IElementType OBJECT_FUNCTION_CALL = new RideElementType("OBJECT_FUNCTION_CALL");
   IElementType OR_EXPR = new RideElementType("OR_EXPR");
   IElementType PARAM_DEFINITION = new RideElementType("PARAM_DEFINITION");
   IElementType PARAM_GROUP = new RideElementType("PARAM_GROUP");
@@ -61,6 +66,7 @@ public interface RideTypes {
   IElementType PREPEND_EXPR = new RideElementType("PREPEND_EXPR");
   IElementType SIMPLE_REF_EXPR = new RideElementType("SIMPLE_REF_EXPR");
   IElementType SIMPLE_TYPE = new RideElementType("SIMPLE_TYPE");
+  IElementType STANDALONE_FUNCTION_CALL = new RideElementType("STANDALONE_FUNCTION_CALL");
   IElementType STATEMENT = new RideElementType("STATEMENT");
   IElementType STRING_LITERAL = new RideElementType("STRING_LITERAL");
   IElementType TUPLE_DEFINITION = new RideElementType("TUPLE_DEFINITION");
@@ -179,8 +185,17 @@ public interface RideTypes {
       else if (type == CALL_ARGUMENTS) {
         return new RideCallArgumentsImpl(node);
       }
+      else if (type == CALL_CHAIN) {
+        return new RideCallChainImpl(node);
+      }
       else if (type == CALL_EXPR) {
         return new RideCallExprImpl(node);
+      }
+      else if (type == CALL_FIELD_CHAIN) {
+        return new RideCallFieldChainImpl(node);
+      }
+      else if (type == CALL_FUNCTION_CHAIN) {
+        return new RideCallFunctionChainImpl(node);
       }
       else if (type == CASE_CLOSURE) {
         return new RideCaseClosureImpl(node);
@@ -202,6 +217,9 @@ public interface RideTypes {
       }
       else if (type == ELSE_BLOCK) {
         return new RideElseBlockImpl(node);
+      }
+      else if (type == ELSE_IF_BLOCK) {
+        return new RideElseIfBlockImpl(node);
       }
       else if (type == EQUAL_EXPR) {
         return new RideEqualExprImpl(node);
@@ -266,6 +284,9 @@ public interface RideTypes {
       else if (type == NUMERIC_LITERAL) {
         return new RideNumericLiteralImpl(node);
       }
+      else if (type == OBJECT_FUNCTION_CALL) {
+        return new RideObjectFunctionCallImpl(node);
+      }
       else if (type == OR_EXPR) {
         return new RideOrExprImpl(node);
       }
@@ -292,6 +313,9 @@ public interface RideTypes {
       }
       else if (type == SIMPLE_TYPE) {
         return new RideSimpleTypeImpl(node);
+      }
+      else if (type == STANDALONE_FUNCTION_CALL) {
+        return new RideStandaloneFunctionCallImpl(node);
       }
       else if (type == STATEMENT) {
         return new RideStatementImpl(node);
