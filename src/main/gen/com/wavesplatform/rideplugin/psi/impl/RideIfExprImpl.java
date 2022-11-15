@@ -40,6 +40,12 @@ public class RideIfExprImpl extends RideExprImpl implements RideIfExpr {
   }
 
   @Override
+  @NotNull
+  public List<RideElseIfBlock> getElseIfBlockList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, RideElseIfBlock.class);
+  }
+
+  @Override
   @Nullable
   public RideIfCond getIfCond() {
     return PsiTreeUtil.getChildOfType(this, RideIfCond.class);

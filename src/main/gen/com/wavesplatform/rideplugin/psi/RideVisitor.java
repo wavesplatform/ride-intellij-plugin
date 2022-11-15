@@ -58,8 +58,20 @@ public class RideVisitor extends PsiElementVisitor {
     visitCompositeElement(o);
   }
 
+  public void visitCallChain(@NotNull RideCallChain o) {
+    visitCompositeElement(o);
+  }
+
   public void visitCallExpr(@NotNull RideCallExpr o) {
     visitExpr(o);
+  }
+
+  public void visitCallFieldChain(@NotNull RideCallFieldChain o) {
+    visitCompositeElement(o);
+  }
+
+  public void visitCallFunctionChain(@NotNull RideCallFunctionChain o) {
+    visitCompositeElement(o);
   }
 
   public void visitCaseClosure(@NotNull RideCaseClosure o) {
@@ -87,6 +99,10 @@ public class RideVisitor extends PsiElementVisitor {
   }
 
   public void visitElseBlock(@NotNull RideElseBlock o) {
+    visitCompositeElement(o);
+  }
+
+  public void visitElseIfBlock(@NotNull RideElseIfBlock o) {
     visitCompositeElement(o);
   }
 
@@ -178,6 +194,10 @@ public class RideVisitor extends PsiElementVisitor {
     visitCompositeElement(o);
   }
 
+  public void visitObjectFunctionCall(@NotNull RideObjectFunctionCall o) {
+    visitCompositeElement(o);
+  }
+
   public void visitOrExpr(@NotNull RideOrExpr o) {
     visitExpr(o);
   }
@@ -211,6 +231,10 @@ public class RideVisitor extends PsiElementVisitor {
   }
 
   public void visitSimpleType(@NotNull RideSimpleType o) {
+    visitCompositeElement(o);
+  }
+
+  public void visitStandaloneFunctionCall(@NotNull RideStandaloneFunctionCall o) {
     visitCompositeElement(o);
   }
 

@@ -33,4 +33,28 @@ public class RideIndexExprImpl extends RideExprImpl implements RideIndexExpr {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, RideExpr.class);
   }
 
+  @Override
+  @Nullable
+  public RideFieldCall getFieldCall() {
+    return PsiTreeUtil.getChildOfType(this, RideFieldCall.class);
+  }
+
+  @Override
+  @Nullable
+  public RideObjectFunctionCall getObjectFunctionCall() {
+    return PsiTreeUtil.getChildOfType(this, RideObjectFunctionCall.class);
+  }
+
+  @Override
+  @Nullable
+  public RideStandaloneFunctionCall getStandaloneFunctionCall() {
+    return PsiTreeUtil.getChildOfType(this, RideStandaloneFunctionCall.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getIdent() {
+    return findChildByType(IDENT);
+  }
+
 }

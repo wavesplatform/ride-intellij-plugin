@@ -7,10 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface RideClosure extends RideCompositeElement {
 
-  @Nullable
+  @NotNull
   RideBlockState getBlockState();
-
-  @Nullable
-  RideExpr getExpr();
 
 }
