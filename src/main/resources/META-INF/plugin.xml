@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.wavesplatform.rideplugin</id>
     <name>RIDE</name>
-    <vendor>devyatkinalexandr</vendor>
+    <vendor>WavesLabs</vendor>
 
     <depends>com.intellij.modules.platform</depends>
 
