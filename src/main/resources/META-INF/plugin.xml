@@ -32,6 +32,13 @@
                                 implementationClass="com.wavesplatform.rideplugin.completion.RideKeywordCompletionContributor"/>
         <lang.braceMatcher language="RIDE"
                            implementationClass="com.wavesplatform.rideplugin.editor.RideBraceMatcher"/>
+        <annotator language="RIDE"
+                   implementationClass="com.wavesplatform.rideplugin.annotator.RideAnnotator"/>
+
+        <additionalTextAttributes scheme="Darcula" file="colorScheme/Darcula_Ride.xml"/>
+        <additionalTextAttributes scheme="Default" file="colorScheme/Default_Ride.xml"/>
+        <lang.commenter language="RIDE"
+                        implementationClass="com.wavesplatform.rideplugin.editor.RideCommenter"/>
     </extensions>
 
     <actions>

@@ -28,9 +28,9 @@ public class RideIfExprImpl extends RideExprImpl implements RideIfExpr {
   }
 
   @Override
-  @Nullable
+  @NotNull
   public RideClosure getClosure() {
-    return PsiTreeUtil.getChildOfType(this, RideClosure.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, RideClosure.class));
   }
 
   @Override
@@ -46,9 +46,9 @@ public class RideIfExprImpl extends RideExprImpl implements RideIfExpr {
   }
 
   @Override
-  @Nullable
+  @NotNull
   public RideIfCond getIfCond() {
-    return PsiTreeUtil.getChildOfType(this, RideIfCond.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, RideIfCond.class));
   }
 
 }

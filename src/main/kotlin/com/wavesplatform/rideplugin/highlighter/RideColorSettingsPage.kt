@@ -1,5 +1,6 @@
 package com.wavesplatform.rideplugin.highlighter
 
+import com.intellij.openapi.editor.colors.ColorKey
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.options.colors.AttributesDescriptor
@@ -188,8 +189,8 @@ class RideColorSettingsPage : ColorSettingsPage {
             AttributesDescriptor("Operator", RideSyntaxHighlighter.OPERATORS),
             AttributesDescriptor("Bad value", RideSyntaxHighlighter.BAD_CHARACTER),
             AttributesDescriptor("Identifier", RideSyntaxHighlighter.IDENTIFIER),
-            //AttributesDescriptor("Directive", RideSyntaxHighlighter.DIRECTIVE),
-            //AttributesDescriptor("Annotation", RideSyntaxHighlighter.ANNOTATION),
+            AttributesDescriptor("Directive", RideSyntaxHighlighter.DIRECTIVE),
+            AttributesDescriptor("Annotation", RideSyntaxHighlighter.ANNOTATION),
         )
     }
 }
