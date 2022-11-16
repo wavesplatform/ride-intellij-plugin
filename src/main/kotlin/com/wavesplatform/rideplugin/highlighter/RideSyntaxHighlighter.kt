@@ -34,7 +34,7 @@ class RideSyntaxHighlighter : SyntaxHighlighterBase() {
         val DIRECTIVE =
             TextAttributesKey.createTextAttributesKey("RIDE_DIRECTIVE", DefaultLanguageHighlighterColors.METADATA)
         val ANNOTATION =
-            TextAttributesKey.createTextAttributesKey("RIDE_ANNOTATION", DefaultLanguageHighlighterColors.LABEL)
+            TextAttributesKey.createTextAttributesKey("RIDE_ANNOTATION", DefaultLanguageHighlighterColors.METADATA)
     }
 
     init {

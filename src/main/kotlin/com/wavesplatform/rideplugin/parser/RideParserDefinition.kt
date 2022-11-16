@@ -97,7 +97,7 @@ class RideParserDefinition : ParserDefinition {
         )
 
         @JvmStatic
-        val NUMBERS = TokenSet.create(RideTypes.INT)
+        val NUMBERS = TokenSet.create(RideTypes.INTEGER)
 
         @JvmStatic
         val KEYWORDS =

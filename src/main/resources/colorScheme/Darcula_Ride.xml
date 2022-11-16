@@ -1,0 +1,12 @@
+<list>
+    <option name="RIDE_DIRECTIVE">
+        <value>
+            <option name="FOREGROUND" value="7aade3" />
+        </value>
+    </option>
+    <option name="RIDE_ANNOTATION">
+        <value>
+            <option name="FOREGROUND" value="FFDB32" />
+        </value>
+    </option>
+</list>
