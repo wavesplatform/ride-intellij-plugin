@@ -191,6 +191,8 @@ class RideColorSettingsPage : ColorSettingsPage {
             AttributesDescriptor("Identifier", RideSyntaxHighlighter.IDENTIFIER),
             AttributesDescriptor("Directive", RideSyntaxHighlighter.DIRECTIVE),
             AttributesDescriptor("Annotation", RideSyntaxHighlighter.ANNOTATION),
+            AttributesDescriptor("Function", RideSyntaxHighlighter.FUNCTION),
+            AttributesDescriptor("Type", RideSyntaxHighlighter.TYPE),
         )
     }
 }

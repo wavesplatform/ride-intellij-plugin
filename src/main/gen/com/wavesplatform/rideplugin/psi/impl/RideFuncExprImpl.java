@@ -41,14 +41,14 @@ public class RideFuncExprImpl extends RideExprImpl implements RideFuncExpr {
 
   @Override
   @Nullable
-  public RideParamGroup getParamGroup() {
-    return PsiTreeUtil.getChildOfType(this, RideParamGroup.class);
+  public RideFunctionName getFunctionName() {
+    return PsiTreeUtil.getChildOfType(this, RideFunctionName.class);
   }
 
   @Override
   @Nullable
-  public PsiElement getIdent() {
-    return findChildByType(IDENT);
+  public RideParamGroup getParamGroup() {
+    return PsiTreeUtil.getChildOfType(this, RideParamGroup.class);
   }
 
 }

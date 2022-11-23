@@ -29,8 +29,8 @@ public class RideFunctionNameImpl extends ASTWrapperPsiElement implements RideFu
 
   @Override
   @NotNull
-  public PsiElement getIdent() {
-    return notNullChild(findChildByType(IDENT));
+  public PsiElement getLowerId() {
+    return notNullChild(findChildByType(LOWER_ID));
   }
 
 }

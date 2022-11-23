@@ -7,7 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface RideSimpleRefExpr extends RideExpr {
 
-  @NotNull
-  PsiElement getIdent();
+  @Nullable
+  PsiElement getLowerId();
+
+  @Nullable
+  PsiElement getUpperId();
 
 }

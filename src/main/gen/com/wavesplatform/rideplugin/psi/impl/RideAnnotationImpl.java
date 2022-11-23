@@ -29,8 +29,8 @@ public class RideAnnotationImpl extends ASTWrapperPsiElement implements RideAnno
 
   @Override
   @Nullable
-  public PsiElement getIdent() {
-    return findChildByType(IDENT);
+  public PsiElement getUpperId() {
+    return findChildByType(UPPER_ID);
   }
 
 }

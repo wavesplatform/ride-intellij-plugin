@@ -9,6 +9,8 @@ import com.wavesplatform.rideplugin.highlighter.RideSyntaxHighlighter
 import com.wavesplatform.rideplugin.psi.RideAnnotation
 import com.wavesplatform.rideplugin.psi.RideAnnotationExpr
 import com.wavesplatform.rideplugin.psi.RideDirective
+import com.wavesplatform.rideplugin.psi.RideFunctionName
+import com.wavesplatform.rideplugin.psi.RideType
 
 class RideAnnotator : Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
@@ -16,6 +18,8 @@ class RideAnnotator : Annotator {
         when (element) {
             is RideAnnotation -> annotateWithInfo(element, holder, RideSyntaxHighlighter.ANNOTATION)
             is RideDirective -> annotateWithInfo(element, holder, RideSyntaxHighlighter.DIRECTIVE)
+            is RideFunctionName -> annotateWithInfo(element, holder, RideSyntaxHighlighter.FUNCTION)
+            is RideType -> annotateWithInfo(element, holder, RideSyntaxHighlighter.TYPE)
         }
     }
 }

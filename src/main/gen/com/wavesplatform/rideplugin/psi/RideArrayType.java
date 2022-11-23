@@ -8,15 +8,12 @@ import com.intellij.psi.PsiElement;
 public interface RideArrayType extends RideCompositeElement {
 
   @Nullable
-  RideArrayType getArrayType();
+  RideType getType();
 
   @Nullable
-  RideSimpleType getSimpleType();
+  PsiElement getIdent();
 
-  @Nullable
-  RideTupleType getTupleType();
-
-  @Nullable
-  RideUnionType getUnionType();
+  @NotNull
+  PsiElement getUpperId();
 
 }

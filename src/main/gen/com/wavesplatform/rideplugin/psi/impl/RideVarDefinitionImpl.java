@@ -33,9 +33,15 @@ public class RideVarDefinitionImpl extends RideVarDefinitionBaseImpl implements 
   }
 
   @Override
-  @NotNull
-  public PsiElement getIdent() {
-    return notNullChild(findChildByType(IDENT));
+  @Nullable
+  public PsiElement getLowerId() {
+    return findChildByType(LOWER_ID);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getUpperId() {
+    return findChildByType(UPPER_ID);
   }
 
 }

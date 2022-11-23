@@ -17,6 +17,6 @@ public interface RideObjectFunctionCall extends RideCompositeElement {
   RideFunctionName getFunctionName();
 
   @NotNull
-  PsiElement getIdent();
+  RideVarDefinition getVarDefinition();
 
 }

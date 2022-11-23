@@ -29,26 +29,8 @@ public class RideTupleTypeImpl extends ASTWrapperPsiElement implements RideTuple
 
   @Override
   @NotNull
-  public List<RideArrayType> getArrayTypeList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, RideArrayType.class);
-  }
-
-  @Override
-  @NotNull
-  public List<RideSimpleType> getSimpleTypeList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, RideSimpleType.class);
-  }
-
-  @Override
-  @NotNull
-  public List<RideTupleType> getTupleTypeList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, RideTupleType.class);
-  }
-
-  @Override
-  @NotNull
-  public List<RideUnionType> getUnionTypeList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, RideUnionType.class);
+  public List<RideType> getTypeList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, RideType.class);
   }
 
 }

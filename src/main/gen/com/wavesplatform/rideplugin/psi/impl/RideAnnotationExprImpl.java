@@ -35,8 +35,8 @@ public class RideAnnotationExprImpl extends RideExprImpl implements RideAnnotati
 
   @Override
   @Nullable
-  public PsiElement getIdent() {
-    return findChildByType(IDENT);
+  public PsiElement getLowerId() {
+    return findChildByType(LOWER_ID);
   }
 
 }

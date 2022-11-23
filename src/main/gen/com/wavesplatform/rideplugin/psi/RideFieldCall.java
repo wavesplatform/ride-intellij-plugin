@@ -17,6 +17,6 @@ public interface RideFieldCall extends RideCompositeElement {
   RideStandaloneFunctionCall getStandaloneFunctionCall();
 
   @Nullable
-  PsiElement getIdent();
+  RideVarDefinition getVarDefinition();
 
 }

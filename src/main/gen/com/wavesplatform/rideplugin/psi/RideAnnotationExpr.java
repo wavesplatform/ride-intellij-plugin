@@ -11,6 +11,6 @@ public interface RideAnnotationExpr extends RideExpr {
   RideAnnotation getAnnotation();
 
   @Nullable
-  PsiElement getIdent();
+  PsiElement getLowerId();
 
 }

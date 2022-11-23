@@ -29,26 +29,20 @@ public class RideArrayTypeImpl extends ASTWrapperPsiElement implements RideArray
 
   @Override
   @Nullable
-  public RideArrayType getArrayType() {
-    return PsiTreeUtil.getChildOfType(this, RideArrayType.class);
+  public RideType getType() {
+    return PsiTreeUtil.getChildOfType(this, RideType.class);
   }
 
   @Override
   @Nullable
-  public RideSimpleType getSimpleType() {
-    return PsiTreeUtil.getChildOfType(this, RideSimpleType.class);
+  public PsiElement getIdent() {
+    return findChildByType(IDENT);
   }
 
   @Override
-  @Nullable
-  public RideTupleType getTupleType() {
-    return PsiTreeUtil.getChildOfType(this, RideTupleType.class);
-  }
-
-  @Override
-  @Nullable
-  public RideUnionType getUnionType() {
-    return PsiTreeUtil.getChildOfType(this, RideUnionType.class);
+  @NotNull
+  public PsiElement getUpperId() {
+    return notNullChild(findChildByType(UPPER_ID));
   }
 
 }

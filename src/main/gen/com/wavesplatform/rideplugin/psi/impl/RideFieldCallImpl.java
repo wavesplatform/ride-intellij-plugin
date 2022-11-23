@@ -47,8 +47,8 @@ public class RideFieldCallImpl extends ASTWrapperPsiElement implements RideField
 
   @Override
   @Nullable
-  public PsiElement getIdent() {
-    return findChildByType(IDENT);
+  public RideVarDefinition getVarDefinition() {
+    return PsiTreeUtil.getChildOfType(this, RideVarDefinition.class);
   }
 
 }

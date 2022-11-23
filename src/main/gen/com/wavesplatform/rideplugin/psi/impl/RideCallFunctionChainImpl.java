@@ -35,8 +35,8 @@ public class RideCallFunctionChainImpl extends ASTWrapperPsiElement implements R
 
   @Override
   @NotNull
-  public PsiElement getIdent() {
-    return notNullChild(findChildByType(IDENT));
+  public RideFunctionName getFunctionName() {
+    return notNullChild(PsiTreeUtil.getChildOfType(this, RideFunctionName.class));
   }
 
 }

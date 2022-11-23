@@ -8,17 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.wavesplatform.rideplugin.psi.RideTypes.*;
+import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.wavesplatform.rideplugin.psi.*;
 
-public class RideCallExprImpl extends RideExprImpl implements RideCallExpr {
+public class RideTypeImpl extends ASTWrapperPsiElement implements RideType {
 
-  public RideCallExprImpl(@NotNull ASTNode node) {
+  public RideTypeImpl(@NotNull ASTNode node) {
     super(node);
   }
 
-  @Override
   public void accept(@NotNull RideVisitor visitor) {
-    visitor.visitCallExpr(this);
+    visitor.visitType(this);
   }
 
   @Override
@@ -29,20 +29,26 @@ public class RideCallExprImpl extends RideExprImpl implements RideCallExpr {
 
   @Override
   @Nullable
-  public RideFieldCall getFieldCall() {
-    return PsiTreeUtil.getChildOfType(this, RideFieldCall.class);
+  public RideArrayType getArrayType() {
+    return PsiTreeUtil.getChildOfType(this, RideArrayType.class);
   }
 
   @Override
   @Nullable
-  public RideFunctionCall getFunctionCall() {
-    return PsiTreeUtil.getChildOfType(this, RideFunctionCall.class);
+  public RideSimpleType getSimpleType() {
+    return PsiTreeUtil.getChildOfType(this, RideSimpleType.class);
   }
 
   @Override
   @Nullable
-  public RideStructCall getStructCall() {
-    return PsiTreeUtil.getChildOfType(this, RideStructCall.class);
+  public RideTupleType getTupleType() {
+    return PsiTreeUtil.getChildOfType(this, RideTupleType.class);
+  }
+
+  @Override
+  @Nullable
+  public RideUnionType getUnionType() {
+    return PsiTreeUtil.getChildOfType(this, RideUnionType.class);
   }
 
 }

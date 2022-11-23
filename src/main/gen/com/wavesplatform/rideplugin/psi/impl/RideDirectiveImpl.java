@@ -28,9 +28,21 @@ public class RideDirectiveImpl extends ASTWrapperPsiElement implements RideDirec
   }
 
   @Override
+  @NotNull
+  public PsiElement getIdent() {
+    return notNullChild(findChildByType(IDENT));
+  }
+
+  @Override
   @Nullable
   public PsiElement getInteger() {
     return findChildByType(INTEGER);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getUpperId() {
+    return findChildByType(UPPER_ID);
   }
 
 }
