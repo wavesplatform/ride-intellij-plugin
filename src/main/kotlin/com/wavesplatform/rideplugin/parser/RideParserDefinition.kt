@@ -74,13 +74,19 @@ class RideParserDefinition : ParserDefinition {
         val IDENTIFIER = TokenSet.create(RideTypes.IDENT)
 
         @JvmStatic
-        val STRINGS = TokenSet.create(RideTypes.STRING)
+        val STRINGS = TokenSet.create(RideTypes.STRING, RideTypes.SQSTRING)
 
         @JvmStatic
         val DIRECTIVE = TokenSet.create(RideTypes.DIRECTIVE)
 
         @JvmStatic
         val ANNOTATION = TokenSet.create(RideTypes.ANNOTATION)
+
+        @JvmStatic
+        val FUNCTION = TokenSet.create(RideTypes.FUNCTION_NAME)
+
+        @JvmStatic
+        val TYPE = TokenSet.create(RideTypes.TYPE)
 
         @JvmStatic
         val OPERATORS = TokenSet.create(

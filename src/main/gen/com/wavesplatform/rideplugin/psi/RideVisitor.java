@@ -118,6 +118,10 @@ public class RideVisitor extends PsiElementVisitor {
     visitCompositeElement(o);
   }
 
+  public void visitFieldDefinition(@NotNull RideFieldDefinition o) {
+    visitCompositeElement(o);
+  }
+
   public void visitFoldExpr(@NotNull RideFoldExpr o) {
     visitExpr(o);
   }
@@ -246,6 +250,10 @@ public class RideVisitor extends PsiElementVisitor {
     visitCompositeElement(o);
   }
 
+  public void visitStructCall(@NotNull RideStructCall o) {
+    visitCompositeElement(o);
+  }
+
   public void visitTupleDefinition(@NotNull RideTupleDefinition o) {
     visitCompositeElement(o);
   }
@@ -255,6 +263,10 @@ public class RideVisitor extends PsiElementVisitor {
   }
 
   public void visitTupleType(@NotNull RideTupleType o) {
+    visitCompositeElement(o);
+  }
+
+  public void visitType(@NotNull RideType o) {
     visitCompositeElement(o);
   }
 

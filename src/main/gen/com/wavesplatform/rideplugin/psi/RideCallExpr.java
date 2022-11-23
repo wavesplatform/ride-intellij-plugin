@@ -13,4 +13,7 @@ public interface RideCallExpr extends RideExpr {
   @Nullable
   RideFunctionCall getFunctionCall();
 
+  @Nullable
+  RideStructCall getStructCall();
+
 }

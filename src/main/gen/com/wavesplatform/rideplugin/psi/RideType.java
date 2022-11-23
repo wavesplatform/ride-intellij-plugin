@@ -5,15 +5,18 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface RideDirective extends RideCompositeElement {
-
-  @NotNull
-  PsiElement getIdent();
+public interface RideType extends RideCompositeElement {
 
   @Nullable
-  PsiElement getInteger();
+  RideArrayType getArrayType();
 
   @Nullable
-  PsiElement getUpperId();
+  RideSimpleType getSimpleType();
+
+  @Nullable
+  RideTupleType getTupleType();
+
+  @Nullable
+  RideUnionType getUnionType();
 
 }

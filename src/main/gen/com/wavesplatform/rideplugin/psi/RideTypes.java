@@ -37,6 +37,7 @@ public interface RideTypes {
   IElementType EQUAL_EXPR = new RideElementType("EQUAL_EXPR");
   IElementType EXPR = new RideElementType("EXPR");
   IElementType FIELD_CALL = new RideElementType("FIELD_CALL");
+  IElementType FIELD_DEFINITION = new RideElementType("FIELD_DEFINITION");
   IElementType FOLD_EXPR = new RideElementType("FOLD_EXPR");
   IElementType FUNCTION_CALL = new RideElementType("FUNCTION_CALL");
   IElementType FUNCTION_NAME = new RideElementType("FUNCTION_NAME");
@@ -69,9 +70,11 @@ public interface RideTypes {
   IElementType STANDALONE_FUNCTION_CALL = new RideElementType("STANDALONE_FUNCTION_CALL");
   IElementType STATEMENT = new RideElementType("STATEMENT");
   IElementType STRING_LITERAL = new RideElementType("STRING_LITERAL");
+  IElementType STRUCT_CALL = new RideElementType("STRUCT_CALL");
   IElementType TUPLE_DEFINITION = new RideElementType("TUPLE_DEFINITION");
   IElementType TUPLE_EXPR = new RideElementType("TUPLE_EXPR");
   IElementType TUPLE_TYPE = new RideElementType("TUPLE_TYPE");
+  IElementType TYPE = new RideElementType("TYPE");
   IElementType UNARY_MIN_EXPR = new RideElementType("UNARY_MIN_EXPR");
   IElementType UNARY_NOT_EXPR = new RideElementType("UNARY_NOT_EXPR");
   IElementType UNION_TYPE = new RideElementType("UNION_TYPE");
@@ -119,6 +122,7 @@ public interface RideTypes {
   IElementType LESS = new RideTokenType("<");
   IElementType LESS_OR_EQUAL = new RideTokenType("<=");
   IElementType LET = new RideTokenType("let");
+  IElementType LOWER_ID = new RideTokenType("LOWER_ID");
   IElementType LPAREN = new RideTokenType("(");
   IElementType MATCH = new RideTokenType("match");
   IElementType MINUS = new RideTokenType("-");
@@ -142,6 +146,7 @@ public interface RideTypes {
   IElementType TRUE = new RideTokenType("true");
   IElementType UNDERSCORE = new RideTokenType("_");
   IElementType UNIT = new RideTokenType("unit");
+  IElementType UPPER_ID = new RideTokenType("UPPER_ID");
 
   class Factory {
     public static PsiElement createElement(ASTNode node) {
@@ -226,6 +231,9 @@ public interface RideTypes {
       }
       else if (type == FIELD_CALL) {
         return new RideFieldCallImpl(node);
+      }
+      else if (type == FIELD_DEFINITION) {
+        return new RideFieldDefinitionImpl(node);
       }
       else if (type == FOLD_EXPR) {
         return new RideFoldExprImpl(node);
@@ -323,6 +331,9 @@ public interface RideTypes {
       else if (type == STRING_LITERAL) {
         return new RideStringLiteralImpl(node);
       }
+      else if (type == STRUCT_CALL) {
+        return new RideStructCallImpl(node);
+      }
       else if (type == TUPLE_DEFINITION) {
         return new RideTupleDefinitionImpl(node);
       }
@@ -331,6 +342,9 @@ public interface RideTypes {
       }
       else if (type == TUPLE_TYPE) {
         return new RideTupleTypeImpl(node);
+      }
+      else if (type == TYPE) {
+        return new RideTypeImpl(node);
       }
       else if (type == UNARY_MIN_EXPR) {
         return new RideUnaryMinExprImpl(node);

@@ -29,8 +29,8 @@ public class RideCallFieldChainImpl extends ASTWrapperPsiElement implements Ride
 
   @Override
   @NotNull
-  public PsiElement getIdent() {
-    return notNullChild(findChildByType(IDENT));
+  public RideFieldDefinition getFieldDefinition() {
+    return notNullChild(PsiTreeUtil.getChildOfType(this, RideFieldDefinition.class));
   }
 
 }

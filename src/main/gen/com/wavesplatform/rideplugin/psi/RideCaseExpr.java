@@ -8,21 +8,12 @@ import com.intellij.psi.PsiElement;
 public interface RideCaseExpr extends RideExpr {
 
   @Nullable
-  RideArrayType getArrayType();
-
-  @Nullable
   RideCaseClosure getCaseClosure();
 
   @Nullable
-  RideSimpleType getSimpleType();
+  RideType getType();
 
   @Nullable
-  RideTupleType getTupleType();
-
-  @Nullable
-  RideUnionType getUnionType();
-
-  @Nullable
-  PsiElement getIdent();
+  RideVarDefinition getVarDefinition();
 
 }

@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface RideFunctionName extends RideCompositeElement {
 
   @NotNull
-  PsiElement getIdent();
+  PsiElement getLowerId();
 
 }

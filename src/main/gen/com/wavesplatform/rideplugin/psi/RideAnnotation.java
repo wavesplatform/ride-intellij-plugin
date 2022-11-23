@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface RideAnnotation extends RideCompositeElement {
 
   @Nullable
-  PsiElement getIdent();
+  PsiElement getUpperId();
 
 }

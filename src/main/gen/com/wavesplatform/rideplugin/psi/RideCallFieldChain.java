@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface RideCallFieldChain extends RideCompositeElement {
 
   @NotNull
-  PsiElement getIdent();
+  RideFieldDefinition getFieldDefinition();
 
 }

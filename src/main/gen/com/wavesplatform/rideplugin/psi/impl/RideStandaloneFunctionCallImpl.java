@@ -41,8 +41,8 @@ public class RideStandaloneFunctionCallImpl extends ASTWrapperPsiElement impleme
 
   @Override
   @NotNull
-  public PsiElement getIdent() {
-    return notNullChild(findChildByType(IDENT));
+  public RideFunctionName getFunctionName() {
+    return notNullChild(PsiTreeUtil.getChildOfType(this, RideFunctionName.class));
   }
 
 }

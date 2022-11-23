@@ -14,9 +14,9 @@ public interface RideFuncExpr extends RideExpr {
   RideClosure getClosure();
 
   @Nullable
-  RideParamGroup getParamGroup();
+  RideFunctionName getFunctionName();
 
   @Nullable
-  PsiElement getIdent();
+  RideParamGroup getParamGroup();
 
 }

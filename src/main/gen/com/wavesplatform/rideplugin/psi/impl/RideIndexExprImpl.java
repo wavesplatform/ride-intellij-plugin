@@ -53,8 +53,8 @@ public class RideIndexExprImpl extends RideExprImpl implements RideIndexExpr {
 
   @Override
   @Nullable
-  public PsiElement getIdent() {
-    return findChildByType(IDENT);
+  public PsiElement getLowerId() {
+    return findChildByType(LOWER_ID);
   }
 
 }

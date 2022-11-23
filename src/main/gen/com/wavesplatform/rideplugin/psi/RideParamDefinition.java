@@ -8,16 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface RideParamDefinition extends RideCompositeElement {
 
   @Nullable
-  RideArrayType getArrayType();
-
-  @Nullable
-  RideSimpleType getSimpleType();
-
-  @Nullable
-  RideTupleType getTupleType();
-
-  @Nullable
-  RideUnionType getUnionType();
+  RideType getType();
 
   @NotNull
   RideVarDefinition getVarDefinition();

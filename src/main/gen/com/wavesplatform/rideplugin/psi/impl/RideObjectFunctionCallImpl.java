@@ -47,8 +47,8 @@ public class RideObjectFunctionCallImpl extends ASTWrapperPsiElement implements 
 
   @Override
   @NotNull
-  public PsiElement getIdent() {
-    return notNullChild(findChildByType(IDENT));
+  public RideVarDefinition getVarDefinition() {
+    return notNullChild(PsiTreeUtil.getChildOfType(this, RideVarDefinition.class));
   }
 
 }

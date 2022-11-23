@@ -29,8 +29,8 @@ public class RideSimpleTypeImpl extends ASTWrapperPsiElement implements RideSimp
 
   @Override
   @NotNull
-  public PsiElement getIdent() {
-    return notNullChild(findChildByType(IDENT));
+  public PsiElement getUpperId() {
+    return notNullChild(findChildByType(UPPER_ID));
   }
 
 }

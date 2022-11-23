@@ -30,10 +30,12 @@ AT_SYMBOL=@
 
 BOOL=true|false
 COMMENT=#.*
-INTEGER=[0-9]+
+INTEGER=[0-9_]+
 WHITE_SPACE=[ \t\n\x0B\f\r]+
 STRING=(\")[^\"]*\"
 SQSTRING=(')[^']*'
+UPPER_ID = [A-Z][a-zA-Z0-9]*
+LOWER_ID = [a-z][a-zA-Z0-9]*
 IDENT=[a-zA-Z_][a-zA-Z0-9_]*
 
 //%state ANNOTATION
@@ -107,6 +109,8 @@ IDENT=[a-zA-Z_][a-zA-Z0-9_]*
   {WHITE_SPACE}      { return WHITE_SPACE; }
   {STRING}           { return STRING; }
   {SQSTRING}         { return SQSTRING; }
+  {UPPER_ID}         { return UPPER_ID; }
+  {LOWER_ID}         { return LOWER_ID; }
   {IDENT}            { return IDENT; }
   {AT_SYMBOL}        { return AT_SYMBOL; }
 

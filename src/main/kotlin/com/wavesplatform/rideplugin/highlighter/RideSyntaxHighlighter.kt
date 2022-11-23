@@ -35,11 +35,16 @@ class RideSyntaxHighlighter : SyntaxHighlighterBase() {
             TextAttributesKey.createTextAttributesKey("RIDE_DIRECTIVE", DefaultLanguageHighlighterColors.METADATA)
         val ANNOTATION =
             TextAttributesKey.createTextAttributesKey("RIDE_ANNOTATION", DefaultLanguageHighlighterColors.METADATA)
+        val FUNCTION = TextAttributesKey.createTextAttributesKey("RIDE_FUNCTION", HighlighterColors.TEXT)
+        val TYPE = TextAttributesKey.createTextAttributesKey("RIDE_TYPE", DefaultLanguageHighlighterColors.IDENTIFIER)
+
     }
 
     init {
         fillMap(attributes, RideParserDefinition.DIRECTIVE, DIRECTIVE)
         fillMap(attributes, RideParserDefinition.ANNOTATION, ANNOTATION)
+        fillMap(attributes, RideParserDefinition.FUNCTION, FUNCTION)
+        fillMap(attributes, RideParserDefinition.TYPE, TYPE)
         fillMap(attributes, RideParserDefinition.KEYWORDS, KEYWORDS)
         fillMap(attributes, RideParserDefinition.NUMBERS, NUMBER)
         fillMap(attributes, RideParserDefinition.STRINGS, STRING)

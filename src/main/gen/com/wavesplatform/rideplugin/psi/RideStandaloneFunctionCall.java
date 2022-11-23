@@ -14,6 +14,6 @@ public interface RideStandaloneFunctionCall extends RideCompositeElement {
   List<RideCallChain> getCallChainList();
 
   @NotNull
-  PsiElement getIdent();
+  RideFunctionName getFunctionName();
 
 }
