@@ -16,6 +16,12 @@
 
 <!-- Plugin description -->
 The plugin provides support for RIDE language
+Features:<br>
+<ul>
+  <li>Syntax validation</li>
+  <li>Keyword completion</li>
+  <li>Syntax highlighting and color schemes</li>
+</ul>
 <!-- Plugin description end -->
 
 ## Installation
