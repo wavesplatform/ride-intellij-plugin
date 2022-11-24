@@ -34,8 +34,8 @@ INTEGER=[0-9_]+
 WHITE_SPACE=[ \t\n\x0B\f\r]+
 STRING=(\")[^\"]*\"
 SQSTRING=(')[^']*'
-UPPER_ID = [A-Z][a-zA-Z0-9]*
-LOWER_ID = [a-z][a-zA-Z0-9]*
+UPPER_ID = [A-Z][a-zA-Z0-9_]*
+LOWER_ID = [a-z][a-zA-Z0-9_]*
 IDENT=[a-zA-Z_][a-zA-Z0-9_]*
 
 //%state ANNOTATION

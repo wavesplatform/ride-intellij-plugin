@@ -33,4 +33,10 @@ public class RideArrayExprImpl extends RideExprImpl implements RideArrayExpr {
     return PsiTreeUtil.getChildOfType(this, RideArguments.class);
   }
 
+  @Override
+  @Nullable
+  public RideCallChain getCallChain() {
+    return PsiTreeUtil.getChildOfType(this, RideCallChain.class);
+  }
+
 }
