@@ -74,7 +74,9 @@ public interface RideTypes {
   IElementType TUPLE_DEFINITION = new RideElementType("TUPLE_DEFINITION");
   IElementType TUPLE_EXPR = new RideElementType("TUPLE_EXPR");
   IElementType TUPLE_TYPE = new RideElementType("TUPLE_TYPE");
+  IElementType TUPPLE_VALUE_CALL = new RideElementType("TUPPLE_VALUE_CALL");
   IElementType TYPE = new RideElementType("TYPE");
+  IElementType TYPE_DEFINITION = new RideElementType("TYPE_DEFINITION");
   IElementType UNARY_MIN_EXPR = new RideElementType("UNARY_MIN_EXPR");
   IElementType UNARY_NOT_EXPR = new RideElementType("UNARY_NOT_EXPR");
   IElementType UNION_TYPE = new RideElementType("UNION_TYPE");
@@ -137,6 +139,7 @@ public interface RideTypes {
   IElementType RBRACE = new RideTokenType("}");
   IElementType RBRACKET = new RideTokenType("]");
   IElementType RDBRACKET = new RideTokenType("#-}");
+  IElementType RIDE_FILE = new RideTokenType("RIDE_FILE");
   IElementType RPAREN = new RideTokenType(")");
   IElementType SLASH = new RideTokenType("/");
   IElementType SQSTRING = new RideTokenType("SQSTRING");
@@ -343,8 +346,14 @@ public interface RideTypes {
       else if (type == TUPLE_TYPE) {
         return new RideTupleTypeImpl(node);
       }
+      else if (type == TUPPLE_VALUE_CALL) {
+        return new RideTuppleValueCallImpl(node);
+      }
       else if (type == TYPE) {
         return new RideTypeImpl(node);
+      }
+      else if (type == TYPE_DEFINITION) {
+        return new RideTypeDefinitionImpl(node);
       }
       else if (type == UNARY_MIN_EXPR) {
         return new RideUnaryMinExprImpl(node);

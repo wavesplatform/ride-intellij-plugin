@@ -82,6 +82,7 @@
     NIL = 'nil'
     BOOL="regexp:true|false"
     COMMENT = 'regexp:#.*'
+//    TUPPLE_FIELD = 'regexp:_[0-9_]*'
     INTEGER ="regexp:[0-9_]+"
     WHITE_SPACE = 'regexp:\s+'
     NEW_LINE = "regexp:(\r|\n|\r\n)"
@@ -89,6 +90,7 @@
     SQSTRING = "regexp:(')[^']*'"
     UPPER_ID = 'regexp:[A-Z][a-zA-Z0-9_]*'
     LOWER_ID = 'regexp:[a-z][a-zA-Z0-9_]*'
+    RIDE_FILE = "regexp:[a-zA-Z0-9_]*\.ride"
     IDENT = 'regexp:[a-zA-Z_][a-zA-Z0-9_]*'
     //INT = "regexp:[0-9]+"
   ]
@@ -101,9 +103,9 @@ private element ::= !<<eof>> statement {pin=2 recoverWhile=property_recover}
 private property_recover ::= !(UNIT | NIL | AT_SYMBOL | FUNCTION | LET | STRICT | TRUE | FALSE |IF |ELSE | LDBRACKET
 | RDBRACKET | PERCENT | LESS_OR_EQUAL | GREATER_OR_EQUAL
 | INT | STRING | IDENT | PLUS | MINUS| BANG | ASTERISK |SLASH | LESS |GT|EQ | LBRACKET | RBRACKET
-| NOT_EQ | COMMA | ASSIGN |  COLON | LPAREN |RPAREN |LBRACE |RBRACE | MATCH | CASE | FOLD_KW | LOWER_ID | UPPER_ID)
+| NOT_EQ | COMMA | ASSIGN |  COLON | LPAREN |RPAREN |LBRACE |RBRACE | MATCH | CASE | FOLD_KW | LOWER_ID | UPPER_ID | TUPPLE_FIELD)
 
-directive ::= LDBRACKET IDENT (UPPER_ID|INTEGER) RDBRACKET
+directive ::= LDBRACKET UPPER_ID (RIDE_FILE|UPPER_ID|INTEGER) RDBRACKET
 
 statement ::= var_declaration_statement | expr
 
@@ -176,7 +178,8 @@ call_expr ::=  struct_call | function_call | field_call
 struct_call ::= type LPAREN arguments? RPAREN call_chain*
 function_call ::= object_function_call | standalone_function_call
 standalone_function_call ::= function_name LPAREN arguments? RPAREN call_chain* {pin=2}
-object_function_call ::= var_definition DOT function_name LPAREN arguments? RPAREN call_chain* {pin=4}
+object_function_call ::= calling_object DOT function_name LPAREN arguments? RPAREN call_chain* {pin=4}
+calling_object ::= var_definition
 call_chain ::= call_function_chain | call_field_chain
 call_function_chain ::= DOT function_name LPAREN arguments? RPAREN
 call_field_chain ::= DOT field_definition
@@ -210,7 +213,8 @@ func_expr ::= annotation_expr? FUNCTION function_name LPAREN param_group? RPAREN
 function_name ::= LOWER_ID | UPPER_ID
 block_state ::= element*
 param_group ::= param_definition (COMMA param_definition)*  {pin(".*")=1}
-param_definition ::= var_definition COLON type {pin(".*")=1}
+param_definition ::= var_definition type_definition {pin=1}
+type_definition ::= COLON type {pin=1}
 
 annotation_expr ::= annotation LPAREN LOWER_ID RPAREN {pin=1}
 annotation ::= AT_SYMBOL UPPER_ID {pin=1}
@@ -224,7 +228,7 @@ simple_type ::= UPPER_ID
 array_expr ::= LBRACKET arguments? RBRACKET call_chain? {pin = 1}
 
 pattern_matching_expr ::= MATCH expr LBRACE case_expr*  RBRACE {pin=1}
-case_expr ::= CASE (UNDERSCORE | var_definition) COLON? type? '=>' case_closure {pin=1}
+case_expr ::= CASE (UNDERSCORE | var_definition) type_definition? '=>' case_closure {pin=1}
 //case ::= default_case | certain_type_case_definition
 //certain_type_case_definition ::= CASE param_definition '=>' statement* {pin=2}
 //default_case ::= CASE UNDERSCORE param_definition? '=>' expr* {pin=2}

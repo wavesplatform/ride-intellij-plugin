@@ -261,25 +261,36 @@ public class RideParser implements PsiParser, LightPsiParser {
   // call_function_chain | call_field_chain
   public static boolean call_chain(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "call_chain")) return false;
-    if (!nextTokenIs(b, DOT)) return false;
+    if (!nextTokenIs(b, "<call chain>", DOT, UNDERSCORE)) return false;
     boolean r;
-    Marker m = enter_section_(b);
+    Marker m = enter_section_(b, l, _NONE_, CALL_CHAIN, "<call chain>");
     r = call_function_chain(b, l + 1);
     if (!r) r = call_field_chain(b, l + 1);
-    exit_section_(b, m, CALL_CHAIN, r);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
   /* ********************************************************** */
-  // DOT field_definition
+  // DOT field_definition | tupple_value_call
   public static boolean call_field_chain(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "call_field_chain")) return false;
-    if (!nextTokenIs(b, DOT)) return false;
+    if (!nextTokenIs(b, "<call field chain>", DOT, UNDERSCORE)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, CALL_FIELD_CHAIN, "<call field chain>");
+    r = call_field_chain_0(b, l + 1);
+    if (!r) r = tupple_value_call(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // DOT field_definition
+  private static boolean call_field_chain_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "call_field_chain_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, DOT);
     r = r && field_definition(b, l + 1);
-    exit_section_(b, m, CALL_FIELD_CHAIN, r);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -346,7 +357,7 @@ public class RideParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // CASE (UNDERSCORE | var_definition) COLON? type? '=>' case_closure
+  // CASE (UNDERSCORE | var_definition) type_definition? '=>' case_closure
   public static boolean case_expr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "case_expr")) return false;
     if (!nextTokenIs(b, CASE)) return false;
@@ -356,7 +367,6 @@ public class RideParser implements PsiParser, LightPsiParser {
     p = r; // pin = 1
     r = r && report_error_(b, case_expr_1(b, l + 1));
     r = p && report_error_(b, case_expr_2(b, l + 1)) && r;
-    r = p && report_error_(b, case_expr_3(b, l + 1)) && r;
     r = p && report_error_(b, consumeToken(b, "=>")) && r;
     r = p && case_closure(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
@@ -372,17 +382,10 @@ public class RideParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // COLON?
+  // type_definition?
   private static boolean case_expr_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "case_expr_2")) return false;
-    consumeToken(b, COLON);
-    return true;
-  }
-
-  // type?
-  private static boolean case_expr_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "case_expr_3")) return false;
-    type(b, l + 1);
+    type_definition(b, l + 1);
     return true;
   }
 
@@ -426,24 +429,25 @@ public class RideParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // LDBRACKET IDENT (UPPER_ID|INTEGER) RDBRACKET
+  // LDBRACKET UPPER_ID (RIDE_FILE|UPPER_ID|INTEGER) RDBRACKET
   public static boolean directive(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "directive")) return false;
     if (!nextTokenIs(b, LDBRACKET)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, LDBRACKET, IDENT);
+    r = consumeTokens(b, 0, LDBRACKET, UPPER_ID);
     r = r && directive_2(b, l + 1);
     r = r && consumeToken(b, RDBRACKET);
     exit_section_(b, m, DIRECTIVE, r);
     return r;
   }
 
-  // UPPER_ID|INTEGER
+  // RIDE_FILE|UPPER_ID|INTEGER
   private static boolean directive_2(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "directive_2")) return false;
     boolean r;
-    r = consumeToken(b, UPPER_ID);
+    r = consumeToken(b, RIDE_FILE);
+    if (!r) r = consumeToken(b, UPPER_ID);
     if (!r) r = consumeToken(b, INTEGER);
     return r;
   }
@@ -702,7 +706,7 @@ public class RideParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // var_definition COLON type
+  // var_definition type_definition
   public static boolean param_definition(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "param_definition")) return false;
     if (!nextTokenIs(b, "<param definition>", LOWER_ID, UPPER_ID)) return false;
@@ -710,8 +714,7 @@ public class RideParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, PARAM_DEFINITION, "<param definition>");
     r = var_definition(b, l + 1);
     p = r; // pin = 1
-    r = r && report_error_(b, consumeToken(b, COLON));
-    r = p && type(b, l + 1) && r;
+    r = r && type_definition(b, l + 1);
     exit_section_(b, l, m, r, p, null);
     return r || p;
   }
@@ -1008,6 +1011,18 @@ public class RideParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // UNDERSCORE INTEGER
+  public static boolean tupple_value_call(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "tupple_value_call")) return false;
+    if (!nextTokenIs(b, UNDERSCORE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, UNDERSCORE, INTEGER);
+    exit_section_(b, m, TUPPLE_VALUE_CALL, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // tuple_type | array_type | union_type | simple_type
   public static boolean type(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "type")) return false;
@@ -1020,6 +1035,20 @@ public class RideParser implements PsiParser, LightPsiParser {
     if (!r) r = simple_type(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
+  }
+
+  /* ********************************************************** */
+  // COLON type
+  public static boolean type_definition(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "type_definition")) return false;
+    if (!nextTokenIs(b, COLON)) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, TYPE_DEFINITION, null);
+    r = consumeToken(b, COLON);
+    p = r; // pin = 1
+    r = r && type(b, l + 1);
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
   }
 
   /* ********************************************************** */

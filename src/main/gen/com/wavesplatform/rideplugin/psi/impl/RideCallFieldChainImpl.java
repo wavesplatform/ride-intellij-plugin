@@ -28,9 +28,15 @@ public class RideCallFieldChainImpl extends ASTWrapperPsiElement implements Ride
   }
 
   @Override
-  @NotNull
+  @Nullable
   public RideFieldDefinition getFieldDefinition() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, RideFieldDefinition.class));
+    return PsiTreeUtil.getChildOfType(this, RideFieldDefinition.class);
+  }
+
+  @Override
+  @Nullable
+  public RideTuppleValueCall getTuppleValueCall() {
+    return PsiTreeUtil.getChildOfType(this, RideTuppleValueCall.class);
   }
 
 }

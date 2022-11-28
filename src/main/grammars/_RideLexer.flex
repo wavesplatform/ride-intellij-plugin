@@ -34,6 +34,7 @@ INTEGER=[0-9_]+
 WHITE_SPACE=[ \t\n\x0B\f\r]+
 STRING=(\")[^\"]*\"
 SQSTRING=(')[^']*'
+RIDE_FILE = [a-zA-Z0-9_]*\.ride
 UPPER_ID = [A-Z][a-zA-Z0-9_]*
 LOWER_ID = [a-z][a-zA-Z0-9_]*
 IDENT=[a-zA-Z_][a-zA-Z0-9_]*
@@ -109,6 +110,7 @@ IDENT=[a-zA-Z_][a-zA-Z0-9_]*
   {WHITE_SPACE}      { return WHITE_SPACE; }
   {STRING}           { return STRING; }
   {SQSTRING}         { return SQSTRING; }
+  {RIDE_FILE}        { return RIDE_FILE; }
   {UPPER_ID}         { return UPPER_ID; }
   {LOWER_ID}         { return LOWER_ID; }
   {IDENT}            { return IDENT; }

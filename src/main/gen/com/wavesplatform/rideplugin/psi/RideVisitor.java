@@ -266,7 +266,15 @@ public class RideVisitor extends PsiElementVisitor {
     visitCompositeElement(o);
   }
 
+  public void visitTuppleValueCall(@NotNull RideTuppleValueCall o) {
+    visitCompositeElement(o);
+  }
+
   public void visitType(@NotNull RideType o) {
+    visitCompositeElement(o);
+  }
+
+  public void visitTypeDefinition(@NotNull RideTypeDefinition o) {
     visitCompositeElement(o);
   }
 

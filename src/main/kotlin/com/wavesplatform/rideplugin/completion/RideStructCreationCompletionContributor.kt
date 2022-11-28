@@ -5,7 +5,7 @@ import com.intellij.codeInsight.lookup.LookupElementBuilder
 import com.intellij.openapi.project.DumbAware
 import com.intellij.util.ProcessingContext
 
-class RideBaseTypesCompletionContributor : CompletionContributor(), DumbAware {
+class RideStructCreationCompletionContributor : CompletionContributor(), DumbAware {
     init {
         val provider = object : CompletionProvider<CompletionParameters>() {
             override fun addCompletions(
@@ -18,23 +18,22 @@ class RideBaseTypesCompletionContributor : CompletionContributor(), DumbAware {
                     .plus(commonStructs())
                     .plus(transactionStructs())
                     .asSequence()
-                    //.map { "$it()" }
+                    .map { "$it()" }
                     .map(LookupElementBuilder::create)
-                    // важно
-//                    .map {
-//                        it.withInsertHandler { context, item ->
-//                            val start = context.startOffset
-//                            val end = context.selectionEndOffset
-//                            context.editor.caretModel.moveToOffset(end - 1)
-//                        }
-//                    }
+                    .map {
+                        it.withInsertHandler { context, item ->
+                            val start = context.startOffset
+                            val end = context.selectionEndOffset
+                            context.editor.caretModel.moveToOffset(end - 1)
+                        }
+                    }
                     .map(result::addElement)
                     .toList()
             }
         }
         extend(
             CompletionType.BASIC,
-            RidePatterns.BaseTypePattern.baseTypePattern(),
+            RidePatterns.InvocationPattern.structCreationPattern(),
             provider
         )
     }

@@ -86,7 +86,19 @@ object RidePatterns {
     object BaseTypePattern {
         @JvmStatic
         fun baseTypePattern(): PsiElementPattern.Capture<PsiElement> {
-            return psiElement().inside(RideExpr::class.java)
+            return psiElement().andOr(
+                psiElement().inside(RideParamDefinition::class.java),
+                psiElement().afterLeaf(psiElement(RideTypes.COLON))
+            )
+        }
+    }
+
+    object InvocationPattern {
+        @JvmStatic
+        fun structCreationPattern(): PsiElementPattern.Capture<PsiElement> {
+            return psiElement().inside(RideClosure::class.java).andNot(
+                psiElement().afterLeaf(psiElement(RideTypes.COLON))
+            )
         }
     }
 }

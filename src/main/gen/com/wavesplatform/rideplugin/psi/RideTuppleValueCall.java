@@ -5,15 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface RideCaseExpr extends RideExpr {
+public interface RideTuppleValueCall extends RideCompositeElement {
 
-  @Nullable
-  RideCaseClosure getCaseClosure();
-
-  @Nullable
-  RideTypeDefinition getTypeDefinition();
-
-  @Nullable
-  RideVarDefinition getVarDefinition();
+  @NotNull
+  PsiElement getInteger();
 
 }

@@ -11,14 +11,14 @@ import static com.wavesplatform.rideplugin.psi.RideTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.wavesplatform.rideplugin.psi.*;
 
-public class RideDirectiveImpl extends ASTWrapperPsiElement implements RideDirective {
+public class RideTypeDefinitionImpl extends ASTWrapperPsiElement implements RideTypeDefinition {
 
-  public RideDirectiveImpl(@NotNull ASTNode node) {
+  public RideTypeDefinitionImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull RideVisitor visitor) {
-    visitor.visitDirective(this);
+    visitor.visitTypeDefinition(this);
   }
 
   @Override
@@ -29,14 +29,8 @@ public class RideDirectiveImpl extends ASTWrapperPsiElement implements RideDirec
 
   @Override
   @Nullable
-  public PsiElement getInteger() {
-    return findChildByType(INTEGER);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getRideFile() {
-    return findChildByType(RIDE_FILE);
+  public RideType getType() {
+    return PsiTreeUtil.getChildOfType(this, RideType.class);
   }
 
 }

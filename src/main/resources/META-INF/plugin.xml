@@ -30,6 +30,8 @@
                                 implementationClass="com.wavesplatform.rideplugin.completion.RideKeywordCompletionContributor"/>
         <completion.contributor language="RIDE"
                                 implementationClass="com.wavesplatform.rideplugin.completion.RideBaseTypesCompletionContributor"/>
+        <completion.contributor language="RIDE"
+                                implementationClass="com.wavesplatform.rideplugin.completion.RideStructCreationCompletionContributor"/>
         <lang.braceMatcher language="RIDE"
                            implementationClass="com.wavesplatform.rideplugin.editor.RideBraceMatcher"/>
         <annotator language="RIDE"
