@@ -7,10 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface RideCallFieldChain extends RideCompositeElement {
 
-  @Nullable
+  @NotNull
   RideFieldDefinition getFieldDefinition();
-
-  @Nullable
-  RideTuppleValueCall getTuppleValueCall();
 
 }

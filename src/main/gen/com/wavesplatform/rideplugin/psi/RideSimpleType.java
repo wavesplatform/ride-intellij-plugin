@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface RideSimpleType extends RideCompositeElement {
+public interface RideSimpleType extends RideType {
 
   @NotNull
   PsiElement getUpperId();

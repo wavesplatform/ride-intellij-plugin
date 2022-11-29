@@ -51,10 +51,4 @@ public class RideIndexExprImpl extends RideExprImpl implements RideIndexExpr {
     return PsiTreeUtil.getChildOfType(this, RideStandaloneFunctionCall.class);
   }
 
-  @Override
-  @Nullable
-  public PsiElement getLowerId() {
-    return findChildByType(LOWER_ID);
-  }
-
 }

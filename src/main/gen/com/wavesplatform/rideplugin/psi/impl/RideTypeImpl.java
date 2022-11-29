@@ -11,7 +11,7 @@ import static com.wavesplatform.rideplugin.psi.RideTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.wavesplatform.rideplugin.psi.*;
 
-public class RideTypeImpl extends ASTWrapperPsiElement implements RideType {
+public abstract class RideTypeImpl extends ASTWrapperPsiElement implements RideType {
 
   public RideTypeImpl(@NotNull ASTNode node) {
     super(node);
@@ -25,30 +25,6 @@ public class RideTypeImpl extends ASTWrapperPsiElement implements RideType {
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof RideVisitor) accept((RideVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @Nullable
-  public RideArrayType getArrayType() {
-    return PsiTreeUtil.getChildOfType(this, RideArrayType.class);
-  }
-
-  @Override
-  @Nullable
-  public RideSimpleType getSimpleType() {
-    return PsiTreeUtil.getChildOfType(this, RideSimpleType.class);
-  }
-
-  @Override
-  @Nullable
-  public RideTupleType getTupleType() {
-    return PsiTreeUtil.getChildOfType(this, RideTupleType.class);
-  }
-
-  @Override
-  @Nullable
-  public RideUnionType getUnionType() {
-    return PsiTreeUtil.getChildOfType(this, RideUnionType.class);
   }
 
 }

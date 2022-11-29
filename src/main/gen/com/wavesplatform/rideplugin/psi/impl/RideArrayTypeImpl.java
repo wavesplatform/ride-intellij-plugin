@@ -8,15 +8,15 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.wavesplatform.rideplugin.psi.RideTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.wavesplatform.rideplugin.psi.*;
 
-public class RideArrayTypeImpl extends ASTWrapperPsiElement implements RideArrayType {
+public class RideArrayTypeImpl extends RideTypeImpl implements RideArrayType {
 
   public RideArrayTypeImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull RideVisitor visitor) {
     visitor.visitArrayType(this);
   }
@@ -31,12 +31,6 @@ public class RideArrayTypeImpl extends ASTWrapperPsiElement implements RideArray
   @Nullable
   public RideType getType() {
     return PsiTreeUtil.getChildOfType(this, RideType.class);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getIdent() {
-    return findChildByType(IDENT);
   }
 
   @Override

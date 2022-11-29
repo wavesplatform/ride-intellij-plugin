@@ -19,7 +19,4 @@ public interface RideIndexExpr extends RideExpr {
   @Nullable
   RideStandaloneFunctionCall getStandaloneFunctionCall();
 
-  @Nullable
-  PsiElement getLowerId();
-
 }

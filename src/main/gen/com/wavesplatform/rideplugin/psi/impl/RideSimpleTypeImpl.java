@@ -8,15 +8,15 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.wavesplatform.rideplugin.psi.RideTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.wavesplatform.rideplugin.psi.*;
 
-public class RideSimpleTypeImpl extends ASTWrapperPsiElement implements RideSimpleType {
+public class RideSimpleTypeImpl extends RideTypeImpl implements RideSimpleType {
 
   public RideSimpleTypeImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull RideVisitor visitor) {
     visitor.visitSimpleType(this);
   }

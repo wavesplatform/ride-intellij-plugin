@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface RideTupleType extends RideCompositeElement {
+public interface RideTupleType extends RideType {
 
   @NotNull
   List<RideType> getTypeList();

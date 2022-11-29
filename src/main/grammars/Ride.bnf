@@ -95,6 +95,7 @@
     //INT = "regexp:[0-9]+"
   ]
   extends(".*expr") = expr
+  extends(".*type") = type
 }
 
 program ::= all
@@ -184,6 +185,7 @@ call_chain ::= call_function_chain | call_field_chain
 call_function_chain ::= DOT function_name LPAREN arguments? RPAREN
 call_field_chain ::= DOT field_definition
 field_call ::= (standalone_function_call | var_definition) (call_function_chain | call_field_chain)+
+
 call_arguments ::= LPAREN arguments? RPAREN  {pin = 1}
 arguments ::= argument (COMMA argument)*  {pin(".*")=1}
 argument ::= expr | closure
@@ -194,7 +196,7 @@ private definition_group ::= func_expr | array_expr | pattern_matching_expr | fo
 
 //todo doesnt work
 private index_group ::= index_expr
-index_expr ::= (standalone_function_call | object_function_call | field_call | LOWER_ID) LBRACKET expr RBRACKET (DOT expr)?
+index_expr ::= (standalone_function_call | object_function_call | field_call | simple_ref_expr) LBRACKET expr RBRACKET (DOT expr)?
 
 private prefix_group ::= if_expr
 if_expr ::= IF if_cond (THEN? closure) else_if_block* else_block?
@@ -221,8 +223,8 @@ annotation ::= AT_SYMBOL UPPER_ID {pin=1}
 
 type ::=  tuple_type | array_type | union_type | simple_type
 tuple_type ::= LPAREN type (COMMA type)* RPAREN {pin(".*")=1}
-array_type ::= UPPER_ID LBRACKET (type | IDENT) RBRACKET {pin=2}
-union_type ::= UPPER_ID BIT_OR (UPPER_ID|NIL|UNIT) (BIT_OR (UPPER_ID|NIL|UNIT))* {pin=2}
+array_type ::= UPPER_ID LBRACKET type RBRACKET {pin=2}
+union_type ::= type BIT_OR (type|NIL|UNIT) (BIT_OR (type|NIL|UNIT))* {pin=2}
 simple_type ::= UPPER_ID
 
 array_expr ::= LBRACKET arguments? RBRACKET call_chain? {pin = 1}
