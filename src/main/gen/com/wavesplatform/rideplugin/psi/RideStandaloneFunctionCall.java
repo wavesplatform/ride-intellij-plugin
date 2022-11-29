@@ -5,13 +5,10 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface RideStandaloneFunctionCall extends RideCompositeElement {
+public interface RideStandaloneFunctionCall extends RideExpr {
 
   @Nullable
   RideArguments getArguments();
-
-  @NotNull
-  List<RideCallChain> getCallChainList();
 
   @NotNull
   RideFunctionName getFunctionName();

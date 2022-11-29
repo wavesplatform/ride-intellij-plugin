@@ -8,9 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface RideDirective extends RideCompositeElement {
 
   @Nullable
-  PsiElement getInteger();
+  RideImports getImports();
 
   @Nullable
-  PsiElement getRideFile();
+  PsiElement getInteger();
 
 }

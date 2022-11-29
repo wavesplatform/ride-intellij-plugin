@@ -29,14 +29,14 @@ public class RideDirectiveImpl extends ASTWrapperPsiElement implements RideDirec
 
   @Override
   @Nullable
-  public PsiElement getInteger() {
-    return findChildByType(INTEGER);
+  public RideImports getImports() {
+    return PsiTreeUtil.getChildOfType(this, RideImports.class);
   }
 
   @Override
   @Nullable
-  public PsiElement getRideFile() {
-    return findChildByType(RIDE_FILE);
+  public PsiElement getInteger() {
+    return findChildByType(INTEGER);
   }
 
 }

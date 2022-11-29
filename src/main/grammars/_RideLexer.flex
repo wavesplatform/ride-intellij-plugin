@@ -34,10 +34,10 @@ INTEGER=[0-9_]+
 WHITE_SPACE=[ \t\n\x0B\f\r]+
 STRING=(\")[^\"]*\"
 SQSTRING=(')[^']*'
-RIDE_FILE = [a-zA-Z0-9_]*\.ride
-UPPER_ID = [A-Z][a-zA-Z0-9_]*
-LOWER_ID = [a-z][a-zA-Z0-9_]*
-IDENT=[a-zA-Z_][a-zA-Z0-9_]*
+RIDE_FILE = [a-zA-Z0-9\/\\.\\_-]*\.ride
+UPPER_ID = [A-Z_-][a-zA-Z0-9_]*
+LOWER_ID = [a-z_-][a-zA-Z0-9_]*
+IDENT=[a-zA-Z_-][a-zA-Z0-9_]*
 
 //%state ANNOTATION
 

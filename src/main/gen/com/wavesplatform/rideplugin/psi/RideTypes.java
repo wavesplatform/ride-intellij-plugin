@@ -24,7 +24,6 @@ public interface RideTypes {
   IElementType CALLING_OBJECT = new RideElementType("CALLING_OBJECT");
   IElementType CALL_ARGUMENTS = new RideElementType("CALL_ARGUMENTS");
   IElementType CALL_CHAIN = new RideElementType("CALL_CHAIN");
-  IElementType CALL_EXPR = new RideElementType("CALL_EXPR");
   IElementType CALL_FIELD_CHAIN = new RideElementType("CALL_FIELD_CHAIN");
   IElementType CALL_FUNCTION_CHAIN = new RideElementType("CALL_FUNCTION_CHAIN");
   IElementType CASE_CLOSURE = new RideElementType("CASE_CLOSURE");
@@ -37,6 +36,7 @@ public interface RideTypes {
   IElementType ELSE_IF_BLOCK = new RideElementType("ELSE_IF_BLOCK");
   IElementType EQUAL_EXPR = new RideElementType("EQUAL_EXPR");
   IElementType EXPR = new RideElementType("EXPR");
+  IElementType EXPR_CALL = new RideElementType("EXPR_CALL");
   IElementType FIELD_CALL = new RideElementType("FIELD_CALL");
   IElementType FIELD_DEFINITION = new RideElementType("FIELD_DEFINITION");
   IElementType FOLD_EXPR = new RideElementType("FOLD_EXPR");
@@ -45,6 +45,7 @@ public interface RideTypes {
   IElementType FUNC_EXPR = new RideElementType("FUNC_EXPR");
   IElementType IF_COND = new RideElementType("IF_COND");
   IElementType IF_EXPR = new RideElementType("IF_EXPR");
+  IElementType IMPORTS = new RideElementType("IMPORTS");
   IElementType INDEX_EXPR = new RideElementType("INDEX_EXPR");
   IElementType INTEGER_LITERAL = new RideElementType("INTEGER_LITERAL");
   IElementType LESS_EXPR = new RideElementType("LESS_EXPR");
@@ -200,9 +201,6 @@ public interface RideTypes {
       else if (type == CALL_CHAIN) {
         return new RideCallChainImpl(node);
       }
-      else if (type == CALL_EXPR) {
-        return new RideCallExprImpl(node);
-      }
       else if (type == CALL_FIELD_CHAIN) {
         return new RideCallFieldChainImpl(node);
       }
@@ -236,6 +234,9 @@ public interface RideTypes {
       else if (type == EQUAL_EXPR) {
         return new RideEqualExprImpl(node);
       }
+      else if (type == EXPR_CALL) {
+        return new RideExprCallImpl(node);
+      }
       else if (type == FIELD_CALL) {
         return new RideFieldCallImpl(node);
       }
@@ -244,9 +245,6 @@ public interface RideTypes {
       }
       else if (type == FOLD_EXPR) {
         return new RideFoldExprImpl(node);
-      }
-      else if (type == FUNCTION_CALL) {
-        return new RideFunctionCallImpl(node);
       }
       else if (type == FUNCTION_NAME) {
         return new RideFunctionNameImpl(node);
@@ -259,6 +257,9 @@ public interface RideTypes {
       }
       else if (type == IF_EXPR) {
         return new RideIfExprImpl(node);
+      }
+      else if (type == IMPORTS) {
+        return new RideImportsImpl(node);
       }
       else if (type == INDEX_EXPR) {
         return new RideIndexExprImpl(node);

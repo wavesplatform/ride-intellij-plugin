@@ -10,13 +10,4 @@ public interface RideIndexExpr extends RideExpr {
   @NotNull
   List<RideExpr> getExprList();
 
-  @Nullable
-  RideFieldCall getFieldCall();
-
-  @Nullable
-  RideObjectFunctionCall getObjectFunctionCall();
-
-  @Nullable
-  RideStandaloneFunctionCall getStandaloneFunctionCall();
-
 }
