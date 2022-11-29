@@ -35,8 +35,8 @@ public class RideStructCallImpl extends RideExprImpl implements RideStructCall {
 
   @Override
   @NotNull
-  public RideType getType() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, RideType.class));
+  public RideSimpleType getSimpleType() {
+    return notNullChild(PsiTreeUtil.getChildOfType(this, RideSimpleType.class));
   }
 
 }

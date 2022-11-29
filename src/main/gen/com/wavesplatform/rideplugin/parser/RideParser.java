@@ -1110,7 +1110,12 @@ public class RideParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (standalone_function_call | object_function_call | field_call | simple_ref_expr) LBRACKET expr RBRACKET (DOT expr)?
+  // (
+  //     standalone_function_call
+  //     | object_function_call
+  //     | field_call
+  //     | simple_ref_expr
+  // ) LBRACKET expr RBRACKET (DOT expr)?
   public static boolean index_expr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "index_expr")) return false;
     if (!nextTokenIsSmart(b, LOWER_ID, UPPER_ID)) return false;
@@ -1125,7 +1130,10 @@ public class RideParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // standalone_function_call | object_function_call | field_call | simple_ref_expr
+  // standalone_function_call
+  //     | object_function_call
+  //     | field_call
+  //     | simple_ref_expr
   private static boolean index_expr_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "index_expr_0")) return false;
     boolean r;
@@ -1292,17 +1300,17 @@ public class RideParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // type LPAREN arguments? RPAREN
+  // simple_type LPAREN arguments? RPAREN
   public static boolean struct_call(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "struct_call")) return false;
-    if (!nextTokenIsSmart(b, LPAREN, UPPER_ID)) return false;
+    if (!nextTokenIsSmart(b, UPPER_ID)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, STRUCT_CALL, "<struct call>");
-    r = type(b, l + 1, -1);
+    Marker m = enter_section_(b);
+    r = simple_type(b, l + 1);
     r = r && consumeToken(b, LPAREN);
     r = r && struct_call_2(b, l + 1);
     r = r && consumeToken(b, RPAREN);
-    exit_section_(b, l, m, r, false, null);
+    exit_section_(b, m, STRUCT_CALL, r);
     return r;
   }
 

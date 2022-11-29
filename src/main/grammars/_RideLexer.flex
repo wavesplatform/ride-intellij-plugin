@@ -38,6 +38,10 @@ RIDE_FILE = [a-zA-Z0-9\/\\.\\_-]*\.ride
 UPPER_ID = [A-Z_-][a-zA-Z0-9_]*
 LOWER_ID = [a-z_-][a-zA-Z0-9_]*
 IDENT=[a-zA-Z_-][a-zA-Z0-9_]*
+//todo this is bad
+//this is needed to create tolerance to whitespaces in RDBRACKET
+RDBRACKET="#-}"{WHITE_SPACE}*
+
 
 //%state ANNOTATION
 
@@ -49,7 +53,7 @@ IDENT=[a-zA-Z_-][a-zA-Z0-9_]*
 
   "="                { return ASSIGN; }
   "{-#"              { return LDBRACKET; }
-  "#-}"              { return RDBRACKET; }
+  {RDBRACKET}        { return RDBRACKET; }
   "true"             { return TRUE; }
   "false"            { return FALSE; }
   "if"               { return IF; }

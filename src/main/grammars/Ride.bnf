@@ -179,7 +179,7 @@ unary_not_expr ::= BANG expr  {pin = 1}
 private call_group ::= expr_call | struct_call | function_call  //| function_call | field_call | struct_call
 //call_expr ::=  expr | struct_call | function_call | field_call | expr_call
 expr_call ::= expr call_chain
-struct_call ::= type LPAREN arguments? RPAREN
+struct_call ::= simple_type LPAREN arguments? RPAREN
 function_call ::= object_function_call | standalone_function_call
 standalone_function_call ::= function_name LPAREN arguments? RPAREN {pin=2}
 object_function_call ::= calling_object DOT function_name LPAREN arguments? RPAREN {pin=4}
@@ -197,9 +197,20 @@ field_definition ::= LOWER_ID | INTEGER
 
 private definition_group ::= func_expr | array_expr | pattern_matching_expr | fold_expr | tuple_expr
 
-//todo doesnt work
 private index_group ::= index_expr
-index_expr ::= (standalone_function_call | object_function_call | field_call | simple_ref_expr) LBRACKET expr RBRACKET (DOT expr)?
+//todo (standalone_function_call | object_function_call | ...) need to be replaced with expr
+//but when replaced
+//parser have wrong determination
+//for example
+//let liquidity = sqrt(amount0 * amount1, 0, 0, DOWN) - MINIMUM_LIQUIDITY
+//[1, 2]
+//when expr parser determines that [1,2] is index that belongs to MINIMUM_LIQUIDITY not the individual array
+index_expr ::= (
+    standalone_function_call
+    | object_function_call
+    | field_call
+    | simple_ref_expr
+) LBRACKET expr RBRACKET (DOT expr)?
 
 private prefix_group ::= if_expr
 if_expr ::= IF if_cond (THEN? closure) else_if_block* else_block?

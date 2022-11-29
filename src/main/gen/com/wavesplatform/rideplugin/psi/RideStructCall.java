@@ -11,6 +11,6 @@ public interface RideStructCall extends RideExpr {
   RideArguments getArguments();
 
   @NotNull
-  RideType getType();
+  RideSimpleType getSimpleType();
 
 }
