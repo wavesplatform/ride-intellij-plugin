@@ -28,9 +28,9 @@ public class RideIfExprImpl extends RideExprImpl implements RideIfExpr {
   }
 
   @Override
-  @NotNull
+  @Nullable
   public RideClosure getClosure() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, RideClosure.class));
+    return PsiTreeUtil.getChildOfType(this, RideClosure.class);
   }
 
   @Override
@@ -43,6 +43,12 @@ public class RideIfExprImpl extends RideExprImpl implements RideIfExpr {
   @NotNull
   public List<RideElseIfBlock> getElseIfBlockList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, RideElseIfBlock.class);
+  }
+
+  @Override
+  @Nullable
+  public RideExpr getExpr() {
+    return PsiTreeUtil.getChildOfType(this, RideExpr.class);
   }
 
   @Override

@@ -10,4 +10,7 @@ public interface RideElseBlock extends RideCompositeElement {
   @Nullable
   RideClosure getClosure();
 
+  @Nullable
+  RideExpr getExpr();
+
 }

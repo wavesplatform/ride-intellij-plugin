@@ -11,6 +11,9 @@ public interface RideElseIfBlock extends RideCompositeElement {
   RideClosure getClosure();
 
   @Nullable
+  RideExpr getExpr();
+
+  @NotNull
   RideIfCond getIfCond();
 
 }

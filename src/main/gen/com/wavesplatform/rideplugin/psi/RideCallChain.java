@@ -8,6 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface RideCallChain extends RideCompositeElement {
 
   @Nullable
+  RideCallCastChain getCallCastChain();
+
+  @Nullable
   RideCallFieldChain getCallFieldChain();
 
   @Nullable

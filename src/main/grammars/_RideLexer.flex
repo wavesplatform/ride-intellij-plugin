@@ -34,10 +34,13 @@ INTEGER=[0-9_]+
 WHITE_SPACE=[ \t\n\x0B\f\r]+
 STRING=(\")[^\"]*\"
 SQSTRING=(')[^']*'
-RIDE_FILE = [a-zA-Z0-9_]*\.ride
-UPPER_ID = [A-Z][a-zA-Z0-9_]*
-LOWER_ID = [a-z][a-zA-Z0-9_]*
-IDENT=[a-zA-Z_][a-zA-Z0-9_]*
+RIDE_FILE = [a-zA-Z0-9\/\\.\\_-]*\.ride
+UPPER_ID = [A-Z][a-zA-Z0-9_-]*
+LOWER_ID = [a-z][a-zA-Z0-9_-]*
+//todo this is bad
+//this is needed to create tolerance to whitespaces in RDBRACKET
+RDBRACKET="#-}"{WHITE_SPACE}*
+
 
 //%state ANNOTATION
 
@@ -49,7 +52,7 @@ IDENT=[a-zA-Z_][a-zA-Z0-9_]*
 
   "="                { return ASSIGN; }
   "{-#"              { return LDBRACKET; }
-  "#-}"              { return RDBRACKET; }
+  {RDBRACKET}        { return RDBRACKET; }
   "true"             { return TRUE; }
   "false"            { return FALSE; }
   "if"               { return IF; }
@@ -113,7 +116,6 @@ IDENT=[a-zA-Z_][a-zA-Z0-9_]*
   {RIDE_FILE}        { return RIDE_FILE; }
   {UPPER_ID}         { return UPPER_ID; }
   {LOWER_ID}         { return LOWER_ID; }
-  {IDENT}            { return IDENT; }
   {AT_SYMBOL}        { return AT_SYMBOL; }
 
 }

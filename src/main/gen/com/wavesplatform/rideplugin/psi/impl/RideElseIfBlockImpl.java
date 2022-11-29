@@ -35,8 +35,14 @@ public class RideElseIfBlockImpl extends ASTWrapperPsiElement implements RideEls
 
   @Override
   @Nullable
+  public RideExpr getExpr() {
+    return PsiTreeUtil.getChildOfType(this, RideExpr.class);
+  }
+
+  @Override
+  @NotNull
   public RideIfCond getIfCond() {
-    return PsiTreeUtil.getChildOfType(this, RideIfCond.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, RideIfCond.class));
   }
 
 }

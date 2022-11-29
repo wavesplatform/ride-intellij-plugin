@@ -28,9 +28,15 @@ public class RideFieldDefinitionImpl extends ASTWrapperPsiElement implements Rid
   }
 
   @Override
-  @NotNull
+  @Nullable
+  public PsiElement getInteger() {
+    return findChildByType(INTEGER);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getLowerId() {
-    return notNullChild(findChildByType(LOWER_ID));
+    return findChildByType(LOWER_ID);
   }
 
 }

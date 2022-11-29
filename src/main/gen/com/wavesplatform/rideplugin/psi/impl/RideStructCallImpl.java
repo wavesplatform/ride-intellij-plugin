@@ -8,15 +8,15 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.wavesplatform.rideplugin.psi.RideTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.wavesplatform.rideplugin.psi.*;
 
-public class RideStructCallImpl extends ASTWrapperPsiElement implements RideStructCall {
+public class RideStructCallImpl extends RideExprImpl implements RideStructCall {
 
   public RideStructCallImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull RideVisitor visitor) {
     visitor.visitStructCall(this);
   }
@@ -35,14 +35,8 @@ public class RideStructCallImpl extends ASTWrapperPsiElement implements RideStru
 
   @Override
   @NotNull
-  public List<RideCallChain> getCallChainList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, RideCallChain.class);
-  }
-
-  @Override
-  @NotNull
-  public RideType getType() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, RideType.class));
+  public RideSimpleType getSimpleType() {
+    return notNullChild(PsiTreeUtil.getChildOfType(this, RideSimpleType.class));
   }
 
 }

@@ -58,12 +58,12 @@ public class RideVisitor extends PsiElementVisitor {
     visitCompositeElement(o);
   }
 
-  public void visitCallChain(@NotNull RideCallChain o) {
+  public void visitCallCastChain(@NotNull RideCallCastChain o) {
     visitCompositeElement(o);
   }
 
-  public void visitCallExpr(@NotNull RideCallExpr o) {
-    visitExpr(o);
+  public void visitCallChain(@NotNull RideCallChain o) {
+    visitCompositeElement(o);
   }
 
   public void visitCallFieldChain(@NotNull RideCallFieldChain o) {
@@ -118,8 +118,12 @@ public class RideVisitor extends PsiElementVisitor {
     visitCompositeElement(o);
   }
 
+  public void visitExprCall(@NotNull RideExprCall o) {
+    visitExpr(o);
+  }
+
   public void visitFieldCall(@NotNull RideFieldCall o) {
-    visitCompositeElement(o);
+    visitExpr(o);
   }
 
   public void visitFieldDefinition(@NotNull RideFieldDefinition o) {
@@ -135,7 +139,7 @@ public class RideVisitor extends PsiElementVisitor {
   }
 
   public void visitFunctionCall(@NotNull RideFunctionCall o) {
-    visitCompositeElement(o);
+    visitExpr(o);
   }
 
   public void visitFunctionName(@NotNull RideFunctionName o) {
@@ -148,6 +152,10 @@ public class RideVisitor extends PsiElementVisitor {
 
   public void visitIfExpr(@NotNull RideIfExpr o) {
     visitExpr(o);
+  }
+
+  public void visitImports(@NotNull RideImports o) {
+    visitCompositeElement(o);
   }
 
   public void visitIndexExpr(@NotNull RideIndexExpr o) {
@@ -203,7 +211,7 @@ public class RideVisitor extends PsiElementVisitor {
   }
 
   public void visitObjectFunctionCall(@NotNull RideObjectFunctionCall o) {
-    visitCompositeElement(o);
+    visitExpr(o);
   }
 
   public void visitOrExpr(@NotNull RideOrExpr o) {
@@ -243,7 +251,7 @@ public class RideVisitor extends PsiElementVisitor {
   }
 
   public void visitStandaloneFunctionCall(@NotNull RideStandaloneFunctionCall o) {
-    visitCompositeElement(o);
+    visitExpr(o);
   }
 
   public void visitStatement(@NotNull RideStatement o) {
@@ -255,7 +263,7 @@ public class RideVisitor extends PsiElementVisitor {
   }
 
   public void visitStructCall(@NotNull RideStructCall o) {
-    visitCompositeElement(o);
+    visitExpr(o);
   }
 
   public void visitTupleDefinition(@NotNull RideTupleDefinition o) {

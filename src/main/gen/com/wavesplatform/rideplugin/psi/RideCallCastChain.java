@@ -5,6 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface RideFunctionCall extends RideExpr {
+public interface RideCallCastChain extends RideCompositeElement {
+
+  @NotNull
+  RideFunctionName getFunctionName();
+
+  @NotNull
+  RideType getType();
 
 }
