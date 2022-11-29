@@ -71,7 +71,7 @@ class RideParserDefinition : ParserDefinition {
         val COMMA = TokenSet.create(RideTypes.COMMA)
 
         @JvmStatic
-        val IDENTIFIER = TokenSet.create(RideTypes.IDENT)
+        val IDENTIFIER = TokenSet.create(RideTypes.UPPER_ID,  RideTypes.LOWER_ID)
 
         @JvmStatic
         val STRINGS = TokenSet.create(RideTypes.STRING, RideTypes.SQSTRING)

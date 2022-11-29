@@ -58,6 +58,10 @@ public class RideVisitor extends PsiElementVisitor {
     visitCompositeElement(o);
   }
 
+  public void visitCallCastChain(@NotNull RideCallCastChain o) {
+    visitCompositeElement(o);
+  }
+
   public void visitCallChain(@NotNull RideCallChain o) {
     visitCompositeElement(o);
   }

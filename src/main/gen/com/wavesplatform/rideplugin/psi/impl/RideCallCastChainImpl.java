@@ -11,14 +11,14 @@ import static com.wavesplatform.rideplugin.psi.RideTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.wavesplatform.rideplugin.psi.*;
 
-public class RideElseBlockImpl extends ASTWrapperPsiElement implements RideElseBlock {
+public class RideCallCastChainImpl extends ASTWrapperPsiElement implements RideCallCastChain {
 
-  public RideElseBlockImpl(@NotNull ASTNode node) {
+  public RideCallCastChainImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull RideVisitor visitor) {
-    visitor.visitElseBlock(this);
+    visitor.visitCallCastChain(this);
   }
 
   @Override
@@ -28,15 +28,15 @@ public class RideElseBlockImpl extends ASTWrapperPsiElement implements RideElseB
   }
 
   @Override
-  @Nullable
-  public RideClosure getClosure() {
-    return PsiTreeUtil.getChildOfType(this, RideClosure.class);
+  @NotNull
+  public RideFunctionName getFunctionName() {
+    return notNullChild(PsiTreeUtil.getChildOfType(this, RideFunctionName.class));
   }
 
   @Override
-  @Nullable
-  public RideExpr getExpr() {
-    return PsiTreeUtil.getChildOfType(this, RideExpr.class);
+  @NotNull
+  public RideType getType() {
+    return notNullChild(PsiTreeUtil.getChildOfType(this, RideType.class));
   }
 
 }

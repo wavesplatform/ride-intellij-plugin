@@ -23,6 +23,7 @@ public interface RideTypes {
   IElementType BYTE_VECTOR_LITERAL = new RideElementType("BYTE_VECTOR_LITERAL");
   IElementType CALLING_OBJECT = new RideElementType("CALLING_OBJECT");
   IElementType CALL_ARGUMENTS = new RideElementType("CALL_ARGUMENTS");
+  IElementType CALL_CAST_CHAIN = new RideElementType("CALL_CAST_CHAIN");
   IElementType CALL_CHAIN = new RideElementType("CALL_CHAIN");
   IElementType CALL_FIELD_CHAIN = new RideElementType("CALL_FIELD_CHAIN");
   IElementType CALL_FUNCTION_CHAIN = new RideElementType("CALL_FUNCTION_CHAIN");
@@ -115,7 +116,6 @@ public interface RideTypes {
   IElementType FUNCTION = new RideTokenType("func");
   IElementType GREATER_OR_EQUAL = new RideTokenType(">=");
   IElementType GT = new RideTokenType(">");
-  IElementType IDENT = new RideTokenType("IDENT");
   IElementType IF = new RideTokenType("if");
   IElementType INT = new RideTokenType("INT");
   IElementType INTEGER = new RideTokenType("INTEGER");
@@ -197,6 +197,9 @@ public interface RideTypes {
       }
       else if (type == CALL_ARGUMENTS) {
         return new RideCallArgumentsImpl(node);
+      }
+      else if (type == CALL_CAST_CHAIN) {
+        return new RideCallCastChainImpl(node);
       }
       else if (type == CALL_CHAIN) {
         return new RideCallChainImpl(node);
