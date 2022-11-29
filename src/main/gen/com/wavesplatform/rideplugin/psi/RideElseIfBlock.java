@@ -13,7 +13,7 @@ public interface RideElseIfBlock extends RideCompositeElement {
   @Nullable
   RideExpr getExpr();
 
-  @Nullable
+  @NotNull
   RideIfCond getIfCond();
 
 }
