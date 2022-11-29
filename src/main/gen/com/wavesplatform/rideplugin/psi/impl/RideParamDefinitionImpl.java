@@ -29,8 +29,8 @@ public class RideParamDefinitionImpl extends ASTWrapperPsiElement implements Rid
 
   @Override
   @Nullable
-  public RideType getType() {
-    return PsiTreeUtil.getChildOfType(this, RideType.class);
+  public RideTypeDefinition getTypeDefinition() {
+    return PsiTreeUtil.getChildOfType(this, RideTypeDefinition.class);
   }
 
   @Override

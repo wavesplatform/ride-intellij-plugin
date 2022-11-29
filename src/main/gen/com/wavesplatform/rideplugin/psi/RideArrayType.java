@@ -5,13 +5,10 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface RideArrayType extends RideCompositeElement {
+public interface RideArrayType extends RideType {
 
   @Nullable
   RideType getType();
-
-  @Nullable
-  PsiElement getIdent();
 
   @NotNull
   PsiElement getUpperId();

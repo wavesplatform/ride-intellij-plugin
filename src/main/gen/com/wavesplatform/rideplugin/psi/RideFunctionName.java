@@ -7,7 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface RideFunctionName extends RideCompositeElement {
 
-  @NotNull
+  @Nullable
   PsiElement getLowerId();
+
+  @Nullable
+  PsiElement getUpperId();
 
 }

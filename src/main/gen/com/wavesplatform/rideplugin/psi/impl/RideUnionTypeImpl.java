@@ -8,15 +8,15 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.wavesplatform.rideplugin.psi.RideTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.wavesplatform.rideplugin.psi.*;
 
-public class RideUnionTypeImpl extends ASTWrapperPsiElement implements RideUnionType {
+public class RideUnionTypeImpl extends RideTypeImpl implements RideUnionType {
 
   public RideUnionTypeImpl(@NotNull ASTNode node) {
     super(node);
   }
 
+  @Override
   public void accept(@NotNull RideVisitor visitor) {
     visitor.visitUnionType(this);
   }
@@ -25,6 +25,12 @@ public class RideUnionTypeImpl extends ASTWrapperPsiElement implements RideUnion
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof RideVisitor) accept((RideVisitor)visitor);
     else super.accept(visitor);
+  }
+
+  @Override
+  @NotNull
+  public List<RideType> getTypeList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, RideType.class);
   }
 
 }

@@ -35,8 +35,8 @@ public class RideCaseExprImpl extends RideExprImpl implements RideCaseExpr {
 
   @Override
   @Nullable
-  public RideType getType() {
-    return PsiTreeUtil.getChildOfType(this, RideType.class);
+  public RideTypeDefinition getTypeDefinition() {
+    return PsiTreeUtil.getChildOfType(this, RideTypeDefinition.class);
   }
 
   @Override

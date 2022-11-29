@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface RideUnionType extends RideType {
+public interface RideTypeDefinition extends RideCompositeElement {
 
-  @NotNull
-  List<RideType> getTypeList();
+  @Nullable
+  RideType getType();
 
 }

@@ -7,13 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface RideDirective extends RideCompositeElement {
 
-  @NotNull
-  PsiElement getIdent();
-
   @Nullable
   PsiElement getInteger();
 
   @Nullable
-  PsiElement getUpperId();
+  PsiElement getRideFile();
 
 }

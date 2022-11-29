@@ -41,14 +41,14 @@ public class RideObjectFunctionCallImpl extends ASTWrapperPsiElement implements 
 
   @Override
   @NotNull
-  public RideFunctionName getFunctionName() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, RideFunctionName.class));
+  public RideCallingObject getCallingObject() {
+    return notNullChild(PsiTreeUtil.getChildOfType(this, RideCallingObject.class));
   }
 
   @Override
   @NotNull
-  public RideVarDefinition getVarDefinition() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, RideVarDefinition.class));
+  public RideFunctionName getFunctionName() {
+    return notNullChild(PsiTreeUtil.getChildOfType(this, RideFunctionName.class));
   }
 
 }

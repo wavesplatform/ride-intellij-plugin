@@ -14,9 +14,9 @@ public interface RideObjectFunctionCall extends RideCompositeElement {
   List<RideCallChain> getCallChainList();
 
   @NotNull
-  RideFunctionName getFunctionName();
+  RideCallingObject getCallingObject();
 
   @NotNull
-  RideVarDefinition getVarDefinition();
+  RideFunctionName getFunctionName();
 
 }

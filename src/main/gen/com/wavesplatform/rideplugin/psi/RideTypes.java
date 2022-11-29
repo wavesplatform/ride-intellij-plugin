@@ -21,6 +21,7 @@ public interface RideTypes {
   IElementType BLOCK_STATE = new RideElementType("BLOCK_STATE");
   IElementType BOOL_LITERAL = new RideElementType("BOOL_LITERAL");
   IElementType BYTE_VECTOR_LITERAL = new RideElementType("BYTE_VECTOR_LITERAL");
+  IElementType CALLING_OBJECT = new RideElementType("CALLING_OBJECT");
   IElementType CALL_ARGUMENTS = new RideElementType("CALL_ARGUMENTS");
   IElementType CALL_CHAIN = new RideElementType("CALL_CHAIN");
   IElementType CALL_EXPR = new RideElementType("CALL_EXPR");
@@ -75,6 +76,7 @@ public interface RideTypes {
   IElementType TUPLE_EXPR = new RideElementType("TUPLE_EXPR");
   IElementType TUPLE_TYPE = new RideElementType("TUPLE_TYPE");
   IElementType TYPE = new RideElementType("TYPE");
+  IElementType TYPE_DEFINITION = new RideElementType("TYPE_DEFINITION");
   IElementType UNARY_MIN_EXPR = new RideElementType("UNARY_MIN_EXPR");
   IElementType UNARY_NOT_EXPR = new RideElementType("UNARY_NOT_EXPR");
   IElementType UNION_TYPE = new RideElementType("UNION_TYPE");
@@ -137,6 +139,7 @@ public interface RideTypes {
   IElementType RBRACE = new RideTokenType("}");
   IElementType RBRACKET = new RideTokenType("]");
   IElementType RDBRACKET = new RideTokenType("#-}");
+  IElementType RIDE_FILE = new RideTokenType("RIDE_FILE");
   IElementType RPAREN = new RideTokenType(")");
   IElementType SLASH = new RideTokenType("/");
   IElementType SQSTRING = new RideTokenType("SQSTRING");
@@ -144,6 +147,7 @@ public interface RideTypes {
   IElementType STRING = new RideTokenType("STRING");
   IElementType THEN = new RideTokenType("then");
   IElementType TRUE = new RideTokenType("true");
+  IElementType TUPPLE_FIELD = new RideTokenType("TUPPLE_FIELD");
   IElementType UNDERSCORE = new RideTokenType("_");
   IElementType UNIT = new RideTokenType("unit");
   IElementType UPPER_ID = new RideTokenType("UPPER_ID");
@@ -186,6 +190,9 @@ public interface RideTypes {
       }
       else if (type == BYTE_VECTOR_LITERAL) {
         return new RideByteVectorLiteralImpl(node);
+      }
+      else if (type == CALLING_OBJECT) {
+        return new RideCallingObjectImpl(node);
       }
       else if (type == CALL_ARGUMENTS) {
         return new RideCallArgumentsImpl(node);
@@ -343,8 +350,8 @@ public interface RideTypes {
       else if (type == TUPLE_TYPE) {
         return new RideTupleTypeImpl(node);
       }
-      else if (type == TYPE) {
-        return new RideTypeImpl(node);
+      else if (type == TYPE_DEFINITION) {
+        return new RideTypeDefinitionImpl(node);
       }
       else if (type == UNARY_MIN_EXPR) {
         return new RideUnaryMinExprImpl(node);

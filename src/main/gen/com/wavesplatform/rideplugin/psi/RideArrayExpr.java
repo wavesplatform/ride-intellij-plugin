@@ -10,4 +10,7 @@ public interface RideArrayExpr extends RideExpr {
   @Nullable
   RideArguments getArguments();
 
+  @Nullable
+  RideCallChain getCallChain();
+
 }
