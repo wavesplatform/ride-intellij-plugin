@@ -20,7 +20,6 @@ class RideBaseTypesCompletionContributor : CompletionContributor(), DumbAware {
                     .plus(commonStructs())
                     .plus(transactionStructs())
                     .asSequence()
-                    //.map { "$it()" }
                     .map(LookupElementBuilder::create)
                     .map {
                         it.withIcon(RideIcons.TYPE_ALIAS)
@@ -37,10 +36,3 @@ class RideBaseTypesCompletionContributor : CompletionContributor(), DumbAware {
         )
     }
 }
-
-//private static final InsertHandler<LookupElement> INSERT_FUNCTION = (context, item) -> {
-//        int start = context.getStartOffset();
-//        int end = context.getSelectionEndOffset();
-//        context.getDocument().replaceString(start, end, item.getLookupString() + "()");
-//        context.getEditor().getCaretModel().moveToOffset(end + 1);
-//    };
