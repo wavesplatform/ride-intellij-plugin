@@ -7,7 +7,7 @@ import com.intellij.openapi.project.DumbAware
 import com.intellij.util.ProcessingContext
 import com.wavesplatform.rideplugin.icons.RideIcons
 
-class RideBaseTypesCompletionContributor : CompletionContributor(), DumbAware {
+class RideBuildInFunctionsCompletionContributor : CompletionContributor(), DumbAware {
     init {
         val provider = object : CompletionProvider<CompletionParameters>() {
             override fun addCompletions(
@@ -15,15 +15,33 @@ class RideBaseTypesCompletionContributor : CompletionContributor(), DumbAware {
                 context: ProcessingContext,
                 result: CompletionResultSet
             ) {
-                baseTypes()
-                    .plus(scriptActionStructs())
-                    .plus(commonStructs())
-                    .plus(transactionStructs())
+                mathematicalFunctions()
                     .asSequence()
-                    //.map { "$it()" }
+                    .plus(blockchainFunctions())
+                    .plus(verificationFunctions())
+                    .plus(dAppFunctions())
+                    .plus(decodeFunctions())
+                    .plus(exceptionFunctions())
+                    .plus(encodeFunctions())
+                    .plus(convertFunctions())
+                    .plus(byteVectorFunctions())
+                    .plus(unionFunctions())
+                    .plus(accountDataFunctions())
+                    .plus(listFunctions())
+                    .plus(stringFunctions())
+                    .plus(transactionFunctions())
+                    .plus(hashFunctions())
+                    .map { "$it()" }
                     .map(LookupElementBuilder::create)
                     .map {
-                        it.withIcon(RideIcons.TYPE_ALIAS)
+                        it.withInsertHandler { context, item ->
+                            val start = context.startOffset
+                            val end = context.selectionEndOffset
+                            context.editor.caretModel.moveToOffset(end - 1)
+                        }
+                    }
+                    .map {
+                        it.withIcon(RideIcons.FUNCTION)
                             .withTypeIconRightAligned(true)
                     }
                     .map(result::addElement)
@@ -32,7 +50,7 @@ class RideBaseTypesCompletionContributor : CompletionContributor(), DumbAware {
         }
         extend(
             CompletionType.BASIC,
-            RidePatterns.BaseTypePattern.baseTypePattern(),
+            RidePatterns.InvocationPattern.functionCallPattern(),
             provider
         )
     }
