@@ -1,0 +1,35 @@
+<Directive>{-# SCRIPT_TYPE  ACCOUNT #-}</Directive>
+<Directive>{-# CONTENT_TYPE LIBRARY #-}</Directive>
+<Directive>{-# STDLIB_VERSION 5 #-}</Directive>
+
+
+let int = 42                 # Integer variable definition
+let string = "Ride the Waves!"  # String variable definition
+let bool = true  # Boolean variable definition
+
+<Annotation>@Callable(i)</Annotation>
+func <Function>functionName</Function>() = {
+  let encodedString = base58'AAAAA'
+  strict balance = <Function>wavesBalance</Function>(this).<Function>value</Function>().regular
+  let array = [AttachedPayment(unit,100000000)]
+  true
+}
+
+func <Function>sum</Function>(accum: <Type>Int</Type>, next: <Type>Int</Type>) = accum
+let arr = [1,2,3,4,5]
+FOLD<5>(arr, 0, sum)
+
+func <Function>getAddressKey</Function>() = {
+    let addr = <Type>Address</Type>(base58'3N4iKL6ikwxiL7yNvWQmw7rg3wGna8uL6LU')
+    <Function>getInteger</Function>(addr, "noKey")
+}
+
+match tx {
+     case t: <Type>TransferTransaction|ExchangeTransaction|MassTransferTransaction|Order</Type> => false
+     case _: <Type>Transaction</Type> => <Function>sigVerify</Function>(tx.bodyBytes, tx.proofs[0], tx.senderPublicKey)
+     case _ => {false}
+}
+
+func <Function>filterEven</Function>(accum: <Type>List[Int|String]</Type>, next: <Type>Int</Type>) = {
+    if (next % 2 == 0) then accum :+ next else accum
+}
