@@ -2,8 +2,10 @@ package com.wavesplatform.rideplugin.completion
 
 import com.intellij.codeInsight.completion.*
 import com.intellij.codeInsight.lookup.LookupElementBuilder
+import com.intellij.icons.AllIcons
 import com.intellij.openapi.project.DumbAware
 import com.intellij.util.ProcessingContext
+import com.wavesplatform.rideplugin.icons.RideIcons
 
 class RideStructCreationCompletionContributor : CompletionContributor(), DumbAware {
     init {
@@ -26,6 +28,10 @@ class RideStructCreationCompletionContributor : CompletionContributor(), DumbAwa
                             val end = context.selectionEndOffset
                             context.editor.caretModel.moveToOffset(end - 1)
                         }
+                    }
+                    .map {
+                        it.withIcon(RideIcons.STRUCT)
+                            .withTypeIconRightAligned(true)
                     }
                     .map(result::addElement)
                     .toList()

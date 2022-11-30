@@ -100,5 +100,12 @@ object RidePatterns {
                 psiElement().afterLeaf(psiElement(RideTypes.COLON))
             )
         }
+
+        @JvmStatic
+        fun functionCallPattern(): PsiElementPattern.Capture<PsiElement> {
+            return psiElement().inside(RideClosure::class.java).andNot(
+                psiElement().afterLeaf(psiElement(RideTypes.COLON))
+            )
+        }
     }
 }
