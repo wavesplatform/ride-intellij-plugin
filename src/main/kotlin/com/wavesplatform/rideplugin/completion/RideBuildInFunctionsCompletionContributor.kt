@@ -55,10 +55,3 @@ class RideBuildInFunctionsCompletionContributor : CompletionContributor(), DumbA
         )
     }
 }
-
-//private static final InsertHandler<LookupElement> INSERT_FUNCTION = (context, item) -> {
-//        int start = context.getStartOffset();
-//        int end = context.getSelectionEndOffset();
-//        context.getDocument().replaceString(start, end, item.getLookupString() + "()");
-//        context.getEditor().getCaretModel().moveToOffset(end + 1);
-//    };
