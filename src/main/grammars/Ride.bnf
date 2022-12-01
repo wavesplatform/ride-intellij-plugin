@@ -211,11 +211,11 @@ index_expr ::= (
 ) LBRACKET expr RBRACKET (DOT expr)?
 
 private prefix_group ::= if_expr
-if_expr ::= IF if_cond (THEN? (expr | closure)) else_if_block* else_block?
-| IF LPAREN if_cond RPAREN (THEN? (expr | closure)) else_if_block* else_block? {pin=1}
+if_expr ::= IF if_cond (THEN (expr | closure)) else_if_block* else_block?
+| IF LPAREN if_cond RPAREN (THEN (expr | closure)) else_if_block* else_block? {pin=1}
 if_cond ::= expr
-else_if_block ::= ELSE IF if_cond (THEN? (expr | closure))
-| ELSE IF LPAREN? if_cond RPAREN? (THEN? (expr | closure)) {pin=2}
+else_if_block ::= ELSE IF if_cond (THEN (expr | closure))
+| ELSE IF LPAREN? if_cond RPAREN? (THEN (expr | closure)) {pin=2}
 else_block ::= ELSE (expr | closure) {pin = 1}
 
 private primary_group ::=  simple_ref_expr | paren_expr | literal_expr
