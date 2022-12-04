@@ -18,6 +18,7 @@
                 fieldName="INSTANCE"
                 language="RIDE"
                 extensions="ride"/>
+        <internalFileTemplate name="Ride File"/>
         <lang.parserDefinition
                 language="RIDE"
                 implementationClass="com.wavesplatform.rideplugin.parser.RideParserDefinition"/>
@@ -46,6 +47,9 @@
     </extensions>
 
     <actions>
-        <!-- Add your actions here -->
+        <action id="Ride.NewRideFile"
+                class="com.wavesplatform.rideplugin.actions.RideCreateFileAction">
+            <add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewFile"/>
+        </action>
     </actions>
 </idea-plugin>
