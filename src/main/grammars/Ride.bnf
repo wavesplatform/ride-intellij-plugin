@@ -19,6 +19,7 @@
   tokenTypeClass="com.wavesplatform.rideplugin.psi.RideTokenType"
 
   elementTypeFactory("var_definition")="com.wavesplatform.rideplugin.psi.impl.RideElementTypeFactory.factory"
+  elementTypeFactory("function_definition")="com.wavesplatform.rideplugin.psi.impl.RideElementTypeFactory.factory"
 
 
   tokens=[
@@ -31,9 +32,6 @@
     IF = "if"
     ELSE = "else"
     UNIT = "unit"
-    //(?:'|").*(?:'|")
-    //STRING="regexp:([\"'])((?:\\\1|(?:(?!\1)).)*)(\1)"
-    //BASE='regexp:base16|base58|base64'
     PERCENT = '%'
     UNDERSCORE = "_"
     LBRACKET = '['
@@ -80,7 +78,6 @@
     NIL = 'nil'
     BOOL="regexp:true|false"
     COMMENT = 'regexp:#.*'
-//    TUPPLE_FIELD = 'regexp:_[0-9_]*'
     INTEGER ="regexp:[0-9_]+"
     WHITE_SPACE = 'regexp:\s+'
     NEW_LINE = "regexp:(\r|\n|\r\n)"
@@ -89,7 +86,6 @@
     UPPER_ID = 'regexp:[A-Z_][a-zA-Z0-9_-]*'
     LOWER_ID = 'regexp:[a-z_][a-zA-Z0-9_-]*'
     RIDE_FILE = "regexp:[a-zA-Z0-9\/\\.\\_-]*\.ride"
-    //INT = "regexp:[0-9]+"
   ]
   extends(".*expr") = expr
   extends(".*type") = type
@@ -110,7 +106,6 @@ imports ::= RIDE_FILE (COMMA RIDE_FILE)* {pin=1}
 statement ::= var_declaration_statement | expr
 
 var_declaration_statement ::= (LET|STRICT) (tuple_definition | var_definition) ASSIGN (expr | closure) {pin=1}
-//closure ::= (LBRACE|LPAREN)? block_state (RBRACE|RPAREN)?
 closure ::= LBRACE block_state RBRACE
           | LPAREN block_state RPAREN
           | block_state
@@ -121,7 +116,7 @@ case_closure ::= LBRACE block_state RBRACE
 
 tuple_definition ::= LPAREN var_definition (COMMA var_definition)* RPAREN {pin(".*")=1}
 
-var_definition ::= LOWER_ID | UPPER_ID{
+var_definition ::= LOWER_ID | UPPER_ID {
     implements="com.wavesplatform.rideplugin.psi.RideNamedElement"
     extends="com.wavesplatform.rideplugin.psi.impl.RideVarDefinitionBaseImpl"
     stubClass="com.wavesplatform.rideplugin.stubs.RideVarDefinitionStub"
@@ -173,25 +168,24 @@ private calc_prefix_group ::= unary_min_expr | unary_not_expr
 unary_min_expr ::= MINUS expr  {pin = 1}
 unary_not_expr ::= BANG expr  {pin = 1}
 
-private call_group ::= expr_call | struct_call | function_call  //| function_call | field_call | struct_call
-//call_expr ::=  expr | struct_call | function_call | field_call | expr_call
+private call_group ::= expr_call | struct_call | function_call
 expr_call ::= expr call_chain
 struct_call ::= simple_type LPAREN arguments? RPAREN
 function_call ::= object_function_call | standalone_function_call
-standalone_function_call ::= function_name LPAREN arguments? RPAREN {pin=2}
-object_function_call ::= calling_object DOT function_name LPAREN arguments? RPAREN {pin=4}
+standalone_function_call ::= invoke_function_name LPAREN arguments? RPAREN {pin=2}
+object_function_call ::= calling_object DOT invoke_function_name LPAREN arguments? RPAREN {pin=4}
 calling_object ::= var_definition
 call_chain ::= call_cast_chain | call_function_chain | call_field_chain
-call_function_chain ::= DOT function_name LPAREN arguments? RPAREN
+call_function_chain ::= DOT invoke_function_name LPAREN arguments? RPAREN
 call_field_chain ::= DOT field_definition
-call_cast_chain ::= DOT function_name LBRACKET type RBRACKET
+call_cast_chain ::= DOT invoke_function_name LBRACKET type RBRACKET
 field_call ::= (standalone_function_call | var_definition) (call_function_chain | call_field_chain)+
 
 call_arguments ::= LPAREN arguments? RPAREN  {pin = 1}
 arguments ::= argument (COMMA argument)*  {pin(".*")=1}
 argument ::= expr | closure
 
-field_definition ::= LOWER_ID | INTEGER
+field_definition ::= simple_ref_expr
 
 private definition_group ::= func_expr | array_expr | pattern_matching_expr | fold_expr | tuple_expr
 
@@ -224,8 +218,13 @@ paren_expr ::= LPAREN expr RPAREN {pin=1}
 simple_ref_expr ::= LOWER_ID | UPPER_ID
 //todo {methods=[getReference resolve setName] }
 
-func_expr ::= annotation_expr? FUNCTION function_name LPAREN param_group? RPAREN ASSIGN (expr | closure)  {pin=2}
-function_name ::= LOWER_ID | UPPER_ID
+func_expr ::= annotation_expr? FUNCTION function_definition LPAREN param_group? RPAREN ASSIGN (expr | closure)  {pin=2}
+function_definition ::= LOWER_ID | UPPER_ID {
+    implements="com.wavesplatform.rideplugin.psi.RideNamedElement"
+    extends="com.wavesplatform.rideplugin.psi.impl.RideFunctionDefinitionBaseImpl"
+    stubClass="com.wavesplatform.rideplugin.stubs.RideFunctionDefinitionStub"
+}
+invoke_function_name ::= LOWER_ID | UPPER_ID
 block_state ::= element*
 param_group ::= param_definition (COMMA param_definition)*  {pin(".*")=1}
 param_definition ::= var_definition type_definition {pin=1}
@@ -244,9 +243,6 @@ array_expr ::= LBRACKET arguments? RBRACKET call_chain? {pin = 1}
 
 pattern_matching_expr ::= MATCH expr LBRACE case_expr*  RBRACE {pin=1}
 case_expr ::= CASE (UNDERSCORE | var_definition) type_definition? '=>' case_closure {pin=1}
-//case ::= default_case | certain_type_case_definition
-//certain_type_case_definition ::= CASE param_definition '=>' statement* {pin=2}
-//default_case ::= CASE UNDERSCORE param_definition? '=>' expr* {pin=2}
 
 fold_expr ::= FOLD_KW LESS INTEGER GT call_arguments {pin=1}
 

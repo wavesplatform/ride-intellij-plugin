@@ -42,13 +42,14 @@ public interface RideTypes {
   IElementType FIELD_DEFINITION = new RideElementType("FIELD_DEFINITION");
   IElementType FOLD_EXPR = new RideElementType("FOLD_EXPR");
   IElementType FUNCTION_CALL = new RideElementType("FUNCTION_CALL");
-  IElementType FUNCTION_NAME = new RideElementType("FUNCTION_NAME");
+  IElementType FUNCTION_DEFINITION = new RideElementType("FUNCTION_DEFINITION");
   IElementType FUNC_EXPR = new RideElementType("FUNC_EXPR");
   IElementType IF_COND = new RideElementType("IF_COND");
   IElementType IF_EXPR = new RideElementType("IF_EXPR");
   IElementType IMPORTS = new RideElementType("IMPORTS");
   IElementType INDEX_EXPR = new RideElementType("INDEX_EXPR");
   IElementType INTEGER_LITERAL = new RideElementType("INTEGER_LITERAL");
+  IElementType INVOKE_FUNCTION_NAME = new RideElementType("INVOKE_FUNCTION_NAME");
   IElementType LESS_EXPR = new RideElementType("LESS_EXPR");
   IElementType LESS_OR_EQ_EXPR = new RideElementType("LESS_OR_EQ_EXPR");
   IElementType LITERAL_EXPR = new RideElementType("LITERAL_EXPR");
@@ -249,8 +250,8 @@ public interface RideTypes {
       else if (type == FOLD_EXPR) {
         return new RideFoldExprImpl(node);
       }
-      else if (type == FUNCTION_NAME) {
-        return new RideFunctionNameImpl(node);
+      else if (type == FUNCTION_DEFINITION) {
+        return new RideFunctionDefinitionImpl(node);
       }
       else if (type == FUNC_EXPR) {
         return new RideFuncExprImpl(node);
@@ -269,6 +270,9 @@ public interface RideTypes {
       }
       else if (type == INTEGER_LITERAL) {
         return new RideIntegerLiteralImpl(node);
+      }
+      else if (type == INVOKE_FUNCTION_NAME) {
+        return new RideInvokeFunctionNameImpl(node);
       }
       else if (type == LESS_EXPR) {
         return new RideLessExprImpl(node);

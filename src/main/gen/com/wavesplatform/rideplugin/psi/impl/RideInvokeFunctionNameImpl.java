@@ -11,14 +11,14 @@ import static com.wavesplatform.rideplugin.psi.RideTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.wavesplatform.rideplugin.psi.*;
 
-public class RideCallCastChainImpl extends ASTWrapperPsiElement implements RideCallCastChain {
+public class RideInvokeFunctionNameImpl extends ASTWrapperPsiElement implements RideInvokeFunctionName {
 
-  public RideCallCastChainImpl(@NotNull ASTNode node) {
+  public RideInvokeFunctionNameImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull RideVisitor visitor) {
-    visitor.visitCallCastChain(this);
+    visitor.visitInvokeFunctionName(this);
   }
 
   @Override
@@ -28,15 +28,15 @@ public class RideCallCastChainImpl extends ASTWrapperPsiElement implements RideC
   }
 
   @Override
-  @NotNull
-  public RideInvokeFunctionName getInvokeFunctionName() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, RideInvokeFunctionName.class));
+  @Nullable
+  public PsiElement getLowerId() {
+    return findChildByType(LOWER_ID);
   }
 
   @Override
-  @NotNull
-  public RideType getType() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, RideType.class));
+  @Nullable
+  public PsiElement getUpperId() {
+    return findChildByType(UPPER_ID);
   }
 
 }

@@ -1,5 +1,7 @@
 # rideplugin Changelog
 
+## [Unreleased]
+
 ## [0.0.2]
 ### Added
 - Built-in structures, types and functions completion
@@ -12,5 +14,3 @@
 - Syntax validation
 - Keyword completion
 - Syntax highlighting and color scheme
-
-## [Unreleased]

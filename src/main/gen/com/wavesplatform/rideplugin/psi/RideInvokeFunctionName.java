@@ -5,7 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface RideFunctionName extends RideCompositeElement {
+public interface RideInvokeFunctionName extends RideCompositeElement {
 
   @Nullable
   PsiElement getLowerId();

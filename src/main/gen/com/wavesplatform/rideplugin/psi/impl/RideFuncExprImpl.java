@@ -41,8 +41,8 @@ public class RideFuncExprImpl extends RideExprImpl implements RideFuncExpr {
 
   @Override
   @Nullable
-  public RideFunctionName getFunctionName() {
-    return PsiTreeUtil.getChildOfType(this, RideFunctionName.class);
+  public RideFunctionDefinition getFunctionDefinition() {
+    return PsiTreeUtil.getChildOfType(this, RideFunctionDefinition.class);
   }
 
   @Override

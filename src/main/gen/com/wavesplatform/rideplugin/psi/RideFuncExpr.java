@@ -14,7 +14,7 @@ public interface RideFuncExpr extends RideExpr {
   List<RideExpr> getExprList();
 
   @Nullable
-  RideFunctionName getFunctionName();
+  RideFunctionDefinition getFunctionDefinition();
 
   @Nullable
   RideParamGroup getParamGroup();

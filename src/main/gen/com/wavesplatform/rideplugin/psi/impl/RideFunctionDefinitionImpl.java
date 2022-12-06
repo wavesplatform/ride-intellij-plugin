@@ -8,17 +8,22 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.wavesplatform.rideplugin.psi.RideTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.wavesplatform.rideplugin.psi.*;
+import com.wavesplatform.rideplugin.stubs.RideFunctionDefinitionStub;
+import com.intellij.psi.stubs.IStubElementType;
 
-public class RideFunctionNameImpl extends ASTWrapperPsiElement implements RideFunctionName {
+public class RideFunctionDefinitionImpl extends RideFunctionDefinitionBaseImpl implements RideFunctionDefinition {
 
-  public RideFunctionNameImpl(@NotNull ASTNode node) {
+  public RideFunctionDefinitionImpl(@NotNull RideFunctionDefinitionStub stub, @NotNull IStubElementType<?, ?> type) {
+    super(stub, type);
+  }
+
+  public RideFunctionDefinitionImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull RideVisitor visitor) {
-    visitor.visitFunctionName(this);
+    visitor.visitFunctionDefinition(this);
   }
 
   @Override

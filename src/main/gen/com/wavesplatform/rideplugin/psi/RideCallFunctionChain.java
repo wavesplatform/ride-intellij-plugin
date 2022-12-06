@@ -11,6 +11,6 @@ public interface RideCallFunctionChain extends RideCompositeElement {
   RideArguments getArguments();
 
   @NotNull
-  RideFunctionName getFunctionName();
+  RideInvokeFunctionName getInvokeFunctionName();
 
 }

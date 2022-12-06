@@ -71,7 +71,7 @@ class RideParserDefinition : ParserDefinition {
         val COMMA = TokenSet.create(RideTypes.COMMA)
 
         @JvmStatic
-        val IDENTIFIER = TokenSet.create(RideTypes.UPPER_ID,  RideTypes.LOWER_ID)
+        val IDENTIFIER = TokenSet.create(RideTypes.UPPER_ID, RideTypes.LOWER_ID)
 
         @JvmStatic
         val STRINGS = TokenSet.create(RideTypes.STRING, RideTypes.SQSTRING)
@@ -83,7 +83,7 @@ class RideParserDefinition : ParserDefinition {
         val ANNOTATION = TokenSet.create(RideTypes.ANNOTATION)
 
         @JvmStatic
-        val FUNCTION = TokenSet.create(RideTypes.FUNCTION_NAME)
+        val FUNCTION = TokenSet.create(RideTypes.FUNCTION_DEFINITION, RideTypes.INVOKE_FUNCTION_NAME)
 
         @JvmStatic
         val TYPE = TokenSet.create(RideTypes.TYPE)
@@ -129,6 +129,7 @@ class RideParserDefinition : ParserDefinition {
         @JvmStatic
         val WHITE_SPACES = TokenSet.create(
             //RideTypes.NEW_LINE,
-            TokenType.WHITE_SPACE)
+            TokenType.WHITE_SPACE
+        )
     }
 }

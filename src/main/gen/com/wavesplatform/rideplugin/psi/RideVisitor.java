@@ -142,8 +142,8 @@ public class RideVisitor extends PsiElementVisitor {
     visitExpr(o);
   }
 
-  public void visitFunctionName(@NotNull RideFunctionName o) {
-    visitCompositeElement(o);
+  public void visitFunctionDefinition(@NotNull RideFunctionDefinition o) {
+    visitNamedElement(o);
   }
 
   public void visitIfCond(@NotNull RideIfCond o) {
@@ -163,6 +163,10 @@ public class RideVisitor extends PsiElementVisitor {
   }
 
   public void visitIntegerLiteral(@NotNull RideIntegerLiteral o) {
+    visitCompositeElement(o);
+  }
+
+  public void visitInvokeFunctionName(@NotNull RideInvokeFunctionName o) {
     visitCompositeElement(o);
   }
 
