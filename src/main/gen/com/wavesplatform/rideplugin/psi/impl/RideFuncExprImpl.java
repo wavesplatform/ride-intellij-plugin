@@ -28,12 +28,6 @@ public class RideFuncExprImpl extends RideExprImpl implements RideFuncExpr {
   }
 
   @Override
-  @Nullable
-  public RideClosure getClosure() {
-    return PsiTreeUtil.getChildOfType(this, RideClosure.class);
-  }
-
-  @Override
   @NotNull
   public List<RideExpr> getExprList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, RideExpr.class);
@@ -41,8 +35,8 @@ public class RideFuncExprImpl extends RideExprImpl implements RideFuncExpr {
 
   @Override
   @Nullable
-  public RideFunctionName getFunctionName() {
-    return PsiTreeUtil.getChildOfType(this, RideFunctionName.class);
+  public RideFunctionDefinition getFunctionDefinition() {
+    return PsiTreeUtil.getChildOfType(this, RideFunctionDefinition.class);
   }
 
   @Override

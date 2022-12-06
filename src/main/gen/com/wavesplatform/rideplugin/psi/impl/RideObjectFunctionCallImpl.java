@@ -41,8 +41,8 @@ public class RideObjectFunctionCallImpl extends RideExprImpl implements RideObje
 
   @Override
   @NotNull
-  public RideFunctionName getFunctionName() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, RideFunctionName.class));
+  public RideInvokeFunctionName getInvokeFunctionName() {
+    return notNullChild(PsiTreeUtil.getChildOfType(this, RideInvokeFunctionName.class));
   }
 
 }

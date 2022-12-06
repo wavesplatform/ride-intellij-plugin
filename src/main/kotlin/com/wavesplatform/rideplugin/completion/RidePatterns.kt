@@ -70,7 +70,7 @@ object RidePatterns {
         @JvmStatic
         fun literalPattern(): PsiElementPattern.Capture<PsiElement> {
             return psiElement().andOr(
-                psiElement().inside(RideClosure::class.java),
+                psiElement().inside(RideClosureExpr::class.java),
                 psiElement().afterLeaf(psiElement(RideTypes.ASSIGN))
             )
         }
@@ -79,7 +79,7 @@ object RidePatterns {
     object FoldPattern {
         @JvmStatic
         fun foldPattern(): PsiElementPattern.Capture<PsiElement> {
-            return psiElement().inside(RideClosure::class.java)
+            return psiElement().inside(RideClosureExpr::class.java)
         }
     }
 
@@ -96,14 +96,14 @@ object RidePatterns {
     object InvocationPattern {
         @JvmStatic
         fun structCreationPattern(): PsiElementPattern.Capture<PsiElement> {
-            return psiElement().inside(RideClosure::class.java).andNot(
+            return psiElement().inside(RideClosureExpr::class.java).andNot(
                 psiElement().afterLeaf(psiElement(RideTypes.COLON))
             )
         }
 
         @JvmStatic
         fun functionCallPattern(): PsiElementPattern.Capture<PsiElement> {
-            return psiElement().inside(RideClosure::class.java).andNot(
+            return psiElement().inside(RideClosureExpr::class.java).andNot(
                 psiElement().afterLeaf(psiElement(RideTypes.COLON))
             )
         }

@@ -11,6 +11,6 @@ public interface RideStandaloneFunctionCall extends RideExpr {
   RideArguments getArguments();
 
   @NotNull
-  RideFunctionName getFunctionName();
+  RideInvokeFunctionName getInvokeFunctionName();
 
 }

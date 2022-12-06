@@ -5,12 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface RideCallFunctionChain extends RideCompositeElement {
-
-  @Nullable
-  RideArguments getArguments();
+public interface RideClosureExpr extends RideExpr {
 
   @NotNull
-  RideInvokeFunctionName getInvokeFunctionName();
+  RideBlockState getBlockState();
 
 }

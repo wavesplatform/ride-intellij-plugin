@@ -7,14 +7,11 @@ import com.intellij.psi.PsiElement;
 
 public interface RideFuncExpr extends RideExpr {
 
-  @Nullable
-  RideClosure getClosure();
-
   @NotNull
   List<RideExpr> getExprList();
 
   @Nullable
-  RideFunctionName getFunctionName();
+  RideFunctionDefinition getFunctionDefinition();
 
   @Nullable
   RideParamGroup getParamGroup();

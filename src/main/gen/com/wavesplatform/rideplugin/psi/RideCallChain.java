@@ -16,4 +16,7 @@ public interface RideCallChain extends RideCompositeElement {
   @Nullable
   RideCallFunctionChain getCallFunctionChain();
 
+  @Nullable
+  RideCallIndexChain getCallIndexChain();
+
 }

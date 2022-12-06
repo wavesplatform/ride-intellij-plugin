@@ -7,7 +7,7 @@ import com.intellij.usageView.UsageViewUtil
 import com.wavesplatform.rideplugin.psi.RideCompositeElement
 import javax.swing.Icon
 
-class RideCompositeElementImpl(node: ASTNode) : ASTWrapperPsiElement(node), RideCompositeElement {
+open class RideCompositeElementImpl(node: ASTNode) : ASTWrapperPsiElement(node), RideCompositeElement {
     override fun toString(): String {
         return node.elementType.toString()
     }

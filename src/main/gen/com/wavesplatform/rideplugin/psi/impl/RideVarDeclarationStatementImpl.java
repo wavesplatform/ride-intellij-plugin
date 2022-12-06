@@ -29,12 +29,6 @@ public class RideVarDeclarationStatementImpl extends ASTWrapperPsiElement implem
 
   @Override
   @Nullable
-  public RideClosure getClosure() {
-    return PsiTreeUtil.getChildOfType(this, RideClosure.class);
-  }
-
-  @Override
-  @Nullable
   public RideExpr getExpr() {
     return PsiTreeUtil.getChildOfType(this, RideExpr.class);
   }

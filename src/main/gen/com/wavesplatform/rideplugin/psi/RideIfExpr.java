@@ -8,7 +8,10 @@ import com.intellij.psi.PsiElement;
 public interface RideIfExpr extends RideExpr {
 
   @Nullable
-  RideClosure getClosure();
+  RideBlockState getBlockState();
+
+  @Nullable
+  RideClosureExpr getClosureExpr();
 
   @Nullable
   RideElseBlock getElseBlock();
@@ -17,9 +20,6 @@ public interface RideIfExpr extends RideExpr {
   List<RideElseIfBlock> getElseIfBlockList();
 
   @Nullable
-  RideExpr getExpr();
-
-  @NotNull
   RideIfCond getIfCond();
 
 }

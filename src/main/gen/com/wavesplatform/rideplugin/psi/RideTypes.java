@@ -27,9 +27,10 @@ public interface RideTypes {
   IElementType CALL_CHAIN = new RideElementType("CALL_CHAIN");
   IElementType CALL_FIELD_CHAIN = new RideElementType("CALL_FIELD_CHAIN");
   IElementType CALL_FUNCTION_CHAIN = new RideElementType("CALL_FUNCTION_CHAIN");
+  IElementType CALL_INDEX_CHAIN = new RideElementType("CALL_INDEX_CHAIN");
   IElementType CASE_CLOSURE = new RideElementType("CASE_CLOSURE");
   IElementType CASE_EXPR = new RideElementType("CASE_EXPR");
-  IElementType CLOSURE = new RideElementType("CLOSURE");
+  IElementType CLOSURE_EXPR = new RideElementType("CLOSURE_EXPR");
   IElementType CONCAT_EXPR = new RideElementType("CONCAT_EXPR");
   IElementType DIRECTIVE = new RideElementType("DIRECTIVE");
   IElementType DIV_EXPR = new RideElementType("DIV_EXPR");
@@ -42,13 +43,14 @@ public interface RideTypes {
   IElementType FIELD_DEFINITION = new RideElementType("FIELD_DEFINITION");
   IElementType FOLD_EXPR = new RideElementType("FOLD_EXPR");
   IElementType FUNCTION_CALL = new RideElementType("FUNCTION_CALL");
-  IElementType FUNCTION_NAME = new RideElementType("FUNCTION_NAME");
+  IElementType FUNCTION_DEFINITION = RideElementTypeFactory.factory("FUNCTION_DEFINITION");
   IElementType FUNC_EXPR = new RideElementType("FUNC_EXPR");
   IElementType IF_COND = new RideElementType("IF_COND");
   IElementType IF_EXPR = new RideElementType("IF_EXPR");
   IElementType IMPORTS = new RideElementType("IMPORTS");
   IElementType INDEX_EXPR = new RideElementType("INDEX_EXPR");
   IElementType INTEGER_LITERAL = new RideElementType("INTEGER_LITERAL");
+  IElementType INVOKE_FUNCTION_NAME = new RideElementType("INVOKE_FUNCTION_NAME");
   IElementType LESS_EXPR = new RideElementType("LESS_EXPR");
   IElementType LESS_OR_EQ_EXPR = new RideElementType("LESS_OR_EQ_EXPR");
   IElementType LITERAL_EXPR = new RideElementType("LITERAL_EXPR");
@@ -210,14 +212,17 @@ public interface RideTypes {
       else if (type == CALL_FUNCTION_CHAIN) {
         return new RideCallFunctionChainImpl(node);
       }
+      else if (type == CALL_INDEX_CHAIN) {
+        return new RideCallIndexChainImpl(node);
+      }
       else if (type == CASE_CLOSURE) {
         return new RideCaseClosureImpl(node);
       }
       else if (type == CASE_EXPR) {
         return new RideCaseExprImpl(node);
       }
-      else if (type == CLOSURE) {
-        return new RideClosureImpl(node);
+      else if (type == CLOSURE_EXPR) {
+        return new RideClosureExprImpl(node);
       }
       else if (type == CONCAT_EXPR) {
         return new RideConcatExprImpl(node);
@@ -249,8 +254,8 @@ public interface RideTypes {
       else if (type == FOLD_EXPR) {
         return new RideFoldExprImpl(node);
       }
-      else if (type == FUNCTION_NAME) {
-        return new RideFunctionNameImpl(node);
+      else if (type == FUNCTION_DEFINITION) {
+        return new RideFunctionDefinitionImpl(node);
       }
       else if (type == FUNC_EXPR) {
         return new RideFuncExprImpl(node);
@@ -269,6 +274,9 @@ public interface RideTypes {
       }
       else if (type == INTEGER_LITERAL) {
         return new RideIntegerLiteralImpl(node);
+      }
+      else if (type == INVOKE_FUNCTION_NAME) {
+        return new RideInvokeFunctionNameImpl(node);
       }
       else if (type == LESS_EXPR) {
         return new RideLessExprImpl(node);

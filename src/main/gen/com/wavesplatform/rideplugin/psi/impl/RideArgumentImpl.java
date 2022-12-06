@@ -28,15 +28,9 @@ public class RideArgumentImpl extends ASTWrapperPsiElement implements RideArgume
   }
 
   @Override
-  @Nullable
-  public RideClosure getClosure() {
-    return PsiTreeUtil.getChildOfType(this, RideClosure.class);
-  }
-
-  @Override
-  @Nullable
+  @NotNull
   public RideExpr getExpr() {
-    return PsiTreeUtil.getChildOfType(this, RideExpr.class);
+    return notNullChild(PsiTreeUtil.getChildOfType(this, RideExpr.class));
   }
 
 }

@@ -14,6 +14,6 @@ public interface RideObjectFunctionCall extends RideExpr {
   RideCallingObject getCallingObject();
 
   @NotNull
-  RideFunctionName getFunctionName();
+  RideInvokeFunctionName getInvokeFunctionName();
 
 }

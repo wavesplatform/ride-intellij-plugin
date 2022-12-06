@@ -8,17 +8,22 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.wavesplatform.rideplugin.psi.RideTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.wavesplatform.rideplugin.psi.*;
+import com.wavesplatform.rideplugin.stubs.RideFunctionDefinitionStub;
+import com.intellij.psi.stubs.IStubElementType;
 
-public class RideCallCastChainImpl extends ASTWrapperPsiElement implements RideCallCastChain {
+public class RideFunctionDefinitionImpl extends RideFunctionDefinitionBaseImpl implements RideFunctionDefinition {
 
-  public RideCallCastChainImpl(@NotNull ASTNode node) {
+  public RideFunctionDefinitionImpl(@NotNull RideFunctionDefinitionStub stub, @NotNull IStubElementType<?, ?> type) {
+    super(stub, type);
+  }
+
+  public RideFunctionDefinitionImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull RideVisitor visitor) {
-    visitor.visitCallCastChain(this);
+    visitor.visitFunctionDefinition(this);
   }
 
   @Override
@@ -28,15 +33,15 @@ public class RideCallCastChainImpl extends ASTWrapperPsiElement implements RideC
   }
 
   @Override
-  @NotNull
-  public RideInvokeFunctionName getInvokeFunctionName() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, RideInvokeFunctionName.class));
+  @Nullable
+  public PsiElement getLowerId() {
+    return findChildByType(LOWER_ID);
   }
 
   @Override
-  @NotNull
-  public RideType getType() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, RideType.class));
+  @Nullable
+  public PsiElement getUpperId() {
+    return findChildByType(UPPER_ID);
   }
 
 }
