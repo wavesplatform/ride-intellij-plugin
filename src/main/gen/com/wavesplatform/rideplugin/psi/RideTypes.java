@@ -42,7 +42,7 @@ public interface RideTypes {
   IElementType FIELD_DEFINITION = new RideElementType("FIELD_DEFINITION");
   IElementType FOLD_EXPR = new RideElementType("FOLD_EXPR");
   IElementType FUNCTION_CALL = new RideElementType("FUNCTION_CALL");
-  IElementType FUNCTION_DEFINITION = new RideElementType("FUNCTION_DEFINITION");
+  IElementType FUNCTION_DEFINITION = RideElementTypeFactory.factory("FUNCTION_DEFINITION");
   IElementType FUNC_EXPR = new RideElementType("FUNC_EXPR");
   IElementType IF_COND = new RideElementType("IF_COND");
   IElementType IF_EXPR = new RideElementType("IF_EXPR");
