@@ -103,10 +103,10 @@ imports ::= RIDE_FILE (COMMA RIDE_FILE)* {pin=1}
 
 statement ::= var_declaration_statement | expr
 
-var_declaration_statement ::= (LET|STRICT) (tuple_definition | var_definition) ASSIGN (expr | closure) {pin=1}
-closure ::= LBRACE block_state RBRACE
+var_declaration_statement ::= (LET|STRICT) (tuple_definition | var_definition) ASSIGN (expr) {pin=1}
+closure_expr ::= LBRACE block_state RBRACE
           | LPAREN block_state RPAREN
-          | block_state
+          //| block_state
 
 case_closure ::= LBRACE block_state RBRACE
           | LPAREN block_state RPAREN
@@ -173,17 +173,18 @@ function_call ::= object_function_call | standalone_function_call
 standalone_function_call ::= invoke_function_name LPAREN arguments? RPAREN {pin=2}
 object_function_call ::= calling_object DOT invoke_function_name LPAREN arguments? RPAREN {pin=4}
 calling_object ::= var_definition
-call_chain ::= call_cast_chain | call_function_chain | call_field_chain
+call_chain ::= call_cast_chain | call_function_chain | call_field_chain | call_index_chain
 call_function_chain ::= DOT invoke_function_name LPAREN arguments? RPAREN
 call_field_chain ::= DOT field_definition
 call_cast_chain ::= DOT invoke_function_name LBRACKET type RBRACKET
+call_index_chain ::= LBRACKET expr RBRACKET
 field_call ::= (standalone_function_call | var_definition) (call_function_chain | call_field_chain)+
 
 call_arguments ::= LPAREN arguments? RPAREN  {pin = 1}
 arguments ::= argument (COMMA argument)*  {pin(".*")=1}
-argument ::= expr | closure
+argument ::= expr
 
-field_definition ::= simple_ref_expr
+field_definition ::= simple_ref_expr | INTEGER
 
 private definition_group ::= func_expr | array_expr | pattern_matching_expr | fold_expr | tuple_expr
 
@@ -203,20 +204,20 @@ index_expr ::= (
 ) LBRACKET expr RBRACKET (DOT expr)?
 
 private prefix_group ::= if_expr
-if_expr ::= IF if_cond (THEN (expr | closure)) else_if_block* else_block?
-| IF LPAREN if_cond RPAREN (THEN (expr | closure)) else_if_block* else_block? {pin=1}
-if_cond ::= expr
-else_if_block ::= ELSE IF if_cond (THEN (expr | closure))
-| ELSE IF LPAREN? if_cond RPAREN? (THEN (expr | closure)) {pin=2}
-else_block ::= ELSE (expr | closure) {pin = 1}
+if_expr ::= IF if_cond THEN (closure_expr | block_state) else_if_block* else_block?
+| IF LPAREN if_cond RPAREN THEN (closure_expr | block_state) else_if_block* else_block? {pin(".*")=1}
+if_cond ::= expr | (LPAREN expr LPAREN)
+else_if_block ::= ELSE IF if_cond (THEN (closure_expr | block_state))
+| ELSE IF LPAREN? if_cond RPAREN? (THEN (closure_expr | block_state)) {pin=2}
+else_block ::= ELSE (block_state) {pin = 1}
 
-private primary_group ::=  simple_ref_expr | paren_expr | literal_expr
+private primary_group ::=  simple_ref_expr | paren_expr | literal_expr | closure_expr
 paren_expr ::= LPAREN expr RPAREN {pin=1}
 
 simple_ref_expr ::= LOWER_ID | UPPER_ID
 //todo {methods=[getReference resolve setName] }
 
-func_expr ::= annotation_expr? FUNCTION function_definition LPAREN param_group? RPAREN ASSIGN (expr | closure)  {pin=2}
+func_expr ::= annotation_expr? FUNCTION function_definition LPAREN param_group? RPAREN ASSIGN (expr)  {pin=2}
 function_definition ::= LOWER_ID | UPPER_ID {
     implements="com.wavesplatform.rideplugin.psi.RideNamedElement"
     extends="com.wavesplatform.rideplugin.psi.impl.RideFunctionDefinitionBaseImpl"

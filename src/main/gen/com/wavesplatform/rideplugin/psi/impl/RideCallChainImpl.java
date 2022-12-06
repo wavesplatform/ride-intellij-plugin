@@ -45,4 +45,10 @@ public class RideCallChainImpl extends ASTWrapperPsiElement implements RideCallC
     return PsiTreeUtil.getChildOfType(this, RideCallFunctionChain.class);
   }
 
+  @Override
+  @Nullable
+  public RideCallIndexChain getCallIndexChain() {
+    return PsiTreeUtil.getChildOfType(this, RideCallIndexChain.class);
+  }
+
 }

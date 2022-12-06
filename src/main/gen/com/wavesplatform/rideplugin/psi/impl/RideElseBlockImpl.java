@@ -29,14 +29,8 @@ public class RideElseBlockImpl extends ASTWrapperPsiElement implements RideElseB
 
   @Override
   @Nullable
-  public RideClosure getClosure() {
-    return PsiTreeUtil.getChildOfType(this, RideClosure.class);
-  }
-
-  @Override
-  @Nullable
-  public RideExpr getExpr() {
-    return PsiTreeUtil.getChildOfType(this, RideExpr.class);
+  public RideBlockState getBlockState() {
+    return PsiTreeUtil.getChildOfType(this, RideBlockState.class);
   }
 
 }

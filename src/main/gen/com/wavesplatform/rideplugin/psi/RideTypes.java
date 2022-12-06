@@ -27,9 +27,10 @@ public interface RideTypes {
   IElementType CALL_CHAIN = new RideElementType("CALL_CHAIN");
   IElementType CALL_FIELD_CHAIN = new RideElementType("CALL_FIELD_CHAIN");
   IElementType CALL_FUNCTION_CHAIN = new RideElementType("CALL_FUNCTION_CHAIN");
+  IElementType CALL_INDEX_CHAIN = new RideElementType("CALL_INDEX_CHAIN");
   IElementType CASE_CLOSURE = new RideElementType("CASE_CLOSURE");
   IElementType CASE_EXPR = new RideElementType("CASE_EXPR");
-  IElementType CLOSURE = new RideElementType("CLOSURE");
+  IElementType CLOSURE_EXPR = new RideElementType("CLOSURE_EXPR");
   IElementType CONCAT_EXPR = new RideElementType("CONCAT_EXPR");
   IElementType DIRECTIVE = new RideElementType("DIRECTIVE");
   IElementType DIV_EXPR = new RideElementType("DIV_EXPR");
@@ -211,14 +212,17 @@ public interface RideTypes {
       else if (type == CALL_FUNCTION_CHAIN) {
         return new RideCallFunctionChainImpl(node);
       }
+      else if (type == CALL_INDEX_CHAIN) {
+        return new RideCallIndexChainImpl(node);
+      }
       else if (type == CASE_CLOSURE) {
         return new RideCaseClosureImpl(node);
       }
       else if (type == CASE_EXPR) {
         return new RideCaseExprImpl(node);
       }
-      else if (type == CLOSURE) {
-        return new RideClosureImpl(node);
+      else if (type == CLOSURE_EXPR) {
+        return new RideClosureExprImpl(node);
       }
       else if (type == CONCAT_EXPR) {
         return new RideConcatExprImpl(node);

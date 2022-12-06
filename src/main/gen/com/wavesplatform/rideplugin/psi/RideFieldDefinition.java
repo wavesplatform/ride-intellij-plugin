@@ -7,7 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface RideFieldDefinition extends RideCompositeElement {
 
-  @NotNull
+  @Nullable
   RideSimpleRefExpr getSimpleRefExpr();
+
+  @Nullable
+  PsiElement getInteger();
 
 }
