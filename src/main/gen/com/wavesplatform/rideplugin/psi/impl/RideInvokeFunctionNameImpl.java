@@ -8,10 +8,10 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.wavesplatform.rideplugin.psi.RideTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
+import com.wavesplatform.rideplugin.psi.mixin.RideFunctionNameMixin;
 import com.wavesplatform.rideplugin.psi.*;
 
-public class RideInvokeFunctionNameImpl extends ASTWrapperPsiElement implements RideInvokeFunctionName {
+public class RideInvokeFunctionNameImpl extends RideFunctionNameMixin implements RideInvokeFunctionName {
 
   public RideInvokeFunctionNameImpl(@NotNull ASTNode node) {
     super(node);

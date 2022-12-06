@@ -18,9 +18,7 @@
   elementTypeClass="com.wavesplatform.rideplugin.psi.RideElementType"
   tokenTypeClass="com.wavesplatform.rideplugin.psi.RideTokenType"
 
-  elementTypeFactory("var_definition")="com.wavesplatform.rideplugin.psi.impl.RideElementTypeFactory.factory"
-  elementTypeFactory("function_definition")="com.wavesplatform.rideplugin.psi.impl.RideElementTypeFactory.factory"
-
+  elementTypeFactory("var_definition|function_definition")="com.wavesplatform.rideplugin.psi.impl.RideElementTypeFactory.factory"
 
   tokens=[
     ASSIGN = "="
@@ -85,7 +83,7 @@
     SQSTRING = "regexp:(')[^']*'"
     UPPER_ID = 'regexp:[A-Z_][a-zA-Z0-9_-]*'
     LOWER_ID = 'regexp:[a-z_][a-zA-Z0-9_-]*'
-    RIDE_FILE = "regexp:[a-zA-Z0-9\/\\.\\_-]*\.ride"
+    RIDE_FILE = "regexp:[a-zA-Z0-9/\\._-]*\.ride"
   ]
   extends(".*expr") = expr
   extends(".*type") = type
@@ -224,7 +222,9 @@ function_definition ::= LOWER_ID | UPPER_ID {
     extends="com.wavesplatform.rideplugin.psi.impl.RideFunctionDefinitionBaseImpl"
     stubClass="com.wavesplatform.rideplugin.stubs.RideFunctionDefinitionStub"
 }
-invoke_function_name ::= LOWER_ID | UPPER_ID
+invoke_function_name ::= LOWER_ID | UPPER_ID {
+    mixin = "com.wavesplatform.rideplugin.psi.mixin.RideFunctionNameMixin"
+}
 block_state ::= element*
 param_group ::= param_definition (COMMA param_definition)*  {pin(".*")=1}
 param_definition ::= var_definition type_definition {pin=1}
