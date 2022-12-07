@@ -8,15 +8,15 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.wavesplatform.rideplugin.psi.RideTypes.*;
+import com.wavesplatform.rideplugin.psi.mixin.RideVarNameMixin;
 import com.wavesplatform.rideplugin.psi.*;
 
-public class RideSimpleRefExprImpl extends RideExprImpl implements RideSimpleRefExpr {
+public class RideSimpleRefExprImpl extends RideVarNameMixin implements RideSimpleRefExpr {
 
   public RideSimpleRefExprImpl(@NotNull ASTNode node) {
     super(node);
   }
 
-  @Override
   public void accept(@NotNull RideVisitor visitor) {
     visitor.visitSimpleRefExpr(this);
   }
