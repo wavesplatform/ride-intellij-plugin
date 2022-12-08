@@ -13,6 +13,7 @@ Features:<br>
   <li>Keyword completion</li>
   <li>Built-in structures, types and functions completion</li>
   <li>User-defined functions completion</li>
+  <li>User-defined variables completion</li>
   <li>Syntax highlighting and color schemes</li>
   <li>Ride file creation from lookup</li>
   <li>Code navigation</li>

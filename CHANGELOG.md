@@ -8,6 +8,7 @@
 - Added reference contributor for functions in one file
 - Added find usages for functions in one file
 - Added completion for user-defined functions
+- Added completion for user-defined variables
 
 ### Fixed
 - Language grammar errors
