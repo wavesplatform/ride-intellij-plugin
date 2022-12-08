@@ -13,6 +13,8 @@ Features:<br>
   <li>Keyword completion</li>
   <li>Syntax highlighting and color schemes</li>
   <li>Built-in structures, types and functions completion</li>
+  <li>Ride file creation from lookup</li>
+  <li>Code navigation</li>
 </ul>
 <!-- Plugin description end -->
 
