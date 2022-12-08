@@ -214,8 +214,10 @@ else_block ::= ELSE (block_state) {pin = 1}
 private primary_group ::=  simple_ref_expr | paren_expr | literal_expr | closure_expr
 paren_expr ::= LPAREN expr RPAREN {pin=1}
 
-simple_ref_expr ::= LOWER_ID | UPPER_ID
-//todo {methods=[getReference resolve setName] }
+simple_ref_expr ::= LOWER_ID | UPPER_ID {
+    mixin = "com.wavesplatform.rideplugin.psi.mixin.RideVarNameMixin"
+}
+//todo {methods=[resolve setName] }
 
 func_expr ::= annotation_expr? FUNCTION function_definition LPAREN param_group? RPAREN ASSIGN (expr)  {pin=2}
 function_definition ::= LOWER_ID | UPPER_ID {

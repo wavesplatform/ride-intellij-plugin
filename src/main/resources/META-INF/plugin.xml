@@ -44,6 +44,9 @@
 <!--        <additionalTextAttributes scheme="Default" file="colorScheme/Default_Ride.xml"/>-->
         <lang.commenter language="RIDE"
                         implementationClass="com.wavesplatform.rideplugin.editor.RideCommenter"/>
+
+        <lang.findUsagesProvider language="RIDE"
+                                 implementationClass="com.wavesplatform.rideplugin.usages.RideFindUsagesProvider"/>
     </extensions>
 
     <actions>
