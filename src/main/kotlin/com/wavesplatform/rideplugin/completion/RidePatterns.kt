@@ -93,6 +93,13 @@ object RidePatterns {
         }
     }
 
+    object RefPattern {
+        @JvmStatic
+        fun varRefPattern(): PsiElementPattern.Capture<PsiElement> {
+            return psiElement().inside(RideAll::class.java)
+        }
+    }
+
     object InvocationPattern {
         @JvmStatic
         fun structCreationPattern(): PsiElementPattern.Capture<PsiElement> {
