@@ -34,6 +34,10 @@ public class RideVisitor extends PsiElementVisitor {
     visitCompositeElement(o);
   }
 
+  public void visitArrayCallArguments(@NotNull RideArrayCallArguments o) {
+    visitCompositeElement(o);
+  }
+
   public void visitArrayExpr(@NotNull RideArrayExpr o) {
     visitExpr(o);
   }
@@ -311,6 +315,10 @@ public class RideVisitor extends PsiElementVisitor {
   }
 
   public void visitUnitLiteral(@NotNull RideUnitLiteral o) {
+    visitCompositeElement(o);
+  }
+
+  public void visitUnusedInBnf(@NotNull RideUnusedInBnf o) {
     visitCompositeElement(o);
   }
 

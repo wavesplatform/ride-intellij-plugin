@@ -42,7 +42,7 @@
     COMMA                =  ','
     EQ                   =  '=='
     NOT_EQ               =  '!='
-    BANG                  =  '!'
+    BANG                 =  '!'
     PLUS                 =  '+'
     MINUS_MINUS          =  '--'
     MINUS_ASSIGN         =  '-='
@@ -56,10 +56,11 @@
     BIT_AND              =  '&'
     BIT_OR               =  '|'
     MUL                  =  '*'
-    SLASH             =  '/'
+    SLASH                =  '/'
     GREATER_OR_EQUAL     =  '>='
-    LESS_OR_EQUAL     =  '<='
-    GT              =  '>'
+    LESS_OR_EQUAL        =  '<='
+    ARROW                = '=>'
+    GT                   =  '>'
     LESS                 =  '<'
     DOT                  =  '.'
     CONCAT = '++'
@@ -84,6 +85,7 @@
     UPPER_ID = 'regexp:[A-Z_][a-zA-Z0-9_-]*'
     LOWER_ID = 'regexp:[a-z_][a-zA-Z0-9_-]*'
     RIDE_FILE = "regexp:[a-zA-Z0-9/\\._-]*\.ride"
+    NEW_LINE = "regexp:(\r|\n|\r\n)"
   ]
   extends(".*expr") = expr
   extends(".*type") = type
@@ -103,10 +105,10 @@ imports ::= RIDE_FILE (COMMA RIDE_FILE)* {pin=1}
 
 statement ::= var_declaration_statement | expr
 
+//todo call_chain? here is bad
 var_declaration_statement ::= (LET|STRICT) (tuple_definition | var_definition) ASSIGN (expr) {pin=1}
-closure_expr ::= LBRACE block_state RBRACE
-          | LPAREN block_state RPAREN
-          //| block_state
+closure_expr ::= LBRACE block_state RBRACE call_chain?
+          | LPAREN block_state RPAREN call_chain? {pin(".*")=3}
 
 case_closure ::= LBRACE block_state RBRACE
           | LPAREN block_state RPAREN
@@ -168,13 +170,13 @@ unary_not_expr ::= BANG expr  {pin = 1}
 
 private call_group ::= expr_call | struct_call | function_call
 expr_call ::= expr call_chain
-struct_call ::= simple_type LPAREN arguments? RPAREN
+struct_call ::= simple_type call_arguments
 function_call ::= object_function_call | standalone_function_call
-standalone_function_call ::= invoke_function_name LPAREN arguments? RPAREN {pin=2}
-object_function_call ::= calling_object DOT invoke_function_name LPAREN arguments? RPAREN {pin=4}
+standalone_function_call ::= invoke_function_name call_arguments
+object_function_call ::= calling_object DOT invoke_function_name call_arguments {pin=4}
 calling_object ::= var_definition
 call_chain ::= call_cast_chain | call_function_chain | call_field_chain | call_index_chain
-call_function_chain ::= DOT invoke_function_name LPAREN arguments? RPAREN
+call_function_chain ::= DOT invoke_function_name call_arguments
 call_field_chain ::= DOT field_definition
 call_cast_chain ::= DOT invoke_function_name LBRACKET type RBRACKET
 call_index_chain ::= LBRACKET expr RBRACKET
@@ -207,8 +209,9 @@ private prefix_group ::= if_expr
 if_expr ::= IF if_cond THEN (closure_expr | block_state) else_if_block* else_block?
 | IF LPAREN if_cond RPAREN THEN (closure_expr | block_state) else_if_block* else_block? {pin(".*")=1}
 if_cond ::= expr | (LPAREN expr LPAREN)
+//todo fix???
 else_if_block ::= ELSE IF if_cond (THEN (closure_expr | block_state))
-| ELSE IF LPAREN? if_cond RPAREN? (THEN (closure_expr | block_state)) {pin=2}
+| ELSE IF LPAREN if_cond RPAREN (THEN (closure_expr | block_state)) {pin=2}
 else_block ::= ELSE (block_state) {pin = 1}
 
 private primary_group ::=  simple_ref_expr | paren_expr | literal_expr | closure_expr
@@ -217,7 +220,6 @@ paren_expr ::= LPAREN expr RPAREN {pin=1}
 simple_ref_expr ::= LOWER_ID | UPPER_ID {
     mixin = "com.wavesplatform.rideplugin.psi.mixin.RideVarNameMixin"
 }
-//todo {methods=[resolve setName] }
 
 func_expr ::= annotation_expr? FUNCTION function_definition LPAREN param_group? RPAREN ASSIGN (expr)  {pin=2}
 function_definition ::= LOWER_ID | UPPER_ID {
@@ -242,11 +244,13 @@ array_type ::= UPPER_ID LBRACKET type RBRACKET {pin=2}
 union_type ::= type BIT_OR (type|NIL|UNIT) (BIT_OR (type|NIL|UNIT))* {pin=2}
 simple_type ::= UPPER_ID
 
-array_expr ::= LBRACKET arguments? RBRACKET call_chain? {pin = 1}
+array_expr ::= array_call_arguments call_chain? {pin = 1}
+
+array_call_arguments ::= LBRACKET arguments? RBRACKET {pin = 1}
 
 pattern_matching_expr ::= MATCH expr matching_closure {pin=1}
 matching_closure ::= LBRACE case_expr*  RBRACE {pin=1}
-case_expr ::= CASE (UNDERSCORE | var_definition) type_definition? '=>' case_closure {pin=1}
+case_expr ::= CASE (UNDERSCORE | var_definition | literal_expr) type_definition? '=>' case_closure {pin=1}
 
 fold_expr ::= FOLD_KW LESS INTEGER GT call_arguments {pin=1}
 
@@ -266,6 +270,7 @@ byteVectorLiteral ::= (base16|base58|base64) SQSTRING
 nilLiteral ::= NIL
 unitLiteral ::= UNIT
 
-
-
-
+//noinspection BnfUnusedRule
+unusedInBnf ::=
+        BAD_CHARACTER
+        | NEW_LINE

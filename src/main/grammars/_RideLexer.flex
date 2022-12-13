@@ -4,9 +4,7 @@ import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
 import com.wavesplatform.rideplugin.psi.RideTypes;
 
-import static com.intellij.psi.TokenType.BAD_CHARACTER;
-import static com.intellij.psi.TokenType.WHITE_SPACE;
-import static com.wavesplatform.rideplugin.psi.RideTypes.*;
+import static com.intellij.psi.TokenType.*;import static com.wavesplatform.rideplugin.psi.RideTypes.*;
 
 %%
 
@@ -41,6 +39,8 @@ LOWER_ID = [a-z][a-zA-Z0-9_-]*
 //this is needed to create tolerance to whitespaces in RDBRACKET
 RDBRACKET="#-}"{WHITE_SPACE}*
 
+NEW_LINE = "regexp:(\r|\n|\r\n)"
+
 
 //%state ANNOTATION
 
@@ -67,6 +67,7 @@ RDBRACKET="#-}"{WHITE_SPACE}*
   ")"                { return RPAREN; }
   ":"                { return COLON; }
   ","                { return COMMA; }
+  "=>"               { return ARROW; }
   "=="               { return EQ; }
   "!="               { return NOT_EQ; }
   "!"                { return BANG; }
@@ -117,6 +118,7 @@ RDBRACKET="#-}"{WHITE_SPACE}*
   {UPPER_ID}         { return UPPER_ID; }
   {LOWER_ID}         { return LOWER_ID; }
   {AT_SYMBOL}        { return AT_SYMBOL; }
+  {NEW_LINE}         { return NEW_LINE; }
 
 }
 

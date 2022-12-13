@@ -35,6 +35,12 @@ public class RideCaseExprImpl extends RideExprImpl implements RideCaseExpr {
 
   @Override
   @Nullable
+  public RideLiteralExpr getLiteralExpr() {
+    return PsiTreeUtil.getChildOfType(this, RideLiteralExpr.class);
+  }
+
+  @Override
+  @Nullable
   public RideTypeDefinition getTypeDefinition() {
     return PsiTreeUtil.getChildOfType(this, RideTypeDefinition.class);
   }

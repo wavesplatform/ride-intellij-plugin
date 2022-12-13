@@ -7,8 +7,8 @@ import com.intellij.psi.PsiElement;
 
 public interface RideStructCall extends RideExpr {
 
-  @Nullable
-  RideArguments getArguments();
+  @NotNull
+  RideCallArguments getCallArguments();
 
   @NotNull
   RideSimpleType getSimpleType();

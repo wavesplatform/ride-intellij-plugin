@@ -25,12 +25,12 @@ class RideVarCompletionContributor : CompletionContributor(), DumbAware {
                 declaredVariables
                     .asSequence()
                     .map(LookupElementBuilder::create)
-                    .map {
-                        it.withInsertHandler { context, _ ->
-                            val end = context.selectionEndOffset
-                            context.editor.caretModel.moveToOffset(end - 1)
-                        }
-                    }
+//                    .map {
+//                        it.withInsertHandler { context, _ ->
+//                            val end = context.selectionEndOffset
+//                            context.editor.caretModel.moveToOffset(end - 1)
+//                        }
+//                    }
                     .map(result::addElement)
                     .toList()
             }

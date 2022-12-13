@@ -16,6 +16,7 @@ public interface RideTypes {
   IElementType APPEND_EXPR = new RideElementType("APPEND_EXPR");
   IElementType ARGUMENT = new RideElementType("ARGUMENT");
   IElementType ARGUMENTS = new RideElementType("ARGUMENTS");
+  IElementType ARRAY_CALL_ARGUMENTS = new RideElementType("ARRAY_CALL_ARGUMENTS");
   IElementType ARRAY_EXPR = new RideElementType("ARRAY_EXPR");
   IElementType ARRAY_TYPE = new RideElementType("ARRAY_TYPE");
   IElementType BLOCK_STATE = new RideElementType("BLOCK_STATE");
@@ -86,13 +87,16 @@ public interface RideTypes {
   IElementType UNARY_NOT_EXPR = new RideElementType("UNARY_NOT_EXPR");
   IElementType UNION_TYPE = new RideElementType("UNION_TYPE");
   IElementType UNIT_LITERAL = new RideElementType("UNIT_LITERAL");
+  IElementType UNUSED_IN_BNF = new RideElementType("UNUSED_IN_BNF");
   IElementType VAR_DECLARATION_STATEMENT = new RideElementType("VAR_DECLARATION_STATEMENT");
   IElementType VAR_DEFINITION = RideElementTypeFactory.factory("VAR_DEFINITION");
 
   IElementType APPEND = new RideTokenType(":+");
+  IElementType ARROW = new RideTokenType("=>");
   IElementType ASSIGN = new RideTokenType("=");
   IElementType ASTERISK = new RideTokenType("ASTERISK");
   IElementType AT_SYMBOL = new RideTokenType("@");
+  IElementType BAD_CHARACTER = new RideTokenType("BAD_CHARACTER");
   IElementType BANG = new RideTokenType("!");
   IElementType BASE16 = new RideTokenType("base16");
   IElementType BASE58 = new RideTokenType("base58");
@@ -135,6 +139,7 @@ public interface RideTypes {
   IElementType MINUS_ASSIGN = new RideTokenType("-=");
   IElementType MINUS_MINUS = new RideTokenType("--");
   IElementType MUL = new RideTokenType("*");
+  IElementType NEW_LINE = new RideTokenType("NEW_LINE");
   IElementType NIL = new RideTokenType("nil");
   IElementType NOT_EQ = new RideTokenType("!=");
   IElementType PERCENT = new RideTokenType("%");
@@ -179,6 +184,9 @@ public interface RideTypes {
       }
       else if (type == ARGUMENTS) {
         return new RideArgumentsImpl(node);
+      }
+      else if (type == ARRAY_CALL_ARGUMENTS) {
+        return new RideArrayCallArgumentsImpl(node);
       }
       else if (type == ARRAY_EXPR) {
         return new RideArrayExprImpl(node);
@@ -380,6 +388,9 @@ public interface RideTypes {
       }
       else if (type == UNIT_LITERAL) {
         return new RideUnitLiteralImpl(node);
+      }
+      else if (type == UNUSED_IN_BNF) {
+        return new RideUnusedInBnfImpl(node);
       }
       else if (type == VAR_DECLARATION_STATEMENT) {
         return new RideVarDeclarationStatementImpl(node);

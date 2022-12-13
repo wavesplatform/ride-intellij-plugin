@@ -28,9 +28,9 @@ public class RideArrayExprImpl extends RideExprImpl implements RideArrayExpr {
   }
 
   @Override
-  @Nullable
-  public RideArguments getArguments() {
-    return PsiTreeUtil.getChildOfType(this, RideArguments.class);
+  @NotNull
+  public RideArrayCallArguments getArrayCallArguments() {
+    return notNullChild(PsiTreeUtil.getChildOfType(this, RideArrayCallArguments.class));
   }
 
   @Override
