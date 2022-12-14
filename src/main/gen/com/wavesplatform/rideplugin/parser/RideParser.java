@@ -721,6 +721,32 @@ public class RideParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // LBRACE case_expr*  RBRACE
+  public static boolean matching_closure(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "matching_closure")) return false;
+    if (!nextTokenIs(b, LBRACE)) return false;
+    boolean r, p;
+    Marker m = enter_section_(b, l, _NONE_, MATCHING_CLOSURE, null);
+    r = consumeToken(b, LBRACE);
+    p = r; // pin = 1
+    r = r && report_error_(b, matching_closure_1(b, l + 1));
+    r = p && consumeToken(b, RBRACE) && r;
+    exit_section_(b, l, m, r, p, null);
+    return r || p;
+  }
+
+  // case_expr*
+  private static boolean matching_closure_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "matching_closure_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!case_expr(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "matching_closure_1", c)) break;
+    }
+    return true;
+  }
+
+  /* ********************************************************** */
   // NIL
   public static boolean nilLiteral(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "nilLiteral")) return false;
@@ -1332,7 +1358,7 @@ public class RideParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // MATCH expr LBRACE case_expr*  RBRACE
+  // MATCH expr matching_closure
   public static boolean pattern_matching_expr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "pattern_matching_expr")) return false;
     if (!nextTokenIsSmart(b, MATCH)) return false;
@@ -1341,22 +1367,9 @@ public class RideParser implements PsiParser, LightPsiParser {
     r = consumeTokenSmart(b, MATCH);
     p = r; // pin = 1
     r = r && report_error_(b, expr(b, l + 1, -1));
-    r = p && report_error_(b, consumeToken(b, LBRACE)) && r;
-    r = p && report_error_(b, pattern_matching_expr_3(b, l + 1)) && r;
-    r = p && consumeToken(b, RBRACE) && r;
+    r = p && matching_closure(b, l + 1) && r;
     exit_section_(b, l, m, r, p, null);
     return r || p;
-  }
-
-  // case_expr*
-  private static boolean pattern_matching_expr_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "pattern_matching_expr_3")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!case_expr(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "pattern_matching_expr_3", c)) break;
-    }
-    return true;
   }
 
   // FOLD_KW LESS INTEGER GT call_arguments

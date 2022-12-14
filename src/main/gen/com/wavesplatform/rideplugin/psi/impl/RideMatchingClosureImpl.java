@@ -8,17 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.wavesplatform.rideplugin.psi.RideTypes.*;
+import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.wavesplatform.rideplugin.psi.*;
 
-public class RidePatternMatchingExprImpl extends RideExprImpl implements RidePatternMatchingExpr {
+public class RideMatchingClosureImpl extends ASTWrapperPsiElement implements RideMatchingClosure {
 
-  public RidePatternMatchingExprImpl(@NotNull ASTNode node) {
+  public RideMatchingClosureImpl(@NotNull ASTNode node) {
     super(node);
   }
 
-  @Override
   public void accept(@NotNull RideVisitor visitor) {
-    visitor.visitPatternMatchingExpr(this);
+    visitor.visitMatchingClosure(this);
   }
 
   @Override
@@ -28,15 +28,9 @@ public class RidePatternMatchingExprImpl extends RideExprImpl implements RidePat
   }
 
   @Override
-  @Nullable
-  public RideExpr getExpr() {
-    return PsiTreeUtil.getChildOfType(this, RideExpr.class);
-  }
-
-  @Override
-  @Nullable
-  public RideMatchingClosure getMatchingClosure() {
-    return PsiTreeUtil.getChildOfType(this, RideMatchingClosure.class);
+  @NotNull
+  public List<RideCaseExpr> getCaseExprList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, RideCaseExpr.class);
   }
 
 }

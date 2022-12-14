@@ -5,12 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface RidePatternMatchingExpr extends RideExpr {
+public interface RideMatchingClosure extends RideCompositeElement {
 
-  @Nullable
-  RideExpr getExpr();
-
-  @Nullable
-  RideMatchingClosure getMatchingClosure();
+  @NotNull
+  List<RideCaseExpr> getCaseExprList();
 
 }

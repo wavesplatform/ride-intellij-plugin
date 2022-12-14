@@ -49,6 +49,10 @@
         <lang.commenter language="RIDE"
                         implementationClass="com.wavesplatform.rideplugin.editor.RideCommenter"/>
 
+
+        <lang.foldingBuilder language="RIDE"
+                             implementationClass="com.wavesplatform.rideplugin.editor.folding.RideFoldingBuilder"/>
+
         <lang.findUsagesProvider language="RIDE"
                                  implementationClass="com.wavesplatform.rideplugin.usages.RideFindUsagesProvider"/>
     </extensions>
