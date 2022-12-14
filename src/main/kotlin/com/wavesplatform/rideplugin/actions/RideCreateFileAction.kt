@@ -1,8 +1,3 @@
-/*
- * Use of this source code is governed by the MIT license that can be
- * found in the LICENSE file.
- */
-
 package com.wavesplatform.rideplugin.actions
 
 import com.intellij.ide.actions.CreateFileFromTemplateAction
@@ -29,7 +24,10 @@ class RideCreateFileAction : CreateFileFromTemplateAction(CAPTION, "", RideIcons
 
     override fun buildDialog(project: Project, directory: PsiDirectory, builder: CreateFileFromTemplateDialog.Builder) {
         builder.setTitle(CAPTION)
-            .addKind("Empty file", RideIcons.FILE, "Ride File")
+            .addKind("Account script", null, "RideAccountScript")
+            .addKind("Asset script", null, "RideAssetScript")
+            .addKind("dApp script", null, "RidedAppScript")
+            .addKind("Library", null, "RideLibrary")
     }
 
     private companion object {
