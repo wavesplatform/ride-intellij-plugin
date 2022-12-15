@@ -54,6 +54,7 @@ public interface RideTypes {
   IElementType LESS_EXPR = new RideElementType("LESS_EXPR");
   IElementType LESS_OR_EQ_EXPR = new RideElementType("LESS_OR_EQ_EXPR");
   IElementType LITERAL_EXPR = new RideElementType("LITERAL_EXPR");
+  IElementType MATCHING_CLOSURE = new RideElementType("MATCHING_CLOSURE");
   IElementType MINUS_EXPR = new RideElementType("MINUS_EXPR");
   IElementType MOD_EXPR = new RideElementType("MOD_EXPR");
   IElementType MORE_EXPR = new RideElementType("MORE_EXPR");
@@ -286,6 +287,9 @@ public interface RideTypes {
       }
       else if (type == LITERAL_EXPR) {
         return new RideLiteralExprImpl(node);
+      }
+      else if (type == MATCHING_CLOSURE) {
+        return new RideMatchingClosureImpl(node);
       }
       else if (type == MINUS_EXPR) {
         return new RideMinusExprImpl(node);

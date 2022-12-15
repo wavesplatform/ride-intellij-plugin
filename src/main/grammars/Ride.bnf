@@ -244,7 +244,8 @@ simple_type ::= UPPER_ID
 
 array_expr ::= LBRACKET arguments? RBRACKET call_chain? {pin = 1}
 
-pattern_matching_expr ::= MATCH expr LBRACE case_expr*  RBRACE {pin=1}
+pattern_matching_expr ::= MATCH expr matching_closure {pin=1}
+matching_closure ::= LBRACE case_expr*  RBRACE {pin=1}
 case_expr ::= CASE (UNDERSCORE | var_definition) type_definition? '=>' case_closure {pin=1}
 
 fold_expr ::= FOLD_KW LESS INTEGER GT call_arguments {pin=1}
