@@ -94,6 +94,7 @@ NEW_LINE = "regexp:(\r|\n|\r\n)"
   "++"               { return CONCAT; }
   ":+"               { return APPEND; }
   "::"               { return PREPEND; }
+  ";"                { return SEMICOLON; }
   "func"             { return FUNCTION; }
   "match"            { return MATCH; }
   "case"             { return CASE; }

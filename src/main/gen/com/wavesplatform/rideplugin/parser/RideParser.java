@@ -440,15 +440,17 @@ public class RideParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // !<<eof>> statement
+  // !<<eof>> statement SEMICOLON?
   static boolean element(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "element")) return false;
-    boolean r;
+    boolean r, p;
     Marker m = enter_section_(b, l, _NONE_);
     r = element_0(b, l + 1);
     r = r && statement(b, l + 1);
-    exit_section_(b, l, m, r, false, RideParser::property_recover);
-    return r;
+    p = r; // pin = 2
+    r = r && element_2(b, l + 1);
+    exit_section_(b, l, m, r, p, RideParser::property_recover);
+    return r || p;
   }
 
   // !<<eof>>
@@ -459,6 +461,13 @@ public class RideParser implements PsiParser, LightPsiParser {
     r = !eof(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
+  }
+
+  // SEMICOLON?
+  private static boolean element_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "element_2")) return false;
+    consumeToken(b, SEMICOLON);
+    return true;
   }
 
   /* ********************************************************** */

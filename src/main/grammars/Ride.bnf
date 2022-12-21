@@ -33,7 +33,7 @@
     PERCENT = '%'
     UNDERSCORE = "_"
     LBRACKET = '['
-    RBRACKET = ']'
+    RBRACKET             =  ']'
     LBRACE               =  '{'
     RBRACE               =  '}'
     LPAREN               =  '('
@@ -63,6 +63,7 @@
     GT                   =  '>'
     LESS                 =  '<'
     DOT                  =  '.'
+    SEMICOLON            =  ';'
     CONCAT = '++'
     APPEND = ':+'
     PREPEND = '::'
@@ -94,7 +95,7 @@
 
 program ::= all
 all ::= directive* element*
-private element ::= !<<eof>> statement {pin=2 recoverWhile=property_recover}
+private element ::= !<<eof>> statement SEMICOLON? {pin=2 recoverWhile=property_recover}
 private property_recover ::= !(UNIT | NIL | AT_SYMBOL | FUNCTION | LET | STRICT | TRUE | FALSE |IF |ELSE | LDBRACKET
 | RDBRACKET | PERCENT | LESS_OR_EQUAL | GREATER_OR_EQUAL
 | INT | STRING | PLUS | MINUS| BANG | ASTERISK |SLASH | LESS |GT|EQ | LBRACKET | RBRACKET

@@ -151,6 +151,7 @@ public interface RideTypes {
   IElementType RDBRACKET = new RideTokenType("#-}");
   IElementType RIDE_FILE = new RideTokenType("RIDE_FILE");
   IElementType RPAREN = new RideTokenType(")");
+  IElementType SEMICOLON = new RideTokenType(";");
   IElementType SLASH = new RideTokenType("/");
   IElementType SQSTRING = new RideTokenType("SQSTRING");
   IElementType STRICT = new RideTokenType("strict");
