@@ -695,6 +695,17 @@ public class RideParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // argument
+  public static boolean index_argument(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "index_argument")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, INDEX_ARGUMENT, "<index argument>");
+    r = argument(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
   // INTEGER
   public static boolean integerLiteral(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "integerLiteral")) return false;
@@ -1207,7 +1218,7 @@ public class RideParser implements PsiParser, LightPsiParser {
   //     | object_function_call
   //     | field_call
   //     | simple_ref_expr
-  // ) LBRACKET expr RBRACKET (DOT expr)?
+  // ) LBRACKET index_argument RBRACKET (DOT expr)?
   public static boolean index_expr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "index_expr")) return false;
     if (!nextTokenIsSmart(b, LOWER_ID, UPPER_ID)) return false;
@@ -1215,7 +1226,7 @@ public class RideParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b, l, _NONE_, INDEX_EXPR, "<index expr>");
     r = index_expr_0(b, l + 1);
     r = r && consumeToken(b, LBRACKET);
-    r = r && expr(b, l + 1, -1);
+    r = r && index_argument(b, l + 1);
     r = r && consumeToken(b, RBRACKET);
     r = r && index_expr_4(b, l + 1);
     exit_section_(b, l, m, r, false, null);

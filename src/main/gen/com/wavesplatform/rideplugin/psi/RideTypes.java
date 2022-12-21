@@ -49,6 +49,7 @@ public interface RideTypes {
   IElementType IF_COND = new RideElementType("IF_COND");
   IElementType IF_EXPR = new RideElementType("IF_EXPR");
   IElementType IMPORTS = new RideElementType("IMPORTS");
+  IElementType INDEX_ARGUMENT = new RideElementType("INDEX_ARGUMENT");
   IElementType INDEX_EXPR = new RideElementType("INDEX_EXPR");
   IElementType INTEGER_LITERAL = new RideElementType("INTEGER_LITERAL");
   IElementType INVOKE_FUNCTION_NAME = new RideElementType("INVOKE_FUNCTION_NAME");
@@ -277,6 +278,9 @@ public interface RideTypes {
       }
       else if (type == IMPORTS) {
         return new RideImportsImpl(node);
+      }
+      else if (type == INDEX_ARGUMENT) {
+        return new RideIndexArgumentImpl(node);
       }
       else if (type == INDEX_EXPR) {
         return new RideIndexExprImpl(node);

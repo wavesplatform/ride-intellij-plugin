@@ -19,9 +19,9 @@ class RideFormattingModelBuilder : FormattingModelBuilder {
                 .before(RideTypes.COMMA).spaceIf(false)
                 .after(RideTypes.COMMA).spaceIf(true)
                 .after(RideTypes.LET).spaces(1)
-                .around(RideTypes.ASSIGN).spaces(1)
+                //.around(RideTypes.ASSIGN).spaces(1)
                 .around(RideTypes.PLUS).spaces(1)
-                .around(RideTypes.MINUS).spaces(1)
+                //.around(RideTypes.MINUS).spaces(1)
                 .around(RideTypes.ASTERISK).spaces(1)
                 .around(RideTypes.SLASH).spaces(1)
                 .around(RideTypes.PARAM_GROUP).none()
@@ -33,6 +33,8 @@ class RideFormattingModelBuilder : FormattingModelBuilder {
                 .before(RideTypes.LBRACE).spaces(1)
                 .after(RideTypes.COLON).spaces(1)
                 .around(RideTypes.ARROW).spaces(1)
+                .around(RideTypes.THEN).spaces(1)
+                .around(RideTypes.ELSE).spaces(1)
         }
     }
 
@@ -76,18 +78,28 @@ class RideFormattingModelBuilder : FormattingModelBuilder {
 
         override fun getChildIndent(): Indent? {
             return when (myNode.psi.elementType) {
+                RideTypes.MATCHING_CLOSURE,
+                RideTypes.CASE_CLOSURE,
+
                 RideTypes.FUNC_EXPR,
                 RideTypes.IF_EXPR,
                 RideTypes.ELSE_BLOCK,
                 RideTypes.PATTERN_MATCHING_EXPR,
+                RideTypes.CASE_EXPR,
                 RideTypes.CLOSURE_EXPR,
-                //RideTypes.COMMENT,
-//                RideTypes.PARAM_GROUP,
-//                RideTypes.ARGUMENTS,
+                    //RideTypes.INDEX_EXPR,
+                    //RideTypes.TUPLE_EXPR,
+                    //RideTypes.ARRAY_EXPR,
+                    //RideTypes.COMMENT,
+                    //RideTypes.PARAM_GROUP,
+                    //RideTypes.CALL_ARGUMENTS,
+                    //RideTypes.ARGUMENTS,
                 RideTypes.CALL_ARGUMENTS,
                 RideTypes.ARRAY_CALL_ARGUMENTS,
+                    //RideTypes.COMMENT
                 -> Indent.getNormalIndent(false)
 
+                //RideTypes.CALL_ARGUMENTS -> Indent.getNormalIndent(false)
 
                 else -> Indent.getNoneIndent()
             }
@@ -98,9 +110,21 @@ class RideFormattingModelBuilder : FormattingModelBuilder {
                 RideTypes.BLOCK_STATE,
                 RideTypes.CASE_EXPR,
                 RideTypes.PARAM_GROUP,
+                    //RideTypes.PATTERN_MATCHING_EXPR,
+                    //RideTypes.ARGUMENTS,
+                    //RideTypes.COMMENT,
+                    //RideTypes.INDEX_EXPR,
+                    //RideTypes.STRUCT_CALL,
                 RideTypes.ARGUMENTS,
+                    //RideTypes.COMMENT
+                    //RideTypes.ARRAY_EXPR,
+                    //RideTypes.CALL_INDEX_CHAIN
                     //RideTypes.CALL_ARGUMENTS
                 -> Indent.getNormalIndent(false)
+
+                //RideTypes.CALL_ARGUMENTS,
+                //RideTypes.ARRAY_CALL_ARGUMENTS -> Indent.getNormalIndent(true)
+                RideTypes.INDEX_ARGUMENT -> Indent.getNormalIndent(false)
 
                 else -> Indent.getNoneIndent()
             }

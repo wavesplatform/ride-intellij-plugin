@@ -166,6 +166,10 @@ public class RideVisitor extends PsiElementVisitor {
     visitCompositeElement(o);
   }
 
+  public void visitIndexArgument(@NotNull RideIndexArgument o) {
+    visitCompositeElement(o);
+  }
+
   public void visitIndexExpr(@NotNull RideIndexExpr o) {
     visitExpr(o);
   }

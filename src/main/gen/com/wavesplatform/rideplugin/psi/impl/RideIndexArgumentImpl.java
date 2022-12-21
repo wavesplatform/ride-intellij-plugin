@@ -8,17 +8,17 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.wavesplatform.rideplugin.psi.RideTypes.*;
+import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.wavesplatform.rideplugin.psi.*;
 
-public class RideIndexExprImpl extends RideExprImpl implements RideIndexExpr {
+public class RideIndexArgumentImpl extends ASTWrapperPsiElement implements RideIndexArgument {
 
-  public RideIndexExprImpl(@NotNull ASTNode node) {
+  public RideIndexArgumentImpl(@NotNull ASTNode node) {
     super(node);
   }
 
-  @Override
   public void accept(@NotNull RideVisitor visitor) {
-    visitor.visitIndexExpr(this);
+    visitor.visitIndexArgument(this);
   }
 
   @Override
@@ -29,14 +29,8 @@ public class RideIndexExprImpl extends RideExprImpl implements RideIndexExpr {
 
   @Override
   @NotNull
-  public List<RideExpr> getExprList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, RideExpr.class);
-  }
-
-  @Override
-  @NotNull
-  public RideIndexArgument getIndexArgument() {
-    return notNullChild(PsiTreeUtil.getChildOfType(this, RideIndexArgument.class));
+  public RideArgument getArgument() {
+    return notNullChild(PsiTreeUtil.getChildOfType(this, RideArgument.class));
   }
 
 }

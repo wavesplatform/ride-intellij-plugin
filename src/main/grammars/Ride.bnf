@@ -203,7 +203,11 @@ index_expr ::= (
     | object_function_call
     | field_call
     | simple_ref_expr
-) LBRACKET expr RBRACKET (DOT expr)?
+) LBRACKET index_argument RBRACKET (DOT expr)?
+
+index_argument ::= argument
+
+
 
 private prefix_group ::= if_expr
 if_expr ::= IF if_cond THEN (closure_expr | block_state) else_if_block* else_block?
