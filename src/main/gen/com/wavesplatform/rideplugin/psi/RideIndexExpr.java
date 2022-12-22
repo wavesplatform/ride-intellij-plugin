@@ -10,4 +10,7 @@ public interface RideIndexExpr extends RideExpr {
   @NotNull
   List<RideExpr> getExprList();
 
+  @NotNull
+  RideIndexArgument getIndexArgument();
+
 }

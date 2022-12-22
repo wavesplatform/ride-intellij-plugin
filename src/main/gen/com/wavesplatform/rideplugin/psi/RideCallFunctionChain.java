@@ -7,8 +7,8 @@ import com.intellij.psi.PsiElement;
 
 public interface RideCallFunctionChain extends RideCompositeElement {
 
-  @Nullable
-  RideArguments getArguments();
+  @NotNull
+  RideCallArguments getCallArguments();
 
   @NotNull
   RideInvokeFunctionName getInvokeFunctionName();

@@ -7,8 +7,8 @@ import com.intellij.psi.PsiElement;
 
 public interface RideArrayExpr extends RideExpr {
 
-  @Nullable
-  RideArguments getArguments();
+  @NotNull
+  RideArrayCallArguments getArrayCallArguments();
 
   @Nullable
   RideCallChain getCallChain();

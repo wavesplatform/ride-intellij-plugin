@@ -7,8 +7,8 @@ import com.intellij.psi.PsiElement;
 
 public interface RideStandaloneFunctionCall extends RideExpr {
 
-  @Nullable
-  RideArguments getArguments();
+  @NotNull
+  RideCallArguments getCallArguments();
 
   @NotNull
   RideInvokeFunctionName getInvokeFunctionName();

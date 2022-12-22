@@ -28,9 +28,9 @@ public class RideStandaloneFunctionCallImpl extends RideExprImpl implements Ride
   }
 
   @Override
-  @Nullable
-  public RideArguments getArguments() {
-    return PsiTreeUtil.getChildOfType(this, RideArguments.class);
+  @NotNull
+  public RideCallArguments getCallArguments() {
+    return notNullChild(PsiTreeUtil.getChildOfType(this, RideCallArguments.class));
   }
 
   @Override

@@ -55,6 +55,9 @@
 
         <lang.findUsagesProvider language="RIDE"
                                  implementationClass="com.wavesplatform.rideplugin.usages.RideFindUsagesProvider"/>
+
+        <lang.formatter language="RIDE"
+                        implementationClass="com.wavesplatform.rideplugin.formatter.RideFormattingModelBuilder"/>
     </extensions>
 
     <actions>

@@ -33,4 +33,10 @@ public class RideClosureExprImpl extends RideExprImpl implements RideClosureExpr
     return notNullChild(PsiTreeUtil.getChildOfType(this, RideBlockState.class));
   }
 
+  @Override
+  @Nullable
+  public RideCallChain getCallChain() {
+    return PsiTreeUtil.getChildOfType(this, RideCallChain.class);
+  }
+
 }

@@ -33,4 +33,10 @@ public class RideIndexExprImpl extends RideExprImpl implements RideIndexExpr {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, RideExpr.class);
   }
 
+  @Override
+  @NotNull
+  public RideIndexArgument getIndexArgument() {
+    return notNullChild(PsiTreeUtil.getChildOfType(this, RideIndexArgument.class));
+  }
+
 }
