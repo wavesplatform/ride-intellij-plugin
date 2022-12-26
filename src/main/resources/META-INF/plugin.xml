@@ -58,6 +58,11 @@
 
         <lang.formatter language="RIDE"
                         implementationClass="com.wavesplatform.rideplugin.formatter.RideFormattingModelBuilder"/>
+
+        <lang.refactoringSupport language="RIDE"
+                                 implementationClass="com.wavesplatform.rideplugin.refactor.RideRefactoringSupportProvider"/>
+        <renameInputValidator implementation="com.wavesplatform.rideplugin.refactor.RideRenameInputValidator"/>
+
     </extensions>
 
     <actions>

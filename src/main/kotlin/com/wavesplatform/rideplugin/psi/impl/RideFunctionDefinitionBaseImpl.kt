@@ -25,6 +25,12 @@ abstract class RideFunctionDefinitionBaseImpl :
     }
 
     override fun setName(name: String): PsiElement {
-        TODO()
+        val e: PsiElement =
+            RideElementTextFactory.createStatementFromText(project, "func $name() = {}")
+        val new = PsiTreeUtil.findChildOfType(e, RideFunctionDefinition::class.java)
+        if (new != null) {
+            this.replace(new)
+        }
+        return this
     }
 }
