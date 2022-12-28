@@ -33,7 +33,8 @@ object RideElementFactory {
 
     @JvmStatic
     fun createFunctionName(project: Project, name: String): RideInvokeFunctionName {
-        return createElement(project, name)
+        val functionInvocation = "${name}()"
+        return createElement(project, functionInvocation)
     }
 
     @JvmStatic
