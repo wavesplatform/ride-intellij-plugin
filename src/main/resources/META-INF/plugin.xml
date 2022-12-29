@@ -63,6 +63,9 @@
                                  implementationClass="com.wavesplatform.rideplugin.refactor.RideRefactoringSupportProvider"/>
         <renameInputValidator implementation="com.wavesplatform.rideplugin.refactor.RideRenameInputValidator"/>
 
+        <lang.psiStructureViewFactory language="RIDE"
+                                      implementationClass="com.wavesplatform.rideplugin.editor.RideStructureViewFactory"/>
+
     </extensions>
 
     <actions>
