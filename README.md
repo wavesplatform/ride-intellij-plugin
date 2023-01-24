@@ -6,17 +6,17 @@
 
 
 <!-- Plugin description -->
-The plugin provides support for [RIDE language](https://docs.waves.tech/en/ride/).<br>
+The plugin provides support for [RIDE language](https://docs.waves.tech/en/ride/).<br></br>
 Features:
 <ul>
   <li>Syntax validation</li>
-  <li>Keyword completion</li>
-  <li>Built-in structures, types and functions completion</li>
-  <li>User-defined functions completion</li>
-  <li>User-defined variables completion</li>
+  <li>Code completion</li>
   <li>Syntax highlighting and color schemes</li>
   <li>Ride file creation from lookup</li>
   <li>Code navigation</li>
+  <li>Folding</li>
+  <li>Reformatting</li>
+  <li>Refactoring</li>
 </ul>
 <!-- Plugin description end -->
 
@@ -51,9 +51,7 @@ Features:
   <br></br>
   ![Go to example](assets/gifs/goto.gif)
   <br></br>
-  <br></br>
   ![Find usages example](assets/gifs/find-usages.gif)
-  <br></br>
   <br></br>
   ![Structure view example](assets/gifs/structure-view.gif)
   <br></br>
