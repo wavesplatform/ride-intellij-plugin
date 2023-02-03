@@ -66,6 +66,11 @@
         <lang.psiStructureViewFactory language="RIDE"
                                       implementationClass="com.wavesplatform.rideplugin.editor.RideStructureViewFactory"/>
 
+        <globalInspection language="RIDE" groupName="RIDE"
+                          displayName="Compiler"
+                          enabledByDefault="true" level="ERROR"
+                          implementationClass="com.wavesplatform.rideplugin.inspection.RideCompilerInspection"/>
+
     </extensions>
 
     <actions>

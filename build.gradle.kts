@@ -1,4 +1,5 @@
 import org.jetbrains.changelog.markdownToHTML
+import java.net.URI
 
 fun properties(key: String) = project.findProperty(key).toString()
 
@@ -22,12 +23,19 @@ version = properties("pluginVersion")
 
 repositories {
     mavenCentral()
+    maven { url = URI("https://oss.sonatype.org/content/repositories/snapshots") }
+    mavenLocal()
 }
 
 kotlin {
     jvmToolchain {
         languageVersion.set(JavaLanguageVersion.of(11))
     }
+}
+
+dependencies {
+    implementation("com.wavesplatform:lang:1.4.12-1-gd9f5453")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.14.1")
 }
 
 // Configure Gradle IntelliJ Plugin - read more: https://plugins.jetbrains.com/docs/intellij/tools-gradle-intellij-plugin.html

@@ -2,7 +2,6 @@ package com.wavesplatform.rideplugin.completion
 
 import com.intellij.codeInsight.completion.*
 import com.intellij.codeInsight.lookup.LookupElementBuilder
-import com.intellij.icons.AllIcons
 import com.intellij.openapi.project.DumbAware
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.ProcessingContext
