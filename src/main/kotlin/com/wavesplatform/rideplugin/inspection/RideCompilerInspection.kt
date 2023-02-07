@@ -1,14 +1,23 @@
 package com.wavesplatform.rideplugin.inspection
 
+import com.intellij.codeInsight.daemon.impl.AnnotationHolderImpl
 import com.intellij.codeInsight.daemon.impl.HighlightInfo
 import com.intellij.codeInsight.intention.IntentionAction
 import com.intellij.codeInspection.*
+import com.intellij.codeInspection.ProblemDescriptorUtil.convertToProblemDescriptors
 import com.intellij.codeInspection.ex.GlobalInspectionContextImpl
 import com.intellij.codeInspection.ex.GlobalInspectionContextUtil
 import com.intellij.codeInspection.reference.RefElement
 import com.intellij.codeInspection.ui.InspectionToolPresentation
+import com.intellij.lang.annotation.*
 import com.intellij.lang.annotation.Annotation
-import com.intellij.lang.annotation.HighlightSeverity
+import com.intellij.openapi.Disposable
+import com.intellij.openapi.application.ApplicationManager
+import com.intellij.openapi.application.runReadAction
+import com.intellij.openapi.fileEditor.FileEditorManager
+import com.intellij.openapi.progress.ProgressManager
+import com.intellij.openapi.project.Project
+import com.intellij.openapi.util.Disposer
 import com.intellij.openapi.util.Key
 import com.intellij.profile.codeInspection.InspectionProjectProfileManager
 import com.intellij.psi.PsiElement
@@ -16,6 +25,7 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.util.containers.ContainerUtil
 import com.wavesplatform.rideplugin.RideFile
+import com.wavesplatform.rideplugin.annotator.*
 import java.util.*
 
 class RideCompilerInspection : GlobalSimpleInspectionTool() {
@@ -49,10 +59,33 @@ class RideCompilerInspection : GlobalSimpleInspectionTool() {
         val analyzedFiles = globalContext.getUserData(ANALYZED_FILES) ?: return
 
         val project = manager.project
+
+        val editor = FileEditorManager.getInstance(project).selectedTextEditor
+        val text = editor?.document?.text
+
         val currentProfile = InspectionProjectProfileManager.getInstance(project).currentProfile
         val toolWrapper = currentProfile.getInspectionTool(SHORT_NAME, project) ?: return
 
+        while (true) {
+            val disposable = project.messageBus.createDisposableOnAnyPsiChange()
+                .also { Disposer.register(project, it) }
 
+            val future = ApplicationManager.getApplication().executeOnPooledThread<RideCompilationResult?> {
+                checkProjectLazily(project, disposable)?.value
+            }
+            val annotationResult = future.get()
+
+            val exit = runReadAction {
+                ProgressManager.checkCanceled()
+                if (Disposer.isDisposed(disposable)) return@runReadAction false
+                val problemDescriptors = getProblemDescriptors(analyzedFiles, annotationResult)
+                val presentation = globalContext.getPresentation(toolWrapper)
+                presentation.addProblemDescriptors(problemDescriptors, globalContext)
+                true
+            }
+
+            if (exit) break
+        }
     }
 
     override fun getDisplayName(): String = "Compiler"
@@ -64,8 +97,14 @@ class RideCompilerInspection : GlobalSimpleInspectionTool() {
 
         private val ANALYZED_FILES: Key<MutableSet<RideFile>> = Key.create("ANALYZED_FILES")
 
-        /** TODO: Use [ProblemDescriptorUtil.convertToProblemDescriptors] instead */
-        private fun convertToProblemDescriptors(annotations: List<Annotation>, file: PsiFile): List<ProblemDescriptor> {
+        private fun checkProjectLazily(
+            project: Project,
+            disposable: Disposable
+        ): Lazy<RideCompilationResult?>? = runReadAction {
+            RideCompilationUtils.checkLazily(project, disposable)
+        }
+
+        private fun convertToProblemDescriptor(annotations: List<Annotation>, file: PsiFile): List<ProblemDescriptor> {
             if (annotations.isEmpty()) return emptyList()
 
             val problems = ArrayList<ProblemDescriptor>(annotations.size)
@@ -124,6 +163,27 @@ class RideCompilerInspection : GlobalSimpleInspectionTool() {
                 val descriptions = problemDescriptors.toTypedArray<CommonProblemDescriptor>()
                 addProblemElement(refElement, false, *descriptions)
             }
+        }
+
+        private fun getProblemDescriptors(
+            analyzedFiles: Set<RideFile>,
+            annotationResult: RideCompilationResult
+        ): List<ProblemDescriptor> {
+            val problemDescriptors = ArrayList<ProblemDescriptor>()
+            for (file in analyzedFiles) {
+                if (!file.isValid) continue
+                @Suppress("UnstableApiUsage", "DEPRECATION")
+                val annotationHolder = AnnotationHolderImpl(AnnotationSession(file))
+                @Suppress("UnstableApiUsage")
+                annotationHolder.runAnnotatorWithContext(file) { _, holder ->
+                    holder.createAnnotationsForFile(file, annotationResult)
+                }
+                val descriptors = convertToProblemDescriptors(annotationHolder, file)
+                descriptors.forEach {
+                    problemDescriptors.add(it)
+                }
+            }
+            return problemDescriptors
         }
 
         private fun getProblemElement(element: PsiElement, context: GlobalInspectionContext): RefElement? {

@@ -66,6 +66,10 @@
         <lang.psiStructureViewFactory language="RIDE"
                                       implementationClass="com.wavesplatform.rideplugin.editor.RideStructureViewFactory"/>
 
+        <projectService serviceInterface="com.wavesplatform.rideplugin.project.CargoProjectsService"
+                        serviceImplementation="org.rust.cargo.project.model.impl.CargoProjectsServiceImpl"
+                        testServiceImplementation="org.rust.cargo.project.model.impl.TestCargoProjectsServiceImpl"/>
+
         <globalInspection language="RIDE" groupName="RIDE"
                           displayName="Compiler"
                           enabledByDefault="true" level="ERROR"
