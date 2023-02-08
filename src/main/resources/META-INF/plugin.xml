@@ -66,6 +66,9 @@
         <lang.psiStructureViewFactory language="RIDE"
                                       implementationClass="com.wavesplatform.rideplugin.editor.RideStructureViewFactory"/>
 
+        <highlightingPassFactory implementation="com.wavesplatform.rideplugin.annotator.RideHighlightingPassFactoryRegistrar"/>
+
+
     </extensions>
 
     <actions>
