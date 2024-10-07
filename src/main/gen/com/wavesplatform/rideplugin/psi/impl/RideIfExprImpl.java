@@ -28,33 +28,15 @@ public class RideIfExprImpl extends RideExprImpl implements RideIfExpr {
   }
 
   @Override
-  @Nullable
-  public RideBlockState getBlockState() {
-    return PsiTreeUtil.getChildOfType(this, RideBlockState.class);
-  }
-
-  @Override
-  @Nullable
-  public RideClosureExpr getClosureExpr() {
-    return PsiTreeUtil.getChildOfType(this, RideClosureExpr.class);
-  }
-
-  @Override
-  @Nullable
-  public RideElseBlock getElseBlock() {
-    return PsiTreeUtil.getChildOfType(this, RideElseBlock.class);
+  @NotNull
+  public RideIfCond getIfCond() {
+    return notNullChild(PsiTreeUtil.getChildOfType(this, RideIfCond.class));
   }
 
   @Override
   @NotNull
-  public List<RideElseIfBlock> getElseIfBlockList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, RideElseIfBlock.class);
-  }
-
-  @Override
-  @Nullable
-  public RideIfCond getIfCond() {
-    return PsiTreeUtil.getChildOfType(this, RideIfCond.class);
+  public RideThenBlock getThenBlock() {
+    return notNullChild(PsiTreeUtil.getChildOfType(this, RideThenBlock.class));
   }
 
 }

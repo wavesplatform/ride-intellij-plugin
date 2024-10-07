@@ -286,6 +286,10 @@ public class RideVisitor extends PsiElementVisitor {
     visitExpr(o);
   }
 
+  public void visitThenBlock(@NotNull RideThenBlock o) {
+    visitCompositeElement(o);
+  }
+
   public void visitTupleDefinition(@NotNull RideTupleDefinition o) {
     visitCompositeElement(o);
   }

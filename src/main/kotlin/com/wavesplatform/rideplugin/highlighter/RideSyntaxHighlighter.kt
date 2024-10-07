@@ -12,7 +12,7 @@ import com.wavesplatform.rideplugin.parser.RideParserDefinition
 
 class RideSyntaxHighlighter : SyntaxHighlighterBase() {
 
-    private val attributes: Map<IElementType, TextAttributesKey> = HashMap()
+    private val attributes: MutableMap<IElementType, TextAttributesKey> = HashMap()
 
     companion object {
         val KEYWORDS = TextAttributesKey.createTextAttributesKey("RIDE_KEYWORD", DefaultLanguageHighlighterColors.KEYWORD)

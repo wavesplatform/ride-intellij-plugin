@@ -11,6 +11,6 @@ class RideFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, RideL
     }
 
     override fun toString(): String {
-        return "Ride File"
+        return "RIDE"
     }
 }
