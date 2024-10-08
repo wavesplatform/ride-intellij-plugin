@@ -6,17 +6,21 @@ plugins {
     // Java support
     id("java")
     // Kotlin support
-    id("org.jetbrains.kotlin.jvm") version "1.9.23"
+    id("org.jetbrains.kotlin.jvm").version("1.9.23")
     // Gradle IntelliJ Plugin
-    id("org.jetbrains.intellij") version "1.17.2"
+    id("org.jetbrains.intellij").version("1.17.2")
     // Gradle Changelog Plugin
-    id("org.jetbrains.changelog") version "2.2.0"
+    id("org.jetbrains.changelog").version("2.2.0")
     // Gradle Qodana Plugin
-    id("org.jetbrains.qodana") version "2023.3.1"
-    id("com.github.ben-manes.versions") version "0.51.0"
+    id("org.jetbrains.qodana").version("2023.3.1")
+    id("com.github.ben-manes.versions").version("0.51.0")
 }
 
 sourceSets["main"].java.srcDirs("src/main/gen")
+
+dependencies {
+    implementation("com.wavesplatform:lang:1.5.7")
+}
 
 group = properties("pluginGroup")
 version = properties("pluginVersion")
@@ -27,7 +31,7 @@ repositories {
 
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
 
@@ -56,6 +60,10 @@ qodana {
 tasks {
     wrapper {
         gradleVersion = properties("gradleVersion")
+    }
+
+    buildSearchableOptions {
+        enabled = false
     }
 
     patchPluginXml {

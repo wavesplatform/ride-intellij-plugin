@@ -23,8 +23,7 @@ class RideStructCreationCompletionContributor : CompletionContributor(), DumbAwa
                     .map { "$it()" }
                     .map(LookupElementBuilder::create)
                     .map {
-                        it.withInsertHandler { context, item ->
-                            val start = context.startOffset
+                        it.withInsertHandler { context, _ ->
                             val end = context.selectionEndOffset
                             context.editor.caretModel.moveToOffset(end - 1)
                         }
