@@ -5,7 +5,7 @@ import javax.swing.Icon
 
 class RideFileType : LanguageFileType(RideLanguage.INSTANCE) {
     override fun getName(): String {
-        return "Ride File"
+        return "RIDE"
     }
 
     override fun getDescription(): String {

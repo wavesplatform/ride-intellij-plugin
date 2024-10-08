@@ -211,7 +211,8 @@ index_argument ::= argument
 
 
 private prefix_group ::= if_expr
-if_expr ::= IF if_cond THEN (closure_expr | block_state) else_if_block* else_block?
+if_expr ::= IF if_cond then_block
+then_block ::= THEN (closure_expr | block_state) else_if_block* else_block?
 | IF LPAREN if_cond RPAREN THEN (closure_expr | block_state) else_if_block* else_block? {pin(".*")=1}
 if_cond ::= expr | (LPAREN expr LPAREN)
 //todo fix???

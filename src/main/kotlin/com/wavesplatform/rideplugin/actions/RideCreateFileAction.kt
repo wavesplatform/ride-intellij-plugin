@@ -15,13 +15,6 @@ class RideCreateFileAction : CreateFileFromTemplateAction(CAPTION, "", RideIcons
 
     override fun getActionName(directory: PsiDirectory?, newName: String, templateName: String?): String = CAPTION
 
-    override fun isAvailable(dataContext: DataContext): Boolean {
-        if (!super.isAvailable(dataContext)) return false
-        val project = CommonDataKeys.PROJECT.getData(dataContext) ?: return false
-        val vFile = CommonDataKeys.VIRTUAL_FILE.getData(dataContext) ?: return false
-        return true
-    }
-
     override fun buildDialog(project: Project, directory: PsiDirectory, builder: CreateFileFromTemplateDialog.Builder) {
         builder.setTitle(CAPTION)
             .addKind("Account script", null, "RideAccountScript")

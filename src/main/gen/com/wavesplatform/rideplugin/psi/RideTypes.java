@@ -79,6 +79,7 @@ public interface RideTypes {
   IElementType STATEMENT = new RideElementType("STATEMENT");
   IElementType STRING_LITERAL = new RideElementType("STRING_LITERAL");
   IElementType STRUCT_CALL = new RideElementType("STRUCT_CALL");
+  IElementType THEN_BLOCK = new RideElementType("THEN_BLOCK");
   IElementType TUPLE_DEFINITION = new RideElementType("TUPLE_DEFINITION");
   IElementType TUPLE_EXPR = new RideElementType("TUPLE_EXPR");
   IElementType TUPLE_TYPE = new RideElementType("TUPLE_TYPE");
@@ -369,6 +370,9 @@ public interface RideTypes {
       }
       else if (type == STRUCT_CALL) {
         return new RideStructCallImpl(node);
+      }
+      else if (type == THEN_BLOCK) {
+        return new RideThenBlockImpl(node);
       }
       else if (type == TUPLE_DEFINITION) {
         return new RideTupleDefinitionImpl(node);

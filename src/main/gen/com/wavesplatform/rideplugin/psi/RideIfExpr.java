@@ -7,19 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface RideIfExpr extends RideExpr {
 
-  @Nullable
-  RideBlockState getBlockState();
-
-  @Nullable
-  RideClosureExpr getClosureExpr();
-
-  @Nullable
-  RideElseBlock getElseBlock();
+  @NotNull
+  RideIfCond getIfCond();
 
   @NotNull
-  List<RideElseIfBlock> getElseIfBlockList();
-
-  @Nullable
-  RideIfCond getIfCond();
+  RideThenBlock getThenBlock();
 
 }

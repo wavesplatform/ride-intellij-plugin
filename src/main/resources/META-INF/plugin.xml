@@ -7,18 +7,16 @@
     Jetbrains IntelliJ IDEA Plugin for RIDE<br>
     ]]></description>
 
-    <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
-         on how to target different products -->
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType
-                name="Ride File"
+                name="RIDE"
                 implementationClass="com.wavesplatform.rideplugin.RideFileType"
                 fieldName="INSTANCE"
                 language="RIDE"
                 extensions="ride"/>
-        <internalFileTemplate name="Ride File"/>
+        <internalFileTemplate name="RIDE"/>
         <lang.parserDefinition
                 language="RIDE"
                 implementationClass="com.wavesplatform.rideplugin.parser.RideParserDefinition"/>
@@ -44,8 +42,6 @@
         <annotator language="RIDE"
                    implementationClass="com.wavesplatform.rideplugin.annotator.RideAnnotator"/>
 
-<!--        <additionalTextAttributes scheme="Darcula" file="colorScheme/Darcula_Ride.xml"/>-->
-<!--        <additionalTextAttributes scheme="Default" file="colorScheme/Default_Ride.xml"/>-->
         <lang.commenter language="RIDE"
                         implementationClass="com.wavesplatform.rideplugin.editor.RideCommenter"/>
 
@@ -65,7 +61,7 @@
 
         <lang.psiStructureViewFactory language="RIDE"
                                       implementationClass="com.wavesplatform.rideplugin.editor.RideStructureViewFactory"/>
-
+        <postStartupActivity implementation="com.wavesplatform.rideplugin.highlighter.CompilerHighlightingSetupActivity"/>
     </extensions>
 
     <actions>

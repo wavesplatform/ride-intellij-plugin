@@ -96,7 +96,11 @@ class RideFormattingModelBuilder : FormattingModelBuilder {
                 RideTypes.CALL_ARGUMENTS,
                 RideTypes.ARRAY_CALL_ARGUMENTS,
                     //RideTypes.COMMENT
-                -> Indent.getNormalIndent(false)
+                    -> Indent.getNormalIndent(false)
+
+                RideTypes.ELSE_BLOCK,
+                RideTypes.THEN_BLOCK,
+                    -> Indent.getContinuationIndent()
 
                 //RideTypes.CALL_ARGUMENTS -> Indent.getNormalIndent(false)
 
@@ -118,7 +122,7 @@ class RideFormattingModelBuilder : FormattingModelBuilder {
                     //RideTypes.ARRAY_EXPR,
                     //RideTypes.CALL_INDEX_CHAIN
                     //RideTypes.CALL_ARGUMENTS
-                -> Indent.getNormalIndent(false)
+                    -> Indent.getNormalIndent(false)
 
                 //RideTypes.CALL_ARGUMENTS,
                 //RideTypes.ARRAY_CALL_ARGUMENTS -> Indent.getNormalIndent(true)
